@@ -383,9 +383,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     public function openVaultFile($vaultFilename, $vaultFileRequestedSection = null)
     {
-        /**
-         * Check Arguments.
-         */
         $this->setVaultFilename($vaultFilename);
 
         if ($this->isString($vaultFileRequestedSection)) {
