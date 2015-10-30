@@ -128,26 +128,18 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      *
      * @api
      */
-    public function __construct(
-        FilesystemInterface $filesystem,
-        YamlInterface $yaml
-    ) {
+    public function __construct(FilesystemInterface $filesystem, YamlInterface $yaml)
+    {
         /**
          * Config. Arguments.
          */
-        if ($filesystem instanceof FilesystemInterface) {
-            $this->setProperty('filesystem', $filesystem);
-        }
-
-        if ($yaml instanceof YamlInterface) {
-            $this->setProperty('yaml', $yaml);
-        }
-
-        $this->setVaultSettingsDirectory(realpath(__DIR__.'/../../../../../../../../../../.external-configuration-settings'))
-             ->setAccountRoot(realpath(__DIR__.'/../../../../../../../../../../'))
-                 ->setHashKey()
-                     ->setRsaPrivateKeys()
-                         ->setInitializationVector();
+        $this->setProperty('filesystem', $filesystem)
+            ->setProperty('yaml', $yaml)
+                ->setVaultSettingsDirectory(realpath(__DIR__.'/../../../../../../../../../../.external-configuration-settings'))
+                     ->setAccountRoot(realpath(__DIR__.'/../../../../../../../../../../'))
+                         ->setHashKey()
+                             ->setRsaPrivateKeys()
+                                 ->setInitializationVector();
 
         static::$instance = $this;
         static::$objectCount++;
