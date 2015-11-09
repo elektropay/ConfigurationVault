@@ -323,11 +323,9 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     public function openVaultFile($vaultFilename, $vaultFileRequestedSection = null)
     {
+        /* preload */
         $this->setVaultFilename($vaultFilename);
-
-        if ($this->isString($vaultFileRequestedSection)) {
-            $this->setVaultFileRequestedSection($vaultFileRequestedSection);
-        }
+        $this->setVaultFileRequestedSection($vaultFileRequestedSection);
 
         /* Extract the raw YAML file into array and store in $this->resultDataSet */
         $this->loadVaultSettingsFile();
@@ -468,9 +466,11 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     /**
      * {@inheritdoc}
      */
-    public function setVaultFileRequestedSection($value)
+    public function setVaultFileRequestedSection($requestedSection = null)
     {
-        $this->setProperty('vaultFileRequestedSection', trim($value));
+        $this->isString($requestedSection)
+            ? $this->setProperty('vaultFileRequestedSection', trim($requestedSection))
+            : $this->setProperty('vaultFileRequestedSection', static::DEFAULT_VAULT_SECTION);
 
         return $this;
     }

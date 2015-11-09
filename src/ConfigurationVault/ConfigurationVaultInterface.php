@@ -38,6 +38,8 @@ interface ConfigurationVaultInterface
     const MAC_BYTE_SIZE            = 32;
     const HASH_FUNCTION            = 'sh1';
     const TEST_DATA                = 'Hi There...';
+    const DEFAULT_VAULT_SECTION    = 'webadmin';
+
 
     // --------------------------------------------------------------------------
 
@@ -117,13 +119,13 @@ interface ConfigurationVaultInterface
     /**
      * Set the default requested section (e.g., 'webadmin', 'webuser', 'wwwdyn').
      *
-     * @param  string $value  A default section name to pull from the vault file
+     * @param  string $requestedSection  A default section name to pull from the vault file
      *
      * @return ConfigurationVaultInterface
      *
      * @api
      */
-    public function setVaultFileRequestedSection($value);
+    public function setVaultFileRequestedSection($requestedSection = null);
 
     // --------------------------------------------------------------------------
 
