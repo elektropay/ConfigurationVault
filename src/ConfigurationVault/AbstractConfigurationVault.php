@@ -323,7 +323,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     public function openVaultFile($vaultFilename, $vaultFileRequestedSection = null)
     {
-        /* preload */
         $this->setVaultFilename($vaultFilename);
         $this->setVaultFileRequestedSection($vaultFileRequestedSection);
 
@@ -334,10 +333,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
             list($release, $environment, $account) = $this->getEnvironmentAccountType();
             $this->setRecordProperties($release, $environment, $account);
             $this->setVaultRecordEncrypted($this->getProperty('resultDataSet')['is_encrypted']);
-
-            if (true === $this->isVaultRecordEncrypted()) {
-                $this->setCipherKey();
-            }
+            $this->setCipherKey();
 
         } elseif (null !== $this->vaultFileDefaultEnvironment) {
             list($release, $environment) = $this->getEnvironmentAccountType();
@@ -470,7 +466,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     {
         $this->isString($requestedSection)
             ? $this->setProperty('vaultFileRequestedSection', trim($requestedSection))
-            : $this->setProperty('vaultFileRequestedSection', static::DEFAULT_VAULT_SECTION);
+            : $this->setProperty('vaultFileRequestedSection', null);
 
         return $this;
     }

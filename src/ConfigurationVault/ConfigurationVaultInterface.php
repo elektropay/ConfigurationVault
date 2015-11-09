@@ -125,7 +125,7 @@ interface ConfigurationVaultInterface
      *
      * @api
      */
-    public function setVaultFileRequestedSection($requestedSection = null);
+    public function setVaultFileRequestedSection($requestedSection);
 
     // --------------------------------------------------------------------------
 
