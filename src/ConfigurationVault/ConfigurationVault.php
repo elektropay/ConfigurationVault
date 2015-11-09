@@ -90,6 +90,24 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
     // --------------------------------------------------------------------------
 
     /**
+     * Set the default environment (e.g., 'development', 'staging', 'production').
+     *
+     * @param  string $value  A default environment type
+     *
+     * @return ConfigurationVaultInterface
+     *
+     * @api
+     */
+    public function setVaultFileDefaultEnvironment($value)
+    {
+        $this->setProperty('vaultFileDefaultEnvironment', strtolower(trim($value)));
+
+        return $this;
+    }
+
+    // --------------------------------------------------------------------------
+
+    /**
      * Reset to default settings.
      *
      * @return ConfigurationVaultInterface

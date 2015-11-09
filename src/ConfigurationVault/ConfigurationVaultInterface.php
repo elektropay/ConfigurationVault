@@ -128,19 +128,6 @@ interface ConfigurationVaultInterface
     // --------------------------------------------------------------------------
 
     /**
-     * Set the default environment (e.g., 'development', 'staging', 'production').
-     *
-     * @param  string $value  A default environment type
-     *
-     * @return ConfigurationVaultInterface
-     *
-     * @api
-     */
-    public function setVaultFileDefaultEnvironment($value);
-
-    // --------------------------------------------------------------------------
-
-    /**
      * Set the location of the vault directory (e.g., '/home/www/.external-configuration-settings/').
      *
      * @param  string $value  A default location path to the configuration settings directory

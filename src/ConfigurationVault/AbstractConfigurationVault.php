@@ -349,9 +349,8 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         $vaultData = $this->getProperty('resultDataSet');
 
         /* Removing the last four elements from the array */
-        $arguments = array_slice(array_keys($vaultData), 0, count(array_keys($vaultData)) - 4);
-        $this->setVaultDataArguments($arguments, $vaultData);
-        unset($cnfVault, $seed, $cnfKey, $vaultData, $offset, $arguments);
+        $this->setVaultDataArguments(array_slice(array_keys($vaultData), 0, count(array_keys($vaultData)) - 4), $vaultData);
+        unset($cnfVault, $seed, $cnfKey, $vaultData, $offset);
 
         return $this;
     }
@@ -444,18 +443,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     public function setAccountRoot($value)
     {
         $this->setProperty('theAccountRootPath', rtrim($value, '/'));
-
-        return $this;
-    }
-
-    // --------------------------------------------------------------------------
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setVaultFileDefaultEnvironment($value)
-    {
-        $this->setProperty('vaultFileDefaultEnvironment', strtolower(trim($value)));
 
         return $this;
     }
