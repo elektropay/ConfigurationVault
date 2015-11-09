@@ -389,24 +389,14 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         if (null !== $this->getProperty('vaultFileRequestedSection')) {
             list($release, $environment, $account) = $this->getEnvironmentAccountType();
             $this->setRecordProperties($release, $environment, $account);
-
-            true === $this->getProperty('resultDataSet')['is_encrypted']
-                ? $this->setVaultRecordEncrypted()
-                : $this->setVaultRecordEncrypted(false);
+            $this->setVaultRecordEncrypted($this->getProperty('resultDataSet')['is_encrypted']);
 
             if ($this->isVaultRecordEncrypted()) {
                 $this->setCipherKey();
             }
 
         } elseif (null !== $this->vaultFileDefaultEnvironment) {
-            /* File type [database] */
-            $release = $this->resultDataSet['type'];
-
-            /* Default Environment [production] | User may ask for different environment. */
-            $environment = null !== $this->vaultFileDefaultEnvironment
-                ? $this->vaultFileDefaultEnvironment
-                : $this->resultDataSet['default_environment'];
-
+            list($release, $environment) = $this->getEnvironmentAccountType();
             $this->setProperty('resultDataSet', $this->resultDataSet[$release][$environment]);
         }
 
@@ -429,15 +419,9 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     public function setVaultDataArguments($arguments, $vaultData)
     {
         foreach ($arguments as $argument) {
-            if ($this->isVaultRecordEncrypted() === true) {
-                $this->set($argument, ('' === trim($vaultData[$argument])
-                    ? null
-                    : $this->decrypt($vaultData[$argument])));
-            } else {
-                $this->set($argument, ('' === $vaultData[$argument]
-                    ? null
-                    : $vaultData[$argument]));
-            }
+             true === $this->isVaultRecordEncrypted()
+                ? $this->set($argument, $this->decrypt($vaultData[$argument]))
+                : $this->set($argument, $vaultData[$argument]);
         }
 
         return $this;
