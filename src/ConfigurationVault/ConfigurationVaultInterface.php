@@ -39,22 +39,133 @@ interface ConfigurationVaultInterface
     const HASH_FUNCTION            = 'sh1';
     const TEST_DATA                = 'Hi There...';
 
+    // --------------------------------------------------------------------------
+
+    /**
+     * Set ConfigurationVault to encryption mode
+     *
+     * @return ConfigurationVaultInterface
+     *
+     * @api
+     */
+    public function setVaultRecordEncrypted($value = true);
+
+    // --------------------------------------------------------------------------
+
+    /**
+     * Set ConfigurationVault to encryption mode
+     *
+     * @return ConfigurationVaultInterface
+     *
+     * @api
+     */
+    public function loadVaultSettingsFile();
+
+    // --------------------------------------------------------------------------
+
+    /**
+     * Open configuration file settings.
+     *
+     * @param  string $vaultFilename              A specific configuration to open. (e.g., 'Database')
+     * @param  string $vaultFileRequestedSection  A specific file section (e.g., 'webadmin')
+     *
+     * @return ConfigurationVaultInterface
+     *
+     * @api
+     */
+    public function openVaultFile($vaultFilename, $vaultFileRequestedSection = null);
+
+    // --------------------------------------------------------------------------
+
+    /**
+     * Reset to default settings.
+     *
+     * @return ConfigurationVaultInterface
+     *
+     * @api
+     */
+    public function reset();
+
+    // --------------------------------------------------------------------------
+
+    /**
+     * Set the database record properties.
+     *
+     * @param  array $release      A release collection type (e.g., 'database', 'account', 'smtp')
+     * @param  array $environment  A operating environment (e.g., 'development', 'staging', 'production')
+     * @param  array $account      A specific section of data to open (e.g., 'webadmin', 'webuser', 'wwwdyn')
+     *
+     * @return ConfigurationVaultInterface
+     */
+    public function setRecordProperties($release, $environment, $account);
+
+    // --------------------------------------------------------------------------
+
+    /**
+     * Pull the entire dataset.
+     *
+     * @return array
+     */
+    public function getResultDataSet();
+
+    // --------------------------------------------------------------------------
+
+    /**
+     * Set the account root path.
+     *
+     * @param  string $value  A directory path to the account root (e.g., outside of web root)
+     *
+     * @return ConfigurationVaultInterface
+     *
+     * @api
+     */
+    public function setAccountRoot($value);
+
+    // --------------------------------------------------------------------------
+
+    /**
+     * Set the database record properties.
+     *
+     * @param  string $value  A vault file name to open (e.g., 'database', 'account', 'encryption')
+     *
+     * @return ConfigurationVaultInterface
+     */
     public function setVaultFilename($value);
 
+    // --------------------------------------------------------------------------
+
+    /**
+     * Set the default requested section (e.g., 'webadmin', 'webuser', 'wwwdyn').
+     *
+     * @param  string $value  A default section name to pull from the vault file
+     *
+     * @return ConfigurationVaultInterface
+     *
+     * @api
+     */
     public function setVaultFileRequestedSection($value);
 
+    // --------------------------------------------------------------------------
+
+    /**
+     * Set the default environment (e.g., 'development', 'staging', 'production').
+     *
+     * @param  string $value  A default environment type
+     *
+     * @return ConfigurationVaultInterface
+     *
+     * @api
+     */
     public function setVaultFileDefaultEnvironment($value);
 
     // --------------------------------------------------------------------------
 
     /**
-     * Set the path to configuration settings directory.
+     * Set the location of the vault directory (e.g., '/home/www/.external-configuration-settings/').
      *
-     * @param string $value  The path you want to set.
+     * @param  string $value  A default location path to the configuration settings directory
      *
      * @return ConfigurationVaultInterface
-     *
-     * @throws \throwInvalidArgumentExceptionError if the element value is not a defined string
      *
      * @api
      */

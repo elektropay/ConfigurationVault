@@ -42,18 +42,28 @@ use UCSDMath\Functions\ServiceFunctionsInterface;
  *
  * Method list:
  *
- * @method ConfigurationVaultInterface __construct();
+ * @method ConfigurationVaultInterface __construct(FilesystemInterface $filesystem, YamlInterface $yaml);
  * @method void __destruct();
+ * @method array getResultDataSet();
  * @method Boolean isVaultFileReadable();
  * @method Boolean isVaultRecordEncrypted();
+ * @method string decrypt($encryptedString);
+ * @method array getEnvironmentAccountType();
+ * @method ConfigurationVaultInterface reset();
  * @method ConfigurationVaultInterface setHashKey();
  * @method ConfigurationVaultInterface setCipherKey();
+ * @method ConfigurationVaultInterface setRsaPrivateKeys();
+ * @method ConfigurationVaultInterface setAccountRoot($value);
+ * @method ConfigurationVaultInterface loadVaultSettingsFile();
  * @method ConfigurationVaultInterface setVaultFilename($value);
- * @method ConfigurationVaultInterface setVaultRecordEncrypted($value = true);
- * @method string decrypt($encryptedString);
  * @method ConfigurationVaultInterface setInitializationVector();
- * @method string readRawVaultFileDataToResultDataSet();
- * @method ConfigurationVaultInterface openVaultFile($vaultFilename = null, $vaultFileRequestedSection = null);
+ * @method ConfigurationVaultInterface setVaultSettingsDirectory($value);
+ * @method ConfigurationVaultInterface setVaultFileRequestedSection($value);
+ * @method ConfigurationVaultInterface setVaultFileDefaultEnvironment($value);
+ * @method ConfigurationVaultInterface setVaultRecordEncrypted($value = true);
+ * @method ConfigurationVaultInterface setRecordProperties($release, $environment, $account);
+ * @method ConfigurationVaultInterface setVaultDataArguments(array $arguments, array $vaultData);
+ * @method ConfigurationVaultInterface openVaultFile($vaultFilename, $vaultFileRequestedSection = null);
  *
  * @author Daryl Eisner <deisner@ucsd.edu>
  */
@@ -73,50 +83,54 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     /**
      * Properties.
      *
-     * @var    FilesystemInterface         $filesystem                  A FilesystemInterface instance
      * @var    YamlInterface               $yaml                        A YamlInterface instance
+     * @var    FilesystemInterface         $filesystem                  A FilesystemInterface instance
+     * @var    string                      $cipherKey                   A encryption key
+     * @var    array                       $hashKey                     A list of hash strings
+     * @var    array                       $resultDataSet               A result data set
+     * @var    array                       $storageRegister             A set of stored data elements
      * @var    string                      $vaultFilename               A requested configuration settings file
      * @var    string                      $vaultFileType               A configuration file type
      * @var    string                      $vaultRecordId               A configuration file record id
      * @var    string                      $vaultRecordUUID             A configuration file record uuid
      * @var    string                      $vaultRecordDate             A configuration file record date
+     * @var    string                      $rsaPublicKey1024            A public key
+     * @var    string                      $rsaPrivateKey1024           A private key
+     * @var    string                      $theAccountRootPath          A absolute path to the account root (e.g., not web root)
+     * @var    string                      $initializationVector        A primitive used for Cipher Block Chaining (CBC)
      * @var    string                      $vaultRecordEncrypted        A status of record encryption
      * @var    array                       $vaultFileEnvironments       A list of provided categories
      * @var    string                      $vaultSettingsDirectory      A configuration directory location
      * @var    string                      $vaultFileDefaultSection     A default section
      * @var    string                      $vaultFileRequestedSection   A user requested section
      * @var    string                      $vaultFileDefaultEnvironment A default category
-     * @var    array                       $hashKey                     A list of hash strings
-     * @var    string                      $cipherKey                   A encryption key
-     * @var    array                       $resultDataSet               A result data set
-     * @var    array                       $storageRegister             A set of stored data elements
      * @static ConfigurationVaultInterface $instance                    A ConfigurationVaultInterface instance
      * @static integer                     $objectCount                 A ConfigurationVaultInterface instance count
-     * @var    string                      $initializationVector        A primitive used for Cipher Block Chaining (CBC)
      */
-    protected $filesystem                  = null;
     protected $yaml                        = null;
+    protected $filesystem                  = null;
+    protected $cipherKey                   = null;
+    protected $hashKey                     = array();
+    protected $resultDataSet               = array();
+    protected $storageRegister             = array();
     protected $vaultFilename               = null;
     protected $vaultFileType               = null;
     protected $vaultRecordId               = null;
     protected $vaultRecordUUID             = null;
     protected $vaultRecordDate             = null;
+    protected $rsaPublicKey1024            = null;
+    protected $rsaPrivateKey1024           = null;
+    protected $theAccountRootPath          = null;
+    protected $initializationVector        = null;
     protected $vaultRecordEncrypted        = null;
     protected $vaultFileEnvironments       = array();
-    protected $VAULT_SETTINGS_DIRECTORY    = null;
+    protected $vaultSettingsDirectory      = null;
     protected $vaultFileDefaultSection     = null;
     protected $vaultFileRequestedSection   = null;
-    protected $ACCOUNT_ROOT                = null;
     protected $vaultFileDefaultEnvironment = null;
-    protected $hashKey                     = array();
-    protected $cipherKey                   = null;
-    protected $rsaPrivateKey1024           = null;
-    protected $rsaPublicKey1024            = null;
-    protected $resultDataSet               = array();
-    protected $storageRegister             = array();
     protected static $instance             = null;
     protected static $objectCount          = 0;
-    protected $initializationVector        = null;
+
 
     // --------------------------------------------------------------------------
 
@@ -146,6 +160,18 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     // --------------------------------------------------------------------------
 
     /**
+     * Destructor.
+     *
+     * @api
+     */
+    public function __destruct()
+    {
+        static::$objectCount--;
+    }
+
+    // --------------------------------------------------------------------------
+
+    /**
      * Returns bool status of property $vaultRecordEncrypted.
      *
      * @return bool
@@ -160,23 +186,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     // --------------------------------------------------------------------------
 
     /**
-     * Destructor.
-     *
-     * @api
-     */
-    public function __destruct()
-    {
-        static::$objectCount--;
-    }
-
-    // --------------------------------------------------------------------------
-
-    /**
-     * Set ConfigurationVault to encryption mode
-     *
-     * @return ConfigurationVaultInterface
-     *
-     * @api
+     * {@inheritdoc}
      */
     public function setVaultRecordEncrypted($value = true)
     {
@@ -217,13 +227,10 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     protected function setCipherKey()
     {
         $offset = (int) substr($this->vaultRecordDate, -2) / 1; // 0-59 seconds for offset
-
         $seed1 = mb_substr(implode(array_slice($this->getProperty('hashKey'), 0, 2)), $offset, 32, static::CHARSET);
         $seed2 = $this->vaultRecordUUID;
-
         $cnfKey = mb_strtoupper(mb_substr(sha1($seed1 . $seed2), 0, 32, static::CHARSET), static::CHARSET);
         $this->setProperty('cipherKey', mb_substr(sha1($cnfKey), 0, 32, static::CHARSET));
-
         unset($offset, $seed1, $seed2, $cnfKey);
 
         return $this;
@@ -238,7 +245,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     protected function isVaultFileReadable()
     {
-        return is_readable($this->VAULT_SETTINGS_DIRECTORY . '/' . $this->vaultFilename);
+        return is_readable($this->vaultSettingsDirectory . '/' . $this->vaultFilename);
     }
 
     // --------------------------------------------------------------------------
@@ -252,16 +259,14 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     protected function setHashKey()
     {
         $encryptionFileArray = $this->yaml->deserialize(
-            $this->filesystem->read($this->VAULT_SETTINGS_DIRECTORY . '/' . static::ENCRYPTION_SETTINGS_FILE)
+            $this->filesystem->read($this->vaultSettingsDirectory . '/' . static::ENCRYPTION_SETTINGS_FILE)
         );
 
         $release     = $encryptionFileArray['type']; // encryption
         $environment = $encryptionFileArray['default_environment']; // private
         $account     = 'seed_hash'; // seed_hash
         $key         = 'key'; // key
-
         $this->setProperty('hashKey', $encryptionFileArray[$release][$environment][$account]['key']);
-
         unset($release, $environment, $account, $key, $encryptionFileArray);
 
         return $this;
@@ -277,7 +282,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     protected function setRsaPrivateKeys()
     {
         $encryptionFileArray = $this->yaml->deserialize(
-            $this->filesystem->read($this->VAULT_SETTINGS_DIRECTORY . '/' . static::ENCRYPTION_SETTINGS_FILE)
+            $this->filesystem->read($this->vaultSettingsDirectory . '/' . static::ENCRYPTION_SETTINGS_FILE)
         );
 
         $release        = $encryptionFileArray['type']; // encryption
@@ -285,10 +290,8 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         $accountPrivate = 'rsa_private_1024'; // rsa_private_1024
         $accountPublic  = 'rsa_public_1024'; // rsa_public_1024
         $key            = 'key'; // key
-
         $this->setProperty('rsaPrivateKey1024', $encryptionFileArray[$release][$environment][$accountPrivate]['key']);
         $this->setProperty('rsaPublicKey1024', $encryptionFileArray[$release]['public'][$accountPublic]['key']);
-
         unset($release, $environment, $accountPrivate, $accountPublic, $key, $encryptionFileArray);
 
         return $this;
@@ -324,18 +327,67 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     // --------------------------------------------------------------------------
 
     /**
-     * Set ConfigurationVault to encryption mode
+     * Open configuration file settings.
+     *
+     * @param  string $vaultFilename              A specific configuration to open. (e.g., 'Database')
+     * @param  string $vaultFileRequestedSection  A specific file section (e.g., 'webadmin')
      *
      * @return ConfigurationVaultInterface
      *
      * @api
      */
-    public function readRawVaultFileDataToResultDataSet()
+    public function openVaultFile($vaultFilename, $vaultFileRequestedSection = null)
     {
-        $this->setProperty(
-            'resultDataSet',
-            $this->yaml->deserialize($this->filesystem->read($this->VAULT_SETTINGS_DIRECTORY . '/' . $this->vaultFilename))
-        );
+        $this->setVaultFilename($vaultFilename);
+
+        if ($this->isString($vaultFileRequestedSection)) {
+            $this->setVaultFileRequestedSection($vaultFileRequestedSection);
+        }
+
+        /* Extract the raw YAML file into array and store in $this->resultDataSet */
+        $this->loadVaultSettingsFile();
+
+        if (null !== $this->getProperty('vaultFileRequestedSection')) {
+            list($release, $environment, $account) = $this->getEnvironmentAccountType();
+            $this->setRecordProperties($release, $environment, $account);
+            $this->setVaultRecordEncrypted($this->getProperty('resultDataSet')['is_encrypted']);
+
+            if ($this->isVaultRecordEncrypted()) {
+                $this->setCipherKey();
+            }
+
+        } elseif (null !== $this->vaultFileDefaultEnvironment) {
+            list($release, $environment) = $this->getEnvironmentAccountType();
+            $this->setProperty('resultDataSet', $this->resultDataSet[$release][$environment]);
+        }
+
+        $vaultData = $this->getProperty('resultDataSet');
+
+        /* Removing the last four elements from the array */
+        $arguments = array_slice(array_keys($vaultData), 0, count(array_keys($vaultData)) - 4);
+        $this->setVaultDataArguments($arguments, $vaultData);
+        unset($cnfVault, $seed, $cnfKey, $vaultData, $offset, $arguments);
+
+        return $this;
+    }
+
+    // --------------------------------------------------------------------------
+
+    /**
+     * Set any required vault file arguments.
+     *
+     * @param  array $arguments  A specific list of arguments to set
+     * @param  array $vaultData  A raw dataset from the vault file (YAML)
+     *
+     * @return ConfigurationVaultInterface
+     */
+    protected function setVaultDataArguments(array $arguments, array $vaultData)
+    {
+        foreach ($arguments as $argument) {
+            true === $this->isVaultRecordEncrypted()
+                ? $this->set($argument, $this->decrypt($vaultData[$argument]))
+                : $this->set($argument, $vaultData[$argument]);
+        }
 
         return $this;
     }
@@ -366,68 +418,14 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     // --------------------------------------------------------------------------
 
     /**
-     * Open configuration file settings.
-     *
-     * @param  string $vaultFilename              A specific configuration to open. (e.g., 'Database')
-     * @param  string $vaultFileRequestedSection  A specific file section (e.g., 'webadmin')
-     *
-     * @return ConfigurationVaultInterface
-     *
-     * @api
+     * {@inheritdoc}
      */
-    public function openVaultFile($vaultFilename, $vaultFileRequestedSection = null)
+    public function loadVaultSettingsFile()
     {
-        $this->setVaultFilename($vaultFilename);
-
-        if ($this->isString($vaultFileRequestedSection)) {
-            $this->setVaultFileRequestedSection($vaultFileRequestedSection);
-        }
-
-        /* Extract the raw YAML file into $this->resultDataSet array.*/
-        $this->readRawVaultFileDataToResultDataSet();
-
-        if (null !== $this->getProperty('vaultFileRequestedSection')) {
-            list($release, $environment, $account) = $this->getEnvironmentAccountType();
-            $this->setRecordProperties($release, $environment, $account);
-            $this->setVaultRecordEncrypted($this->getProperty('resultDataSet')['is_encrypted']);
-
-            if ($this->isVaultRecordEncrypted()) {
-                $this->setCipherKey();
-            }
-
-        } elseif (null !== $this->vaultFileDefaultEnvironment) {
-            list($release, $environment) = $this->getEnvironmentAccountType();
-            $this->setProperty('resultDataSet', $this->resultDataSet[$release][$environment]);
-        }
-
-        $vaultData = $this->getProperty('resultDataSet');
-
-        /* Removing the last four elements from the array */
-        $arguments = array_slice(array_keys($vaultData), 0, count(array_keys($vaultData)) - 4);
-        $this->setVaultDataArguments($arguments, $vaultData);
-
-        unset($cnfVault, $seed, $cnfKey, $vaultData, $offset, $arguments);
-
-        return $this;
-    }
-
-    // --------------------------------------------------------------------------
-
-    /**
-     * Set any required vault file arguments.
-     *
-     * @param  array $arguments  A specific list of arguments to set
-     * @param  array $vaultData  A raw dataset from the vault file (YAML)
-     *
-     * @return ConfigurationVaultInterface
-     */
-    protected function setVaultDataArguments(array $arguments, array $vaultData)
-    {
-        foreach ($arguments as $argument) {
-             true === $this->isVaultRecordEncrypted()
-                ? $this->set($argument, $this->decrypt($vaultData[$argument]))
-                : $this->set($argument, $vaultData[$argument]);
-        }
+        $this->setProperty(
+            'resultDataSet',
+            $this->yaml->deserialize($this->filesystem->read($this->vaultSettingsDirectory . '/' . $this->vaultFilename))
+        );
 
         return $this;
     }
@@ -458,13 +456,9 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     /**
      * {@inheritdoc}
      */
-    public function setVaultFilename($value)
+    public function setAccountRoot($value)
     {
-        $filename = false !== strpos($value, 'configuration-settings')
-            ? strtolower(trim($value, '/ ')) . '.yml'
-            : 'configuration-settings-' . strtolower(trim($value, '/ ')) . '.yml';
-
-        $this->setProperty('vaultFilename', $filename);
+        $this->setProperty('theAccountRootPath', rtrim($value, '/'));
 
         return $this;
     }
@@ -473,22 +467,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
 
     /**
      * {@inheritdoc}
-     */
-    public function setAccountRoot($value)
-    {
-        $this->setProperty('ACCOUNT_ROOT', rtrim($value, '/'));
-
-        return $this;
-    }
-
-    // --------------------------------------------------------------------------
-
-    /**
-     * Reset to default settings.
-     *
-     * @return ConfigurationVaultInterface
-     *
-     * @api
      */
     public function reset()
     {
@@ -505,7 +483,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         $this->setProperty('vaultFileEnvironments', array());
         $this->setProperty('vaultFileRequestedSection', null);
         $this->setProperty('vaultFileDefaultEnvironment', null);
-        $this->setProperty('ACCOUNT_ROOT', realpath(__DIR__ . '/../../../../../../../../../../'));
+        $this->setProperty('theAccountRootPath', realpath(__DIR__ . '/../../../../../../../../../../'));
 
         return $this;
     }
@@ -513,11 +491,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     // --------------------------------------------------------------------------
 
     /**
-     * Pull the entire dataset.
-     *
-     * @throws \throwInvalidArgumentExceptionError on non array value for $this->resultDataSet
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getResultDataSet()
     {
@@ -541,6 +515,22 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     /**
      * {@inheritdoc}
      */
+    public function setVaultFilename($value)
+    {
+        $filename = false !== strpos($value, 'configuration-settings')
+            ? strtolower(trim($value, '/ ')) . '.yml'
+            : 'configuration-settings-' . strtolower(trim($value, '/ ')) . '.yml';
+
+        $this->setProperty('vaultFilename', $filename);
+
+        return $this;
+    }
+
+    // --------------------------------------------------------------------------
+
+    /**
+     * {@inheritdoc}
+     */
     public function setVaultFileRequestedSection($value)
     {
         $this->setProperty('vaultFileRequestedSection', trim($value));
@@ -555,7 +545,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     public function setVaultSettingsDirectory($value)
     {
-        $this->setProperty('VAULT_SETTINGS_DIRECTORY', rtrim($value, '/'));
+        $this->setProperty('vaultSettingsDirectory', rtrim($value, '/'));
 
         return $this;
     }
