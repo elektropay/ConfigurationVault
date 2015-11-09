@@ -414,9 +414,14 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     // --------------------------------------------------------------------------
 
     /**
-     * {@inheritdoc}
+     * Set any required vault file arguments.
+     *
+     * @param  array $arguments  A specific list of arguments to set
+     * @param  array $vaultData  A raw dataset from the vault file (YAML)
+     *
+     * @return ConfigurationVaultInterface
      */
-    public function setVaultDataArguments($arguments, $vaultData)
+    protected function setVaultDataArguments(array $arguments, array $vaultData)
     {
         foreach ($arguments as $argument) {
              true === $this->isVaultRecordEncrypted()
