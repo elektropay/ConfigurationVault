@@ -22,10 +22,6 @@ use UCSDMath\Serialization\Yaml\YamlInterface;
  * Method list:
  *
  * @method ConfigurationVaultInterface reset();
- * @method Array getResultDataSet();
- * @method ConfigurationVaultInterface setVaultSettingsDirectory($value);
- * @method ConfigurationVaultInterface setVaultFileRequestedSection($value);
- * @method ConfigurationVaultInterface setVaultFileDefaultEnvironment($value);
  *
  * @author Daryl Eisner <deisner@ucsd.edu>
  *
@@ -63,5 +59,46 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
         YamlInterface $yaml
     ) {
         parent::__construct($filesystem, $yaml);
+    }
+
+    // --------------------------------------------------------------------------
+
+    /**
+     * Does file exist and is readable.
+     *
+     * @return bool
+     */
+    public function isVaultFileReadable()
+    {
+        return is_readable($this->vaultSettingsDirectory . '/' . $this->vaultFilename);
+    }
+
+    // --------------------------------------------------------------------------
+
+    /**
+     * Reset to default settings.
+     *
+     * @return ConfigurationVaultInterface
+     *
+     * @api
+     */
+    public function reset()
+    {
+        $this->setProperty('cipherKey', null);
+        $this->setProperty('vaultFilename', null);
+        $this->setProperty('vaultFileType', null);
+        $this->setProperty('vaultRecordId', null);
+        $this->setProperty('vaultRecordUUID', null);
+        $this->setProperty('vaultRecordDate', null);
+        $this->setProperty('resultDataSet', array());
+        $this->setProperty('storageRegister', array());
+        $this->setProperty('vaultRecordEncrypted', null);
+        $this->setProperty('vaultFileDefaultSection', null);
+        $this->setProperty('vaultFileEnvironments', array());
+        $this->setProperty('vaultFileRequestedSection', null);
+        $this->setProperty('vaultFileDefaultEnvironment', null);
+        $this->setProperty('theAccountRootPath', realpath(__DIR__ . '/../../../../../../../../../../'));
+
+        return $this;
     }
 }

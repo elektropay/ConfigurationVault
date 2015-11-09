@@ -78,17 +78,6 @@ interface ConfigurationVaultInterface
     // --------------------------------------------------------------------------
 
     /**
-     * Reset to default settings.
-     *
-     * @return ConfigurationVaultInterface
-     *
-     * @api
-     */
-    public function reset();
-
-    // --------------------------------------------------------------------------
-
-    /**
      * Set the database record properties.
      *
      * @param  array $release      A release collection type (e.g., 'database', 'account', 'smtp')

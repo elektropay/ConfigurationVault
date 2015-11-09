@@ -49,7 +49,6 @@ use UCSDMath\Functions\ServiceFunctionsInterface;
  * @method Boolean isVaultRecordEncrypted();
  * @method string decrypt($encryptedString);
  * @method array getEnvironmentAccountType();
- * @method ConfigurationVaultInterface reset();
  * @method ConfigurationVaultInterface setHashKey();
  * @method ConfigurationVaultInterface setCipherKey();
  * @method ConfigurationVaultInterface setRsaPrivateKeys();
@@ -234,18 +233,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         unset($offset, $seed1, $seed2, $cnfKey);
 
         return $this;
-    }
-
-    // --------------------------------------------------------------------------
-
-    /**
-     * Does file exist and is readable.
-     *
-     * @return bool
-     */
-    protected function isVaultFileReadable()
-    {
-        return is_readable($this->vaultSettingsDirectory . '/' . $this->vaultFilename);
     }
 
     // --------------------------------------------------------------------------
@@ -459,31 +446,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     public function setAccountRoot($value)
     {
         $this->setProperty('theAccountRootPath', rtrim($value, '/'));
-
-        return $this;
-    }
-
-    // --------------------------------------------------------------------------
-
-    /**
-     * {@inheritdoc}
-     */
-    public function reset()
-    {
-        $this->setProperty('cipherKey', null);
-        $this->setProperty('vaultFilename', null);
-        $this->setProperty('vaultFileType', null);
-        $this->setProperty('vaultRecordId', null);
-        $this->setProperty('vaultRecordUUID', null);
-        $this->setProperty('vaultRecordDate', null);
-        $this->setProperty('resultDataSet', array());
-        $this->setProperty('storageRegister', array());
-        $this->setProperty('vaultRecordEncrypted', null);
-        $this->setProperty('vaultFileDefaultSection', null);
-        $this->setProperty('vaultFileEnvironments', array());
-        $this->setProperty('vaultFileRequestedSection', null);
-        $this->setProperty('vaultFileDefaultEnvironment', null);
-        $this->setProperty('theAccountRootPath', realpath(__DIR__ . '/../../../../../../../../../../'));
 
         return $this;
     }
