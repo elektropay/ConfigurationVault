@@ -135,8 +135,8 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
          */
         $this->setProperty('filesystem', $filesystem)
             ->setProperty('yaml', $yaml)
-                ->setVaultSettingsDirectory(realpath(__DIR__.'/../../../../../../../../../../.external-configuration-settings'))
-                     ->setAccountRoot(realpath(__DIR__.'/../../../../../../../../../../'))
+                ->setVaultSettingsDirectory(realpath(__DIR__ . '/../../../../../../../../../../.external-configuration-settings'))
+                     ->setAccountRoot(realpath(__DIR__ . '/../../../../../../../../../../'))
                          ->setHashKey()
                              ->setRsaPrivateKeys()
                                  ->setInitializationVector();
@@ -218,7 +218,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     protected function setCipherKey()
     {
-        $offset = (int) substr($this->vaultRecordDate, -2)/1; // 0-59 seconds for offset
+        $offset = (int) substr($this->vaultRecordDate, -2) / 1; // 0-59 seconds for offset
 
         $seed1 = mb_substr(implode(array_slice($this->getProperty('hashKey'), 0, 2)), $offset, 32, static::CHARSET);
         $seed2 = $this->vaultRecordUUID;
@@ -240,7 +240,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     protected function isVaultFileReadable()
     {
-        return is_readable($this->VAULT_SETTINGS_DIRECTORY.'/'.$this->vaultFilename);
+        return is_readable($this->VAULT_SETTINGS_DIRECTORY . '/' . $this->vaultFilename);
     }
 
     // --------------------------------------------------------------------------
@@ -254,7 +254,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     protected function setHashKey()
     {
         $encryptionFileArray = $this->yaml->deserialize(
-            $this->filesystem->read($this->VAULT_SETTINGS_DIRECTORY .'/'.static::ENCRYPTION_SETTINGS_FILE)
+            $this->filesystem->read($this->VAULT_SETTINGS_DIRECTORY . '/' . static::ENCRYPTION_SETTINGS_FILE)
         );
 
         $release     = $encryptionFileArray['type']; // encryption
@@ -279,17 +279,17 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     protected function setRsaPrivateKeys()
     {
         $encryptionFileArray = $this->yaml->deserialize(
-            $this->filesystem->read($this->VAULT_SETTINGS_DIRECTORY .'/'.static::ENCRYPTION_SETTINGS_FILE)
+            $this->filesystem->read($this->VAULT_SETTINGS_DIRECTORY . '/' . static::ENCRYPTION_SETTINGS_FILE)
         );
 
         $release        = $encryptionFileArray['type']; // encryption
         $environment    = $encryptionFileArray['default_environment']; // private
         $accountPrivate = 'rsa_private_1024'; // rsa_private_1024
-        $accountPublic  = 'rsa_public_1024' ; // rsa_public_1024
+        $accountPublic  = 'rsa_public_1024'; // rsa_public_1024
         $key            = 'key'; // key
 
         $this->setProperty('rsaPrivateKey1024', $encryptionFileArray[$release][$environment][$accountPrivate]['key']);
-        $this->setProperty('rsaPublicKey1024', $encryptionFileArray[$release]['public'][$accountPublic ]['key']);
+        $this->setProperty('rsaPublicKey1024', $encryptionFileArray[$release]['public'][$accountPublic]['key']);
 
         unset($release, $environment, $accountPrivate, $accountPublic, $key, $encryptionFileArray);
 
@@ -340,7 +340,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     {
         $this->setProperty(
             'resultDataSet',
-            $this->yaml->deserialize($this->filesystem->read($this->VAULT_SETTINGS_DIRECTORY.'/'.$this->vaultFilename))
+            $this->yaml->deserialize($this->filesystem->read($this->VAULT_SETTINGS_DIRECTORY . '/' . $this->vaultFilename))
         );
 
         return $this;
@@ -475,8 +475,8 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     public function setVaultFilename($value)
     {
         $filename = false !== strpos($value, 'configuration-settings')
-            ? strtolower(trim($value, '/ ')).'.yml'
-            : 'configuration-settings-'.strtolower(trim($value, '/ ')).'.yml' ;
+            ? strtolower(trim($value, '/ ')) . '.yml'
+            : 'configuration-settings-' . strtolower(trim($value, '/ ')) . '.yml' ;
 
         $this->setProperty('vaultFilename', $filename);
 
@@ -519,7 +519,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         $this->setProperty('vaultFileEnvironments', array());
         $this->setProperty('vaultFileRequestedSection', null);
         $this->setProperty('vaultFileDefaultEnvironment', null);
-        $this->setProperty('ACCOUNT_ROOT', realpath(__DIR__.'/../../../../../../../../../../'));
+        $this->setProperty('ACCOUNT_ROOT', realpath(__DIR__ . '/../../../../../../../../../../'));
 
         return $this;
     }
