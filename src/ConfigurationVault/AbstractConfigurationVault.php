@@ -413,9 +413,22 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         $vaultData = $this->getProperty('resultDataSet');
 
         /* Removing the last four elements from the array */
-        $args = array_slice(array_keys($vaultData), 0, count(array_keys($vaultData)) - 4);
+        $arguments = array_slice(array_keys($vaultData), 0, count(array_keys($vaultData)) - 4);
+        $this->setVaultDataArguments($arguments, $vaultData);
 
-        foreach ($args as $argument) {
+        unset($cnfVault, $seed, $cnfKey, $vaultData, $offset, $arguments);
+
+        return $this;
+    }
+
+    // --------------------------------------------------------------------------
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setVaultDataArguments($arguments, $vaultData)
+    {
+        foreach ($arguments as $argument) {
             if ($this->isVaultRecordEncrypted() === true) {
                 $this->set($argument, ('' === trim($vaultData[$argument])
                     ? null
@@ -426,8 +439,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
                     : $vaultData[$argument]));
             }
         }
-
-        unset($cnfVault, $seed, $cnfKey, $vaultData, $offset, $args);
 
         return $this;
     }
