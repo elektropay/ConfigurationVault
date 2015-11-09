@@ -130,16 +130,14 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     public function __construct(FilesystemInterface $filesystem, YamlInterface $yaml)
     {
-        /**
-         * Config. Arguments.
-         */
+        /* Config. Arguments */
         $this->setProperty('filesystem', $filesystem)
             ->setProperty('yaml', $yaml)
                 ->setVaultSettingsDirectory(realpath(__DIR__ . '/../../../../../../../../../../.external-configuration-settings'))
-                     ->setAccountRoot(realpath(__DIR__ . '/../../../../../../../../../../'))
-                         ->setHashKey()
-                             ->setRsaPrivateKeys()
-                                 ->setInitializationVector();
+                    ->setAccountRoot(realpath(__DIR__ . '/../../../../../../../../../../'))
+                        ->setHashKey()
+                            ->setRsaPrivateKeys()
+                                ->setInitializationVector();
 
         static::$instance = $this;
         static::$objectCount++;
@@ -306,10 +304,8 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     protected function setInitializationVector()
     {
-        /**
-         * Initialization Vector (IV) does not need to be secret.
+        /* Initialization Vector (IV) does not need to be secret.
          * However, it does not need to be public either.
-         * Now generating the initialization vector.
          */
         $ivsize = (int) mcrypt_get_iv_size(static::CIPHER, static::CIPHER_MODE);
 
@@ -323,9 +319,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
 
     // --------------------------------------------------------------------------
 
-    /**
-     * Interface Implementations.
-     */
+    /* Interface Implementations */
 
     // --------------------------------------------------------------------------
 
@@ -355,15 +349,15 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     protected function getEnvironmentAccountType()
     {
-        /** File type [database] */
+        /* File type [database] */
         $release = $this->getProperty('resultDataSet')['type'];
 
-        /** Default Environment [production] | User may ask for different environment. */
+        /* Default Environment [production] | User may ask for different environment. */
         $environment = null !== $this->getProperty('vaultFileDefaultEnvironment')
             ? $this->getProperty('vaultFileDefaultEnvironment')
             : $this->getProperty('resultDataSet')['default_environment'];
 
-        /** Specific section [webadmin] */
+        /* Specific section [webadmin] */
         $account = $this->getProperty('vaultFileRequestedSection');
 
         return [$release, $environment, $account];
@@ -389,13 +383,10 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
             $this->setVaultFileRequestedSection($vaultFileRequestedSection);
         }
 
-        /**
-         * Extract the raw YAML file into $this->resultDataSet array.
-         */
+        /* Extract the raw YAML file into $this->resultDataSet array.*/
         $this->readRawVaultFileDataToResultDataSet();
 
         if (null !== $this->getProperty('vaultFileRequestedSection')) {
-
             list($release, $environment, $account) = $this->getEnvironmentAccountType();
             $this->setRecordProperties($release, $environment, $account);
 
@@ -408,10 +399,10 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
             }
 
         } elseif (null !== $this->vaultFileDefaultEnvironment) {
-            /** File type [database] */
+            /* File type [database] */
             $release = $this->resultDataSet['type'];
 
-            /** Default Environment [production] | User may ask for different environment. */
+            /* Default Environment [production] | User may ask for different environment. */
             $environment = null !== $this->vaultFileDefaultEnvironment
                 ? $this->vaultFileDefaultEnvironment
                 : $this->resultDataSet['default_environment'];
@@ -421,9 +412,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
 
         $vaultData = $this->getProperty('resultDataSet');
 
-        /**
-         * Removing the last four elements from the array
-         */
+        /* Removing the last four elements from the array */
         $args = array_slice(array_keys($vaultData), 0, count(array_keys($vaultData)) - 4);
 
         foreach ($args as $argument) {
@@ -431,7 +420,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
                 $this->set($argument, ('' === trim($vaultData[$argument])
                     ? null
                     : $this->decrypt($vaultData[$argument])));
-
             } else {
                 $this->set($argument, ('' === $vaultData[$argument]
                     ? null
@@ -456,9 +444,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         $this->setProperty('vaultRecordUUID', $this->getProperty('resultDataSet')['uuid']);
         $this->setProperty('vaultRecordDate', $this->getProperty('resultDataSet')['date']);
 
-        /**
-         * Adding back the id.
-         */
+        /* Adding back the id */
         $this->set('id', $this->getProperty('vaultRecordId'));
         $this->set('uuid', $this->getProperty('vaultRecordUUID'));
         $this->set('date', $this->getProperty('vaultRecordDate'));
@@ -476,7 +462,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     {
         $filename = false !== strpos($value, 'configuration-settings')
             ? strtolower(trim($value, '/ ')) . '.yml'
-            : 'configuration-settings-' . strtolower(trim($value, '/ ')) . '.yml' ;
+            : 'configuration-settings-' . strtolower(trim($value, '/ ')) . '.yml';
 
         $this->setProperty('vaultFilename', $filename);
 
