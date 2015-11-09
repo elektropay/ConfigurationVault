@@ -91,15 +91,6 @@ interface ConfigurationVaultInterface
     // --------------------------------------------------------------------------
 
     /**
-     * Pull the entire dataset.
-     *
-     * @return array
-     */
-    public function getResultDataSet();
-
-    // --------------------------------------------------------------------------
-
-    /**
      * Set the account root path.
      *
      * @param  string $value  A directory path to the account root (e.g., outside of web root)

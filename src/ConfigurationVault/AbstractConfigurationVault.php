@@ -44,8 +44,6 @@ use UCSDMath\Functions\ServiceFunctionsInterface;
  *
  * @method ConfigurationVaultInterface __construct(FilesystemInterface $filesystem, YamlInterface $yaml);
  * @method void __destruct();
- * @method array getResultDataSet();
- * @method Boolean isVaultFileReadable();
  * @method Boolean isVaultRecordEncrypted();
  * @method string decrypt($encryptedString);
  * @method array getEnvironmentAccountType();
@@ -339,7 +337,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
             $this->setRecordProperties($release, $environment, $account);
             $this->setVaultRecordEncrypted($this->getProperty('resultDataSet')['is_encrypted']);
 
-            if ($this->isVaultRecordEncrypted()) {
+            if (true === $this->isVaultRecordEncrypted()) {
                 $this->setCipherKey();
             }
 
@@ -448,16 +446,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         $this->setProperty('theAccountRootPath', rtrim($value, '/'));
 
         return $this;
-    }
-
-    // --------------------------------------------------------------------------
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getResultDataSet()
-    {
-        return $this->getProperty('resultDataSet');
     }
 
     // --------------------------------------------------------------------------

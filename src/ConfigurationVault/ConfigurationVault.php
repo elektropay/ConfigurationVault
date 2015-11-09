@@ -21,6 +21,8 @@ use UCSDMath\Serialization\Yaml\YamlInterface;
  *
  * Method list:
  *
+ * @method array getResultDataSet();
+ * @method Boolean isVaultFileReadable();
  * @method ConfigurationVaultInterface reset();
  *
  * @author Daryl Eisner <deisner@ucsd.edu>
@@ -59,6 +61,18 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
         YamlInterface $yaml
     ) {
         parent::__construct($filesystem, $yaml);
+    }
+
+    // --------------------------------------------------------------------------
+
+    /**
+     * Pull the entire dataset.
+     *
+     * @return array
+     */
+    public function getResultDataSet()
+    {
+        return $this->getProperty('resultDataSet');
     }
 
     // --------------------------------------------------------------------------
