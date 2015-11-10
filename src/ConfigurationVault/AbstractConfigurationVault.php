@@ -244,15 +244,10 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     protected function setHashKey()
     {
-        $encryptionFileArray = $this->yaml->deserialize(
-            $this->filesystem->read($this->vaultSettingsDirectory . '/' . static::ENCRYPTION_SETTINGS_FILE)
-        );
-
-        $release     = $encryptionFileArray['type']; // encryption
+        $encryptionFileArray = $this->yaml->deserialize($this->filesystem->read($this->vaultSettingsDirectory . '/' . static::ENCRYPTION_SETTINGS_FILE));
+        $release = $encryptionFileArray['type']; // encryption
         $environment = $encryptionFileArray['default_environment']; // private
-        $account     = 'seed_hash'; // seed_hash
-        $key         = 'key'; // key
-        $this->setProperty('hashKey', $encryptionFileArray[$release][$environment][$account]['key']);
+        $this->setProperty('hashKey', $encryptionFileArray[$release][$environment]['seed_hash']['key']);
 
         return $this;
     }
@@ -266,17 +261,11 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     protected function setRsaPrivateKeys()
     {
-        $encryptionFileArray = $this->yaml->deserialize(
-            $this->filesystem->read($this->vaultSettingsDirectory . '/' . static::ENCRYPTION_SETTINGS_FILE)
-        );
-
-        $release        = $encryptionFileArray['type']; // encryption
-        $environment    = $encryptionFileArray['default_environment']; // private
-        $accountPrivate = 'rsa_private_1024'; // rsa_private_1024
-        $accountPublic  = 'rsa_public_1024'; // rsa_public_1024
-        $key            = 'key'; // key
-        $this->setProperty('rsaPrivateKey1024', $encryptionFileArray[$release][$environment][$accountPrivate]['key']);
-        $this->setProperty('rsaPublicKey1024', $encryptionFileArray[$release]['public'][$accountPublic]['key']);
+        $encryptionFileArray = $this->yaml->deserialize($this->filesystem->read($this->vaultSettingsDirectory . '/' . static::ENCRYPTION_SETTINGS_FILE));
+        $release = $encryptionFileArray['type']; // encryption
+        $environment = $encryptionFileArray['default_environment']; // private
+        $this->setProperty('rsaPrivateKey1024', $encryptionFileArray[$release][$environment]['rsa_private_1024'['key']);
+        $this->setProperty('rsaPublicKey1024', $encryptionFileArray[$release]['public']['rsa_public_1024']['key']);
 
         return $this;
     }
@@ -295,11 +284,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
          * However, it does not need to be public either.
          */
         $ivsize = (int) mcrypt_get_iv_size(static::CIPHER, static::CIPHER_MODE);
-
-        $this->setProperty(
-            'initializationVector',
-            mb_substr(sha1(implode(array_slice($this->getProperty('hashKey'), 2, 2))), 0, $ivsize, static::CHARSET)
-        );
+        $this->setProperty('initializationVector', mb_substr(sha1(implode(array_slice($this->getProperty('hashKey'), 2, 2))), 0, $ivsize, static::CHARSET));
 
         return $this;
     }
