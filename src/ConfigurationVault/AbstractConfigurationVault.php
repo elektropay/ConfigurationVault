@@ -107,6 +107,9 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     protected $yaml                        = null;
     protected $filesystem                  = null;
     protected $cipherKey                   = null;
+    protected $environment                 = null;
+    protected $account                     = null;
+    protected $release                     = null;
     protected $hashKey                     = array();
     protected $resultDataSet               = array();
     protected $storageRegister             = array();
