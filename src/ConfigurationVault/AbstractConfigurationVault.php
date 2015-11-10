@@ -230,7 +230,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         $seed2 = $this->vaultRecordUUID;
         $cnfKey = mb_strtoupper(mb_substr(sha1($seed1 . $seed2), 0, 32, static::CHARSET), static::CHARSET);
         $this->setProperty('cipherKey', mb_substr(sha1($cnfKey), 0, 32, static::CHARSET));
-        unset($offset, $seed1, $seed2, $cnfKey);
 
         return $this;
     }
@@ -254,7 +253,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         $account     = 'seed_hash'; // seed_hash
         $key         = 'key'; // key
         $this->setProperty('hashKey', $encryptionFileArray[$release][$environment][$account]['key']);
-        unset($release, $environment, $account, $key, $encryptionFileArray);
 
         return $this;
     }
@@ -279,7 +277,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         $key            = 'key'; // key
         $this->setProperty('rsaPrivateKey1024', $encryptionFileArray[$release][$environment][$accountPrivate]['key']);
         $this->setProperty('rsaPublicKey1024', $encryptionFileArray[$release]['public'][$accountPublic]['key']);
-        unset($release, $environment, $accountPrivate, $accountPublic, $key, $encryptionFileArray);
 
         return $this;
     }
@@ -325,10 +322,9 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     public function openVaultFile($vaultFilename, $vaultFileRequestedSection = null)
     {
+        /* Extract the raw YAML file into array and store in $this->resultDataSet */
         $this->setVaultFilename($vaultFilename);
         $this->setVaultFileRequestedSection($vaultFileRequestedSection);
-
-        /* Extract the raw YAML file into array and store in $this->resultDataSet */
         $this->loadVaultSettingsFile();
         $this->setEnvironmentAccountType();
 
@@ -341,11 +337,9 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
             $this->setProperty('resultDataSet', $this->resultDataSet[$this->release][$this->environment]);
         }
 
-        $vaultData = $this->getProperty('resultDataSet');
-
         /* Removing the last four elements from the array */
+        $vaultData = $this->getProperty('resultDataSet');
         $this->setVaultDataArguments(array_slice(array_keys($vaultData), 0, count(array_keys($vaultData)) - 4), $vaultData);
-        unset($cnfVault, $seed, $cnfKey, $vaultData, $offset);
 
         return $this;
     }
