@@ -11,7 +11,6 @@
 
 namespace UCSDMath\Configuration\ConfigurationVault;
 
-use Carbon\Carbon;
 use UCSDMath\Functions\ServiceFunctions;
 use UCSDMath\Filesystem\FilesystemInterface;
 use UCSDMath\Serialization\Yaml\YamlInterface;
@@ -64,7 +63,7 @@ use UCSDMath\Functions\ServiceFunctionsInterface;
  *
  * @author Daryl Eisner <deisner@ucsd.edu>
  */
-abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
+abstract class AbstractConfigurationVault implements ConfigurationVaultInterface, ServiceFunctionsInterface
 {
     /**
      * Constants.
