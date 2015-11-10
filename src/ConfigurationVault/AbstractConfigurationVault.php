@@ -55,7 +55,6 @@ use UCSDMath\Functions\ServiceFunctionsInterface;
  * @method ConfigurationVaultInterface setEnvironmentAccountType();
  * @method ConfigurationVaultInterface setVaultSettingsDirectory($value);
  * @method ConfigurationVaultInterface setVaultFileRequestedSection($value);
- * @method ConfigurationVaultInterface setVaultFileDefaultEnvironment($value);
  * @method ConfigurationVaultInterface setVaultRecordEncrypted($value = true);
  * @method ConfigurationVaultInterface setRecordProperties($release, $environment, $account);
  * @method ConfigurationVaultInterface setVaultDataArguments(array $arguments, array $vaultData);

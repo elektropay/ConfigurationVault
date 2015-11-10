@@ -24,6 +24,7 @@ use UCSDMath\Serialization\Yaml\YamlInterface;
  * @method array getResultDataSet();
  * @method Boolean isVaultFileReadable();
  * @method ConfigurationVaultInterface reset();
+ * @method ConfigurationVaultInterface setVaultFileDefaultEnvironment($value);
  *
  * @author Daryl Eisner <deisner@ucsd.edu>
  *
