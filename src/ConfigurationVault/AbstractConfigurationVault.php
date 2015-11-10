@@ -202,7 +202,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      *
      * @param  string  $encryptedString  The data to decrypt
      *
-     * @return string|bool  The decrypted data
+     * @return string  A decrypted data
      */
     protected function decrypt($encryptedString)
     {
@@ -220,7 +220,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     /**
      * Setting the main Cipher Key for decryption if required.
      *
-     * @return bool
+     * @return ConfigurationVaultInterface
      *
      * @api
      */
