@@ -21,6 +21,7 @@ use UCSDMath\Serialization\Yaml\YamlInterface;
  *
  * Method list:
  *
+ * @method ConfigurationVaultInterface __construct(FilesystemInterface $filesystem, YamlInterface $yaml);
  * @method array getResultDataSet();
  * @method Boolean isVaultFileReadable();
  * @method ConfigurationVaultInterface reset();
