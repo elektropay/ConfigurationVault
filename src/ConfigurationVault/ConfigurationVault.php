@@ -14,7 +14,6 @@ namespace UCSDMath\Configuration\ConfigurationVault;
 use UCSDMath\Filesystem\FilesystemInterface;
 use UCSDMath\Serialization\Yaml\YamlInterface;
 
-
 /**
  * ConfigurationVault is the default implementation of {@link ConfigurationVaultInterface} which
  * provides routine configuration-vault methods that are commonly used throughout the framework.

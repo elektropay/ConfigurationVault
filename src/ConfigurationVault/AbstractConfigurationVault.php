@@ -129,7 +129,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     protected static $instance             = null;
     protected static $objectCount          = 0;
 
-
     // --------------------------------------------------------------------------
 
     /**
@@ -287,10 +286,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
 
         return $this;
     }
-
-    // --------------------------------------------------------------------------
-
-    /* Interface Implementations */
 
     // --------------------------------------------------------------------------
 

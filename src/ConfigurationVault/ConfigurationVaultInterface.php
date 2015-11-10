@@ -40,7 +40,6 @@ interface ConfigurationVaultInterface
     const TEST_DATA                = 'Hi There...';
     const DEFAULT_VAULT_SECTION    = 'webadmin';
 
-
     // --------------------------------------------------------------------------
 
     /**
