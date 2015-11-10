@@ -264,7 +264,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         $encryptionFileArray = $this->yaml->deserialize($this->filesystem->read($this->vaultSettingsDirectory . '/' . static::ENCRYPTION_SETTINGS_FILE));
         $release = $encryptionFileArray['type']; // encryption
         $environment = $encryptionFileArray['default_environment']; // private
-        $this->setProperty('rsaPrivateKey1024', $encryptionFileArray[$release][$environment]['rsa_private_1024'['key']);
+        $this->setProperty('rsaPrivateKey1024', $encryptionFileArray[$release][$environment]['rsa_private_1024']['key']);
         $this->setProperty('rsaPublicKey1024', $encryptionFileArray[$release]['public']['rsa_public_1024']['key']);
 
         return $this;
