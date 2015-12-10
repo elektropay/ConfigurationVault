@@ -18,13 +18,13 @@ use UCSDMath\Serialization\Yaml\YamlInterface;
  * ConfigurationVault is the default implementation of {@link ConfigurationVaultInterface} which
  * provides routine configuration-vault methods that are commonly used throughout the framework.
  *
- * Method list:
+ * Method list: (+) @api, (-) protected or private visibility.
  *
- * @method ConfigurationVaultInterface __construct(FilesystemInterface $filesystem, YamlInterface $yaml);
- * @method array getResultDataSet();
- * @method Boolean isVaultFileReadable();
- * @method ConfigurationVaultInterface reset();
- * @method ConfigurationVaultInterface setVaultFileDefaultEnvironment($value);
+ * (+) ConfigurationVaultInterface __construct(FilesystemInterface $filesystem, YamlInterface $yaml);
+ * (+) array getResultDataSet();
+ * (+) Boolean isVaultFileReadable();
+ * (+) ConfigurationVaultInterface reset();
+ * (+) ConfigurationVaultInterface setVaultFileDefaultEnvironment($value);
  *
  * @author Daryl Eisner <deisner@ucsd.edu>
  *

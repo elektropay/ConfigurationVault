@@ -39,26 +39,26 @@ use UCSDMath\Functions\ServiceFunctionsInterface;
  * @link http://en.wikipedia.org/wiki/YAML
  * @link http://www.yaml.org/spec/1.2/spec.html
  *
- * Method list:
+ * Method list: (+) @api, (-) protected or private visibility.
  *
- * @method ConfigurationVaultInterface __construct(FilesystemInterface $filesystem, YamlInterface $yaml);
- * @method void __destruct();
- * @method Boolean isVaultRecordEncrypted();
- * @method string decrypt($encryptedString);
- * @method ConfigurationVaultInterface setHashKey();
- * @method ConfigurationVaultInterface setCipherKey();
- * @method ConfigurationVaultInterface setRsaPrivateKeys();
- * @method ConfigurationVaultInterface setAccountRoot($value);
- * @method ConfigurationVaultInterface loadVaultSettingsFile();
- * @method ConfigurationVaultInterface setVaultFilename($value);
- * @method ConfigurationVaultInterface setInitializationVector();
- * @method ConfigurationVaultInterface setEnvironmentAccountType();
- * @method ConfigurationVaultInterface setVaultSettingsDirectory($value);
- * @method ConfigurationVaultInterface setVaultFileRequestedSection($value);
- * @method ConfigurationVaultInterface setVaultRecordEncrypted($value = true);
- * @method ConfigurationVaultInterface setRecordProperties($release, $environment, $account);
- * @method ConfigurationVaultInterface setVaultDataArguments(array $arguments, array $vaultData);
- * @method ConfigurationVaultInterface openVaultFile($vaultFilename, $vaultFileRequestedSection = null);
+ * (+) ConfigurationVaultInterface __construct(FilesystemInterface $filesystem, YamlInterface $yaml);
+ * (+) void __destruct();
+ * (+) Boolean isVaultRecordEncrypted();
+ * (+) string decrypt($encryptedString);
+ * (+) ConfigurationVaultInterface setHashKey();
+ * (+) ConfigurationVaultInterface setCipherKey();
+ * (+) ConfigurationVaultInterface setRsaPrivateKeys();
+ * (+) ConfigurationVaultInterface setAccountRoot($value);
+ * (+) ConfigurationVaultInterface loadVaultSettingsFile();
+ * (+) ConfigurationVaultInterface setVaultFilename($value);
+ * (+) ConfigurationVaultInterface setInitializationVector();
+ * (+) ConfigurationVaultInterface setEnvironmentAccountType();
+ * (+) ConfigurationVaultInterface setVaultSettingsDirectory($value);
+ * (+) ConfigurationVaultInterface setVaultFileRequestedSection($value);
+ * (+) ConfigurationVaultInterface setVaultRecordEncrypted($value = true);
+ * (+) ConfigurationVaultInterface setRecordProperties($release, $environment, $account);
+ * (+) ConfigurationVaultInterface setVaultDataArguments(array $arguments, array $vaultData);
+ * (+) ConfigurationVaultInterface openVaultFile($vaultFilename, $vaultFileRequestedSection = null);
  *
  * @author Daryl Eisner <deisner@ucsd.edu>
  */
@@ -460,28 +460,26 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     // --------------------------------------------------------------------------
 
     /**
-     * Method implementations inserted.
+     * Method implementations inserted:
      *
-     * The notation below illustrates visibility: (+) @api, (-) protected or private.
-     *
-     * @method all();
-     * @method init();
-     * @method get($key);
-     * @method has($key);
-     * @method version();
-     * @method getClassName();
-     * @method getConst($key);
-     * @method set($key, $value);
-     * @method isString($str);
-     * @method getInstanceCount();
-     * @method getClassInterfaces();
-     * @method __call($callback, $parameters);
-     * @method getProperty($name, $key = null);
-     * @method doesFunctionExist($functionName);
-     * @method isStringKey($str, array $keys);
-     * @method throwExceptionError(array $error);
-     * @method setProperty($name, $value, $key = null);
-     * @method throwInvalidArgumentExceptionError(array $error);
+     * (+) all();
+     * (+) init();
+     * (+) get($key);
+     * (+) has($key);
+     * (+) version();
+     * (+) getClassName();
+     * (+) getConst($key);
+     * (+) set($key, $value);
+     * (+) isString($str);
+     * (+) getInstanceCount();
+     * (+) getClassInterfaces();
+     * (+) __call($callback, $parameters);
+     * (+) getProperty($name, $key = null);
+     * (+) doesFunctionExist($functionName);
+     * (+) isStringKey($str, array $keys);
+     * (+) throwExceptionError(array $error);
+     * (+) setProperty($name, $value, $key = null);
+     * (+) throwInvalidArgumentExceptionError(array $error);
      */
     use ServiceFunctions;
 }
