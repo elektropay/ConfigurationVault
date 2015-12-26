@@ -72,7 +72,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      *
      * @api
      */
-    const VERSION = '1.5.0';
+    const VERSION = '1.6.0';
 
     // --------------------------------------------------------------------------
 
