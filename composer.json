@@ -1,7 +1,7 @@
 {
     "name": "ucsdmath/configuration-vault",
     "description": "A specialized configuration handler",
-    "keywords": ["configuration", "password", "ucsdmath"],
+    "keywords": ["configuration-vault", "ucsdmath", "configuration", "password", "component"],
     "homepage": "https://github.com/ucsdmath",
     "type": "library",
     "license": "MIT",
