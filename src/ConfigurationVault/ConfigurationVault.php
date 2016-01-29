@@ -100,7 +100,7 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
      *
      * @api
      */
-    public function setVaultFileDefaultEnvironment($value)
+    public function setVaultFileDefaultEnvironment($value): self
     {
         $this->setProperty('vaultFileDefaultEnvironment', strtolower(trim($value)));
 
@@ -116,7 +116,7 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
      *
      * @api
      */
-    public function reset()
+    public function reset(): self
     {
         $this->setProperty('cipherKey', null);
         $this->setProperty('vaultFilename', null);
