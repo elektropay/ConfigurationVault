@@ -72,7 +72,7 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
      *
      * @return array
      */
-    public function getResultDataSet()
+    public function getResultDataSet(): array
     {
         return $this->getProperty('resultDataSet');
     }
@@ -84,7 +84,7 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
      *
      * @return bool
      */
-    public function isVaultFileReadable()
+    public function isVaultFileReadable(): bool
     {
         return is_readable($this->vaultSettingsDirectory . '/' . $this->vaultFilename);
     }
@@ -100,7 +100,7 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
      *
      * @api
      */
-    public function setVaultFileDefaultEnvironment($value): self
+    public function setVaultFileDefaultEnvironment($value): ConfigurationVaultInterface
     {
         $this->setProperty('vaultFileDefaultEnvironment', strtolower(trim($value)));
 
@@ -116,7 +116,7 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
      *
      * @api
      */
-    public function reset(): self
+    public function reset(): ConfigurationVaultInterface
     {
         $this->setProperty('cipherKey', null);
         $this->setProperty('vaultFilename', null);

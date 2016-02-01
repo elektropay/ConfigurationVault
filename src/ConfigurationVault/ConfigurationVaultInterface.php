@@ -50,7 +50,7 @@ interface ConfigurationVaultInterface
      *
      * @api
      */
-    public function setVaultRecordEncrypted($value = true);
+    public function setVaultRecordEncrypted($value = true): ConfigurationVaultInterface;
 
     // --------------------------------------------------------------------------
 
@@ -61,7 +61,7 @@ interface ConfigurationVaultInterface
      *
      * @api
      */
-    public function loadVaultSettingsFile();
+    public function loadVaultSettingsFile(): ConfigurationVaultInterface;
 
     // --------------------------------------------------------------------------
 
@@ -75,7 +75,7 @@ interface ConfigurationVaultInterface
      *
      * @api
      */
-    public function openVaultFile($vaultFilename, $vaultFileRequestedSection = null);
+    public function openVaultFile($vaultFilename, $vaultFileRequestedSection = null): ConfigurationVaultInterface;
 
     // --------------------------------------------------------------------------
 
@@ -88,7 +88,7 @@ interface ConfigurationVaultInterface
      *
      * @return ConfigurationVaultInterface
      */
-    public function setRecordProperties($release, $environment, $account);
+    public function setRecordProperties($release, $environment, $account): ConfigurationVaultInterface;
 
     // --------------------------------------------------------------------------
 
@@ -101,7 +101,7 @@ interface ConfigurationVaultInterface
      *
      * @api
      */
-    public function setAccountRoot($value);
+    public function setAccountRoot($value): ConfigurationVaultInterface;
 
     // --------------------------------------------------------------------------
 
@@ -112,7 +112,7 @@ interface ConfigurationVaultInterface
      *
      * @return ConfigurationVaultInterface
      */
-    public function setVaultFilename($value);
+    public function setVaultFilename($value): ConfigurationVaultInterface;
 
     // --------------------------------------------------------------------------
 
@@ -125,7 +125,7 @@ interface ConfigurationVaultInterface
      *
      * @api
      */
-    public function setVaultFileRequestedSection($requestedSection);
+    public function setVaultFileRequestedSection($requestedSection): ConfigurationVaultInterface;
 
     // --------------------------------------------------------------------------
 
@@ -138,5 +138,5 @@ interface ConfigurationVaultInterface
      *
      * @api
      */
-    public function setVaultSettingsDirectory($value);
+    public function setVaultSettingsDirectory($value): ConfigurationVaultInterface;
 }

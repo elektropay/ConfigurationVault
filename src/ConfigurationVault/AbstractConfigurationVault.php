@@ -186,7 +186,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     /**
      * {@inheritdoc}
      */
-    public function setVaultRecordEncrypted($value = true): self
+    public function setVaultRecordEncrypted($value = true): ConfigurationVaultInterface
     {
         $this->setProperty('vaultRecordEncrypted', (bool) $value);
 
@@ -222,7 +222,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      *
      * @api
      */
-    protected function setCipherKey(): self
+    protected function setCipherKey(): ConfigurationVaultInterface
     {
         $offset = (int) substr($this->vaultRecordDate, -2) / 1; // 0-59 seconds for offset
         $seed1 = mb_substr(implode(array_slice($this->getProperty('hashKey'), 0, 2)), $offset, 32, static::CHARSET);
@@ -241,7 +241,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      *
      * @return ConfigurationVaultInterface
      */
-    protected function setHashKey(): self
+    protected function setHashKey(): ConfigurationVaultInterface
     {
         $encryptionFileArray = $this->yaml->deserialize($this->filesystem->read($this->vaultSettingsDirectory . '/' . static::ENCRYPTION_SETTINGS_FILE));
         $release = $encryptionFileArray['type']; // encryption
@@ -258,7 +258,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      *
      * @return ConfigurationVaultInterface
      */
-    protected function setRsaPrivateKeys(): self
+    protected function setRsaPrivateKeys(): ConfigurationVaultInterface
     {
         $encryptionFileArray = $this->yaml->deserialize($this->filesystem->read($this->vaultSettingsDirectory . '/' . static::ENCRYPTION_SETTINGS_FILE));
         $release = $encryptionFileArray['type']; // encryption
@@ -277,7 +277,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      *
      * @return ConfigurationVaultInterface
      */
-    protected function setInitializationVector(): self
+    protected function setInitializationVector(): ConfigurationVaultInterface
     {
         /* Initialization Vector (IV) does not need to be secret.
          * However, it does not need to be public either.
@@ -300,7 +300,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      *
      * @api
      */
-    public function openVaultFile($vaultFilename, $vaultFileRequestedSection = null): self
+    public function openVaultFile($vaultFilename, $vaultFileRequestedSection = null): ConfigurationVaultInterface
     {
         /* Extract the raw YAML file into array and store in $this->resultDataSet */
         $this->setVaultFilename($vaultFilename);
@@ -334,7 +334,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      *
      * @return ConfigurationVaultInterface
      */
-    protected function setVaultDataArguments(array $arguments, array $vaultData): self
+    protected function setVaultDataArguments(array $arguments, array $vaultData): ConfigurationVaultInterface
     {
         foreach ($arguments as $argument) {
             true === $this->isVaultRecordEncrypted()
@@ -352,7 +352,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      *
      * @return ConfigurationVaultInterface
      */
-    protected function setEnvironmentAccountType(): self
+    protected function setEnvironmentAccountType(): ConfigurationVaultInterface
     {
         /* File type [database] */
         $this->release = $this->getProperty('resultDataSet')['type'];
@@ -373,7 +373,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     /**
      * {@inheritdoc}
      */
-    public function loadVaultSettingsFile(): self
+    public function loadVaultSettingsFile(): ConfigurationVaultInterface
     {
         $this->setProperty(
             'resultDataSet',
@@ -388,7 +388,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     /**
      * {@inheritdoc}
      */
-    public function setRecordProperties($release, $environment, $account): self
+    public function setRecordProperties($release, $environment, $account): ConfigurationVaultInterface
     {
         $this->setProperty('resultDataSet', $this->getProperty('resultDataSet')[$release][$environment][$account]);
         $this->setProperty('vaultRecordId', $this->getProperty('resultDataSet')['id']);
@@ -409,7 +409,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     /**
      * {@inheritdoc}
      */
-    public function setAccountRoot($value): self
+    public function setAccountRoot($value): ConfigurationVaultInterface
     {
         $this->setProperty('theAccountRootPath', rtrim($value, '/'));
 
@@ -421,7 +421,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     /**
      * {@inheritdoc}
      */
-    public function setVaultFilename($value): self
+    public function setVaultFilename($value): ConfigurationVaultInterface
     {
         $filename = false !== strpos($value, 'configuration-settings')
             ? strtolower(trim($value, '/ ')) . '.yml'
@@ -437,7 +437,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     /**
      * {@inheritdoc}
      */
-    public function setVaultFileRequestedSection($requestedSection = null): self
+    public function setVaultFileRequestedSection($requestedSection = null): ConfigurationVaultInterface
     {
         $this->isString($requestedSection)
             ? $this->setProperty('vaultFileRequestedSection', trim($requestedSection))
@@ -451,7 +451,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     /**
      * {@inheritdoc}
      */
-    public function setVaultSettingsDirectory($value): self
+    public function setVaultSettingsDirectory($value): ConfigurationVaultInterface
     {
         $this->setProperty('vaultSettingsDirectory', rtrim($value, '/'));
 
