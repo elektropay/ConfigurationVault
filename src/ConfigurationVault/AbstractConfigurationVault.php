@@ -517,4 +517,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      * (+) throwInvalidArgumentExceptionError(array $error);
      */
     use ServiceFunctions;
+
+    // --------------------------------------------------------------------------
 }

@@ -141,4 +141,6 @@ interface ConfigurationVaultInterface
      * @api
      */
     public function setVaultSettingsDirectory(string $value): ConfigurationVaultInterface;
+
+    // --------------------------------------------------------------------------
 }

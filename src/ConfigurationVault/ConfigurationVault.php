@@ -135,4 +135,6 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
 
         return $this;
     }
+
+    // --------------------------------------------------------------------------
 }
