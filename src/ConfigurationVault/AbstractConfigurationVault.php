@@ -44,7 +44,7 @@ use UCSDMath\Functions\ServiceFunctionsInterface;
  *
  * (+) ConfigurationVaultInterface __construct(FilesystemInterface $filesystem, YamlInterface $yaml);
  * (+) void __destruct();
- * (+) Boolean isVaultRecordEncrypted();
+ * (+) bool isVaultRecordEncrypted();
  * (+) string decrypt($encryptedString);
  * (+) ConfigurationVaultInterface setHashKey();
  * (+) ConfigurationVaultInterface setCipherKey();
@@ -79,8 +79,8 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     /**
      * Properties.
      *
-     * @var    YamlInterface               $yaml                        A YamlInterface instance
-     * @var    FilesystemInterface         $filesystem                  A FilesystemInterface instance
+     * @var    YamlInterface               $yaml                        A YamlInterface
+     * @var    FilesystemInterface         $filesystem                  A FilesystemInterface
      * @var    string                      $cipherKey                   A encryption key
      * @var    array                       $hashKey                     A list of hash strings
      * @var    array                       $resultDataSet               A result data set
@@ -100,8 +100,8 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      * @var    string                      $vaultFileDefaultSection     A default section
      * @var    string                      $vaultFileRequestedSection   A user requested section
      * @var    string                      $vaultFileDefaultEnvironment A default category
-     * @static ConfigurationVaultInterface $instance                    A ConfigurationVaultInterface instance
-     * @static integer                     $objectCount                 A ConfigurationVaultInterface instance count
+     * @static ConfigurationVaultInterface $instance                    A ConfigurationVaultInterface
+     * @static int                         $objectCount                 A ConfigurationVaultInterface count
      */
     protected $yaml                        = null;
     protected $filesystem                  = null;
@@ -135,8 +135,8 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     /**
      * Constructor.
      *
-     * @param FilesystemInterface  $filesystem A FilesystemInterface Interface instance
-     * @param YamlInterface        $yaml       A YamlInterface Interface instance
+     * @param FilesystemInterface  $filesystem A FilesystemInterface
+     * @param YamlInterface        $yaml       A YamlInterface
      *
      * @api
      */
@@ -184,9 +184,15 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     // --------------------------------------------------------------------------
 
     /**
-     * {@inheritdoc}
+     * Set ConfigurationVault to encryption mode.
+     *
+     * @param bool $value  A option to work with encrypted configuration data
+     *
+     * @return ConfigurationVaultInterface
+     *
+     * @api
      */
-    public function setVaultRecordEncrypted($value = true): ConfigurationVaultInterface
+    public function setVaultRecordEncrypted(bool $value = true): ConfigurationVaultInterface
     {
         $this->setProperty('vaultRecordEncrypted', (bool) $value);
 
@@ -198,11 +204,11 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     /**
      * Decrypt Rijndael-256 AES Data Encryption Cipher with Cipher Block Chaining (CBC).
      *
-     * @param  string  $encryptedString  The data to decrypt
+     * @param string  $encryptedString  The data to decrypt
      *
      * @return string  A decrypted data
      */
-    protected function decrypt($encryptedString): string
+    protected function decrypt(string $encryptedString): string
     {
         return trim(mcrypt_decrypt(
             static::CIPHER,
@@ -293,14 +299,14 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     /**
      * Open configuration file settings.
      *
-     * @param  string $vaultFilename              A specific configuration to open. (e.g., 'Database')
-     * @param  string $vaultFileRequestedSection  A specific file section (e.g., 'webadmin')
+     * @param string $vaultFilename              A specific configuration to open. (e.g., 'Database')
+     * @param string $vaultFileRequestedSection  A specific file section (e.g., 'webadmin')
      *
      * @return ConfigurationVaultInterface
      *
      * @api
      */
-    public function openVaultFile($vaultFilename, $vaultFileRequestedSection = null): ConfigurationVaultInterface
+    public function openVaultFile(string $vaultFilename, string $vaultFileRequestedSection = null): ConfigurationVaultInterface
     {
         /* Extract the raw YAML file into array and store in $this->resultDataSet */
         $this->setVaultFilename($vaultFilename);
@@ -329,8 +335,8 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     /**
      * Set any required vault file arguments.
      *
-     * @param  array $arguments  A specific list of arguments to set
-     * @param  array $vaultData  A raw dataset from the vault file (YAML)
+     * @param array $arguments  A specific list of arguments to set
+     * @param array $vaultData  A raw dataset from the vault file (YAML)
      *
      * @return ConfigurationVaultInterface
      */
@@ -386,9 +392,15 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     // --------------------------------------------------------------------------
 
     /**
-     * {@inheritdoc}
+     * Set the database record properties.
+     *
+     * @param string $release      A release collection type (e.g., 'database', 'account', 'smtp')
+     * @param string $environment  A operating environment (e.g., 'development', 'staging', 'production')
+     * @param string $account      A specific section of data to open (e.g., 'webadmin', 'webuser', 'wwwdyn')
+     *
+     * @return ConfigurationVaultInterface
      */
-    public function setRecordProperties($release, $environment, $account): ConfigurationVaultInterface
+    public function setRecordProperties(string $release, string $environment, string $account): ConfigurationVaultInterface
     {
         $this->setProperty('resultDataSet', $this->getProperty('resultDataSet')[$release][$environment][$account]);
         $this->setProperty('vaultRecordId', $this->getProperty('resultDataSet')['id']);
@@ -407,9 +419,15 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     // --------------------------------------------------------------------------
 
     /**
-     * {@inheritdoc}
+     * Set the account root path.
+     *
+     * @param string $value  A directory path to the account root (e.g., outside of web root)
+     *
+     * @return ConfigurationVaultInterface
+     *
+     * @api
      */
-    public function setAccountRoot($value): ConfigurationVaultInterface
+    public function setAccountRoot(string $value): ConfigurationVaultInterface
     {
         $this->setProperty('theAccountRootPath', rtrim($value, '/'));
 
@@ -419,9 +437,13 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     // --------------------------------------------------------------------------
 
     /**
-     * {@inheritdoc}
+     * Set the database record properties.
+     *
+     * @param string $value  A vault file name to open (e.g., 'database', 'account', 'encryption')
+     *
+     * @return ConfigurationVaultInterface
      */
-    public function setVaultFilename($value): ConfigurationVaultInterface
+    public function setVaultFilename(string $value): ConfigurationVaultInterface
     {
         $filename = false !== strpos($value, 'configuration-settings')
             ? strtolower(trim($value, '/ ')) . '.yml'
@@ -435,9 +457,15 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     // --------------------------------------------------------------------------
 
     /**
-     * {@inheritdoc}
+     * Set the default requested section (e.g., 'webadmin', 'webuser', 'wwwdyn').
+     *
+     * @param string $requestedSection  A default section name to pull from the vault file
+     *
+     * @return ConfigurationVaultInterface
+     *
+     * @api
      */
-    public function setVaultFileRequestedSection($requestedSection = null): ConfigurationVaultInterface
+    public function setVaultFileRequestedSection(string $requestedSection = null): ConfigurationVaultInterface
     {
         $this->isString($requestedSection)
             ? $this->setProperty('vaultFileRequestedSection', trim($requestedSection))
@@ -449,9 +477,15 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     // --------------------------------------------------------------------------
 
     /**
-     * {@inheritdoc}
+     * Set the location of the vault directory (e.g., '/home/www/.external-configuration-settings/').
+     *
+     * @param string $value  A default location path to the configuration settings directory
+     *
+     * @return ConfigurationVaultInterface
+     *
+     * @api
      */
-    public function setVaultSettingsDirectory($value): ConfigurationVaultInterface
+    public function setVaultSettingsDirectory(string $value): ConfigurationVaultInterface
     {
         $this->setProperty('vaultSettingsDirectory', rtrim($value, '/'));
 

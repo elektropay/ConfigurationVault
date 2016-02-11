@@ -44,18 +44,20 @@ interface ConfigurationVaultInterface
     // --------------------------------------------------------------------------
 
     /**
-     * Set ConfigurationVault to encryption mode
+     * Set ConfigurationVault to encryption mode.
+     *
+     * @param bool $value  A option to work with encrypted configuration data
      *
      * @return ConfigurationVaultInterface
      *
      * @api
      */
-    public function setVaultRecordEncrypted($value = true): ConfigurationVaultInterface;
+    public function setVaultRecordEncrypted(bool $value = true): ConfigurationVaultInterface;
 
     // --------------------------------------------------------------------------
 
     /**
-     * Set ConfigurationVault to encryption mode
+     * Set ConfigurationVault to encryption mode.
      *
      * @return ConfigurationVaultInterface
      *
@@ -68,75 +70,75 @@ interface ConfigurationVaultInterface
     /**
      * Open configuration file settings.
      *
-     * @param  string $vaultFilename              A specific configuration to open. (e.g., 'Database')
-     * @param  string $vaultFileRequestedSection  A specific file section (e.g., 'webadmin')
+     * @param string $vaultFilename              A specific configuration to open. (e.g., 'Database')
+     * @param string $vaultFileRequestedSection  A specific file section (e.g., 'webadmin')
      *
      * @return ConfigurationVaultInterface
      *
      * @api
      */
-    public function openVaultFile($vaultFilename, $vaultFileRequestedSection = null): ConfigurationVaultInterface;
+    public function openVaultFile(string $vaultFilename, string $vaultFileRequestedSection = null): ConfigurationVaultInterface;
 
     // --------------------------------------------------------------------------
 
     /**
      * Set the database record properties.
      *
-     * @param  array $release      A release collection type (e.g., 'database', 'account', 'smtp')
-     * @param  array $environment  A operating environment (e.g., 'development', 'staging', 'production')
-     * @param  array $account      A specific section of data to open (e.g., 'webadmin', 'webuser', 'wwwdyn')
+     * @param string $release      A release collection type (e.g., 'database', 'account', 'smtp')
+     * @param string $environment  A operating environment (e.g., 'development', 'staging', 'production')
+     * @param string $account      A specific section of data to open (e.g., 'webadmin', 'webuser', 'wwwdyn')
      *
      * @return ConfigurationVaultInterface
      */
-    public function setRecordProperties($release, $environment, $account): ConfigurationVaultInterface;
+    public function setRecordProperties(string $release, string $environment, string $account): ConfigurationVaultInterface;
 
     // --------------------------------------------------------------------------
 
     /**
      * Set the account root path.
      *
-     * @param  string $value  A directory path to the account root (e.g., outside of web root)
+     * @param string $value  A directory path to the account root (e.g., outside of web root)
      *
      * @return ConfigurationVaultInterface
      *
      * @api
      */
-    public function setAccountRoot($value): ConfigurationVaultInterface;
+    public function setAccountRoot(string $value): ConfigurationVaultInterface;
 
     // --------------------------------------------------------------------------
 
     /**
      * Set the database record properties.
      *
-     * @param  string $value  A vault file name to open (e.g., 'database', 'account', 'encryption')
+     * @param string $value  A vault file name to open (e.g., 'database', 'account', 'encryption')
      *
      * @return ConfigurationVaultInterface
      */
-    public function setVaultFilename($value): ConfigurationVaultInterface;
+    public function setVaultFilename(string $value): ConfigurationVaultInterface;
 
     // --------------------------------------------------------------------------
 
     /**
      * Set the default requested section (e.g., 'webadmin', 'webuser', 'wwwdyn').
      *
-     * @param  string $requestedSection  A default section name to pull from the vault file
+     * @param string $requestedSection  A default section name to pull from the vault file
      *
      * @return ConfigurationVaultInterface
      *
      * @api
      */
-    public function setVaultFileRequestedSection($requestedSection): ConfigurationVaultInterface;
+    public function setVaultFileRequestedSection(string $requestedSection = null): ConfigurationVaultInterface;
 
     // --------------------------------------------------------------------------
 
     /**
      * Set the location of the vault directory (e.g., '/home/www/.external-configuration-settings/').
      *
-     * @param  string $value  A default location path to the configuration settings directory
+     * @param string $value  A default location path to the configuration settings directory
      *
      * @return ConfigurationVaultInterface
      *
      * @api
      */
-    public function setVaultSettingsDirectory($value): ConfigurationVaultInterface;
+    public function setVaultSettingsDirectory(string $value): ConfigurationVaultInterface;
 }

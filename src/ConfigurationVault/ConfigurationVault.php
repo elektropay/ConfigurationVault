@@ -23,7 +23,7 @@ use UCSDMath\Serialization\Yaml\YamlInterface;
  *
  * (+) ConfigurationVaultInterface __construct(FilesystemInterface $filesystem, YamlInterface $yaml);
  * (+) array getResultDataSet();
- * (+) Boolean isVaultFileReadable();
+ * (+) bool isVaultFileReadable();
  * (+) ConfigurationVaultInterface reset();
  * (+) ConfigurationVaultInterface setVaultFileDefaultEnvironment($value);
  *
@@ -53,8 +53,8 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
     /**
      * Constructor.
      *
-     * @param FilesystemInterface  $filesystem A FilesystemInterface Interface instance
-     * @param YamlInterface        $yaml       A YamlInterface Interface instance
+     * @param FilesystemInterface  $filesystem A FilesystemInterface
+     * @param YamlInterface        $yaml       A YamlInterface
      *
      * @api
      */
@@ -94,13 +94,13 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
     /**
      * Set the default environment (e.g., 'development', 'staging', 'production').
      *
-     * @param  string $value  A default environment type
+     * @param string $value  A default environment type
      *
      * @return ConfigurationVaultInterface
      *
      * @api
      */
-    public function setVaultFileDefaultEnvironment($value): ConfigurationVaultInterface
+    public function setVaultFileDefaultEnvironment(string $value): ConfigurationVaultInterface
     {
         $this->setProperty('vaultFileDefaultEnvironment', strtolower(trim($value)));
 
