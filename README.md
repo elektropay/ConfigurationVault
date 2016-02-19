@@ -23,7 +23,7 @@ adding the ucsdmath/configuration-vault package to your composer.json file:
 
 ```
 "require": {
-    "php": ">=7.0.0",
+    "php": "^7.0",
     "ucsdmath/configuration-vault": "dev-master"
 },
 ```
