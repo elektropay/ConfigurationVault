@@ -16,14 +16,14 @@
     "require": {
         "php": "^7.0",
         "nesbot/carbon": "1.21.0",
-        "ucsdmath/functions": "dev-master",
-        "ucsdmath/filesystem": "dev-master",
-        "ucsdmath/serialization": "dev-master"
+        "ucsdmath/functions": "1.7.x-dev",
+        "ucsdmath/filesystem": "1.7.x-dev",
+        "ucsdmath/serialization": "1.7.x-dev"
     },
     "require-dev": {
         "mockery/mockery": "0.9.4",
         "phpunit/phpunit": "5.3.2",
-        "ucsdmath/testing": "dev-master",
+        "ucsdmath/testing": "1.7.x-dev",
         "squizlabs/php_codesniffer": "2.6.0"
     },
     "autoload": {
