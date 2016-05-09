@@ -73,7 +73,7 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
      *
      * @return array
      */
-    public function getResultDataSet(): array
+    public function getRecords(): array
     {
         return $this->getProperty('resultDataSet');
     }
