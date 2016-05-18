@@ -75,7 +75,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     const VERSION = '1.7.0';
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * Properties.
@@ -131,7 +131,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     protected static $instance             = null;
     protected static $objectCount          = 0;
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * Constructor.
@@ -156,7 +156,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         static::$objectCount++;
     }
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * Destructor.
@@ -168,7 +168,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         static::$objectCount--;
     }
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * Returns bool status of property $vaultRecordEncrypted.
@@ -182,14 +182,14 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         return $this->getProperty('vaultRecordEncrypted');
     }
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * Set ConfigurationVault to encryption mode.
      *
      * @param bool $value  A option to work with encrypted configuration data
      *
-     * @return ConfigurationVaultInterface
+     * @return ConfigurationVaultInterface The current instance
      *
      * @api
      */
@@ -200,7 +200,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         return $this;
     }
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * Decrypt Rijndael-256 AES Data Encryption Cipher with Cipher Block Chaining (CBC).
@@ -220,12 +220,12 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         ));
     }
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * Setting the main Cipher Key for decryption if required.
      *
-     * @return ConfigurationVaultInterface
+     * @return ConfigurationVaultInterface The current instance
      *
      * @api
      */
@@ -240,13 +240,13 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         return $this;
     }
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * Setting a general Initialization Vector
      * for cipher-block chaining (CBC).
      *
-     * @return ConfigurationVaultInterface
+     * @return ConfigurationVaultInterface The current instance
      */
     protected function setHashKey(): ConfigurationVaultInterface
     {
@@ -258,12 +258,12 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         return $this;
     }
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * Storage of RSA Private Key.
      *
-     * @return ConfigurationVaultInterface
+     * @return ConfigurationVaultInterface The current instance
      */
     protected function setRsaPrivateKeys(): ConfigurationVaultInterface
     {
@@ -276,13 +276,13 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         return $this;
     }
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * Setting a general Initialization Vector (IV)
      * for cipher-block chaining (CBC).
      *
-     * @return ConfigurationVaultInterface
+     * @return ConfigurationVaultInterface The current instance
      */
     protected function setInitializationVector(): ConfigurationVaultInterface
     {
@@ -295,7 +295,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         return $this;
     }
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * Open configuration file settings.
@@ -303,7 +303,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      * @param string $vaultFilename              A specific configuration to open. (e.g., 'Database')
      * @param string $vaultFileRequestedSection  A specific file section (e.g., 'webadmin')
      *
-     * @return ConfigurationVaultInterface
+     * @return ConfigurationVaultInterface The current instance
      *
      * @api
      */
@@ -331,7 +331,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         return $this;
     }
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * Set any required vault file arguments.
@@ -339,7 +339,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      * @param array $arguments  A specific list of arguments to set
      * @param array $vaultData  A raw dataset from the vault file (YAML)
      *
-     * @return ConfigurationVaultInterface
+     * @return ConfigurationVaultInterface The current instance
      */
     protected function setVaultDataArguments(array $arguments, array $vaultData): ConfigurationVaultInterface
     {
@@ -352,12 +352,12 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         return $this;
     }
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * Get environment account type settings.
      *
-     * @return ConfigurationVaultInterface
+     * @return ConfigurationVaultInterface The current instance
      */
     protected function setEnvironmentAccountType(): ConfigurationVaultInterface
     {
@@ -375,7 +375,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         return $this;
     }
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * {@inheritdoc}
@@ -390,7 +390,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         return $this;
     }
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * Set the database record properties.
@@ -399,7 +399,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      * @param string $environment  A operating environment (e.g., 'development', 'staging', 'production')
      * @param string $account      A specific section of data to open (e.g., 'webadmin', 'webuser', 'wwwdyn')
      *
-     * @return ConfigurationVaultInterface
+     * @return ConfigurationVaultInterface The current instance
      */
     public function setRecordProperties(string $release, string $environment, string $account): ConfigurationVaultInterface
     {
@@ -417,14 +417,14 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         return $this;
     }
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * Set the account root path.
      *
      * @param string $value  A directory path to the account root (e.g., outside of web root)
      *
-     * @return ConfigurationVaultInterface
+     * @return ConfigurationVaultInterface The current instance
      *
      * @api
      */
@@ -435,14 +435,14 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         return $this;
     }
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * Set the database record properties.
      *
      * @param string $value  A vault file name to open (e.g., 'database', 'account', 'encryption')
      *
-     * @return ConfigurationVaultInterface
+     * @return ConfigurationVaultInterface The current instance
      */
     public function setVaultFilename(string $value): ConfigurationVaultInterface
     {
@@ -455,14 +455,14 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         return $this;
     }
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * Set the default requested section (e.g., 'webadmin', 'webuser', 'wwwdyn').
      *
      * @param string $requestedSection  A default section name to pull from the vault file
      *
-     * @return ConfigurationVaultInterface
+     * @return ConfigurationVaultInterface The current instance
      *
      * @api
      */
@@ -475,14 +475,14 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         return $this;
     }
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * Set the location of the vault directory (e.g., '/home/www/.external-configuration-settings/').
      *
      * @param string $value  A default location path to the configuration settings directory
      *
-     * @return ConfigurationVaultInterface
+     * @return ConfigurationVaultInterface The current instance
      *
      * @api
      */
@@ -493,7 +493,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         return $this;
     }
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * Method implementations inserted:
@@ -524,5 +524,5 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     use ServiceFunctions;
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

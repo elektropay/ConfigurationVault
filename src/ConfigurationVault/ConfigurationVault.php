@@ -43,13 +43,13 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
      */
     const VERSION = '1.7.0';
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * Properties.
      */
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * Constructor.
@@ -66,7 +66,7 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
         parent::__construct($filesystem, $yaml);
     }
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * Pull the entire dataset.
@@ -78,7 +78,7 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
         return $this->getProperty('resultDataSet');
     }
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * Does file exist and is readable.
@@ -90,14 +90,14 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
         return is_readable($this->vaultSettingsDirectory . '/' . $this->vaultFilename);
     }
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * Set the default environment (e.g., 'development', 'staging', 'production').
      *
      * @param string $value  A default environment type
      *
-     * @return ConfigurationVaultInterface
+     * @return ConfigurationVaultInterface The current instance
      *
      * @api
      */
@@ -108,12 +108,12 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
         return $this;
     }
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * Reset to default settings.
      *
-     * @return ConfigurationVaultInterface
+     * @return ConfigurationVaultInterface The current instance
      *
      * @api
      */
@@ -137,5 +137,5 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
         return $this;
     }
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }
