@@ -20,7 +20,7 @@ use UCSDMath\Serialization\Yaml\YamlInterface;
 
 /**
  * AbstractConfigurationVault provides an abstract base class implementation of {@link ConfigurationVaultInterface}.
- * Primarily, this services the fundamental implementations for all ConfigurationVault classes.
+ * This service groups a common code base implementation that ConfigurationVault extends.
  *
  * This component library is used to service configuration information outside of web root.
  *
@@ -69,7 +69,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     /**
      * Constants.
      *
-     * @var string VERSION  A version number
+     * @var string VERSION A version number
      *
      * @api
      */

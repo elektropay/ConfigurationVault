@@ -37,7 +37,7 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
     /**
      * Constants.
      *
-     * @var string VERSION  A version number
+     * @var string VERSION A version number
      *
      * @api
      */
