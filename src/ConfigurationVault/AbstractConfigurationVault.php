@@ -209,9 +209,13 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     protected function decrypt(string $encryptedString, string $key = null): string
     {
+
+
         return trim(mcrypt_decrypt(
             MCRYPT_RIJNDAEL_256,
-            $this->getProperty('cipherKey'),
+            null === $key
+                ? $this->getProperty('cipherKey')
+                : $this->setCipherKey($key)->getProperty('cipherKey'),
             base64_decode($encryptedString),
             MCRYPT_MODE_CBC,
             $this->getProperty('initializationVector')
@@ -227,12 +231,12 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      *
      * @api
      */
-    protected function setCipherKey(): ConfigurationVaultInterface
+    protected function setCipherKey(string $key = null): ConfigurationVaultInterface
     {
         $offset = (int) substr($this->vaultRecordDate, -2) / 1; // 0-59 seconds for offset
         $seed1 = mb_substr(implode(array_slice($this->getProperty('hashKey'), 0, 2)), $offset, 32, static::CHARSET);
         $seed2 = $this->vaultRecordUUID;
-        $cnfKey = mb_strtoupper(mb_substr(sha1($seed1 . $seed2), 0, 32, static::CHARSET), static::CHARSET);
+        $cnfKey = null === $key ? mb_strtoupper(mb_substr(sha1($seed1 . $seed2), 0, 32, static::CHARSET), static::CHARSET) : $key;
         $this->setProperty('cipherKey', mb_substr(sha1($cnfKey), 0, 32, static::CHARSET));
 
         return $this;
