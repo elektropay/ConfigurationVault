@@ -209,7 +209,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      *
      * @return string  A decrypted data
      */
-    protected function decrypt(string $encryptedString): string
+    protected function decrypt(string $encryptedString, string $key = null): string
     {
         return trim(mcrypt_decrypt(
             static::CIPHER,
