@@ -29,8 +29,6 @@ interface ConfigurationVaultInterface
      *
      * @var string CHARSET                   A preferred character encoding set
      * @var string ENCRYPTION_SETTINGS_FILE  A encryption configuration settings file
-     * @var string CIPHER                    A preferred AES cipher
-     * @var string CIPHER_MODE               A use with Cipher Block Chaining (CBC)
      * @var string KEY_BYTE_SIZE             A input length
      * @var string MAC_BYTE_SIZE             A input length
      * @var string HASH_FUNCTION             A seeding function
@@ -38,8 +36,6 @@ interface ConfigurationVaultInterface
      */
     const CHARSET                  = 'UTF-8';
     const ENCRYPTION_SETTINGS_FILE = 'configuration-settings-encryption.yml';
-    const CIPHER                   = MCRYPT_RIJNDAEL_256;
-    const CIPHER_MODE              = MCRYPT_MODE_CBC;
     const KEY_BYTE_SIZE            = 32;
     const MAC_BYTE_SIZE            = 32;
     const HASH_FUNCTION            = 'sh1';

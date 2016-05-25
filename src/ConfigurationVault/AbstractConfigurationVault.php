@@ -136,14 +136,13 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     /**
      * Constructor.
      *
-     * @param FilesystemInterface  $filesystem A FilesystemInterface
-     * @param YamlInterface        $yaml       A YamlInterface
+     * @param FilesystemInterface $filesystem A FilesystemInterface
+     * @param YamlInterface       $yaml       A YamlInterface
      *
      * @api
      */
     public function __construct(FilesystemInterface $filesystem, YamlInterface $yaml)
     {
-        /* Config. Arguments */
         $this->setProperty('filesystem', $filesystem)
             ->setProperty('yaml', $yaml)
                 ->setVaultSettingsDirectory(realpath(__DIR__ . '/../../../../../../../../../../.external-configuration-settings'))
@@ -151,7 +150,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
                         ->setHashKey()
                             ->setRsaPrivateKeys()
                                 ->setInitializationVector();
-
         static::$instance = $this;
         static::$objectCount++;
     }
@@ -203,7 +201,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     //--------------------------------------------------------------------------
 
     /**
-     * Decrypt Rijndael-256 AES Data Encryption Cipher with Cipher Block Chaining (CBC).
+     * Decrypt Rijndael-256 Data Encryption Cipher with Cipher Block Chaining (CBC).
      *
      * @param string  $encryptedString  The data to decrypt
      *
@@ -212,10 +210,10 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     protected function decrypt(string $encryptedString, string $key = null): string
     {
         return trim(mcrypt_decrypt(
-            static::CIPHER,
+            MCRYPT_RIJNDAEL_256,
             $this->getProperty('cipherKey'),
             base64_decode($encryptedString),
-            static::CIPHER_MODE,
+            MCRYPT_MODE_CBC,
             $this->getProperty('initializationVector')
         ));
     }
@@ -286,11 +284,8 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     protected function setInitializationVector(): ConfigurationVaultInterface
     {
-        /* Initialization Vector (IV) does not need to be secret.
-         * However, it does not need to be public either.
-         */
-        $ivsize = (int) mcrypt_get_iv_size(static::CIPHER, static::CIPHER_MODE);
-        $this->setProperty('initializationVector', mb_substr(sha1(implode(array_slice($this->getProperty('hashKey'), 2, 2))), 0, $ivsize, static::CHARSET));
+        $ivSize = (int) mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_CBC);
+        $this->setProperty('initializationVector', mb_substr(sha1(implode(array_slice($this->getProperty('hashKey'), 2, 2))), 0, $ivSize, static::CHARSET));
 
         return $this;
     }
