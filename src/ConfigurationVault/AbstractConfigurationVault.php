@@ -203,19 +203,15 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     /**
      * Decrypt Rijndael-256 Data Encryption Cipher with Cipher Block Chaining (CBC).
      *
-     * @param string  $encryptedString  The data to decrypt
+     * @param string $encryptedString The data to decrypt
      *
      * @return string  A decrypted data
      */
     protected function decrypt(string $encryptedString, string $key = null): string
     {
-
-
         return trim(mcrypt_decrypt(
             MCRYPT_RIJNDAEL_256,
-            null === $key
-                ? $this->getProperty('cipherKey')
-                : $this->setCipherKey($key)->getProperty('cipherKey'),
+            (null === $key ? $this->getProperty('cipherKey') : $this->setCipherKey($key)->getProperty('cipherKey')),
             base64_decode($encryptedString),
             MCRYPT_MODE_CBC,
             $this->getProperty('initializationVector')
