@@ -110,8 +110,8 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     protected $environment                 = null;
     protected $account                     = null;
     protected $release                     = null;
-    protected $hashKey                     = array();
-    protected $resultDataSet               = array();
+    protected $hashKey                     = [];
+    protected $resultDataSet               = [];
     protected $vaultFilename               = null;
     protected $vaultFileType               = null;
     protected $vaultRecordId               = null;
@@ -122,7 +122,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     protected $theAccountRootPath          = null;
     protected $initializationVector        = null;
     protected $vaultRecordEncrypted        = false;
-    protected $vaultFileEnvironments       = array();
+    protected $vaultFileEnvironments       = [];
     protected $vaultSettingsDirectory      = null;
     protected $vaultFileDefaultSection     = null;
     protected $vaultFileRequestedSection   = null;

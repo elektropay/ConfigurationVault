@@ -137,11 +137,11 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
         $this->setProperty('vaultRecordId', null);
         $this->setProperty('vaultRecordUUID', null);
         $this->setProperty('vaultRecordDate', null);
-        $this->setProperty('resultDataSet', array());
-        $this->setProperty('storageRegister', array());
+        $this->setProperty('resultDataSet', []);
+        $this->setProperty('storageRegister', []);
         $this->setProperty('vaultRecordEncrypted', null);
         $this->setProperty('vaultFileDefaultSection', null);
-        $this->setProperty('vaultFileEnvironments', array());
+        $this->setProperty('vaultFileEnvironments', []);
         $this->setProperty('vaultFileRequestedSection', null);
         $this->setProperty('vaultFileDefaultEnvironment', null);
         $this->setProperty('theAccountRootPath', realpath(__DIR__ . '/../../../../../../../../../../'));
