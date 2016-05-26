@@ -85,7 +85,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      * @var    string                      $cipherKey                   A encryption key
      * @var    array                       $hashKey                     A list of hash strings
      * @var    array                       $resultDataSet               A result data set
-     * @var    array                       $storageRegister             A set of stored data elements
      * @var    string                      $vaultFilename               A requested configuration settings file
      * @var    string                      $vaultFileType               A configuration file type
      * @var    string                      $vaultRecordId               A configuration file record id
@@ -101,8 +100,9 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      * @var    string                      $vaultFileDefaultSection     A default section
      * @var    string                      $vaultFileRequestedSection   A user requested section
      * @var    string                      $vaultFileDefaultEnvironment A default category
-     * @static ConfigurationVaultInterface $instance                    A ConfigurationVaultInterface
-     * @static int                         $objectCount                 A ConfigurationVaultInterface count
+     * @static ConfigurationVaultInterface $instance                    A static instance ConfigurationVaultInterface
+     * @static int                         $objectCount                 A static count of ConfigurationVaultInterface
+     * @var    array                       $storageRegister             A stored set of data structures used by this class
      */
     protected $yaml                        = null;
     protected $filesystem                  = null;
@@ -112,7 +112,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     protected $release                     = null;
     protected $hashKey                     = array();
     protected $resultDataSet               = array();
-    protected $storageRegister             = array();
     protected $vaultFilename               = null;
     protected $vaultFileType               = null;
     protected $vaultRecordId               = null;
@@ -130,6 +129,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     protected $vaultFileDefaultEnvironment = null;
     protected static $instance             = null;
     protected static $objectCount          = 0;
+    protected $storageRegister             = [];
 
     //--------------------------------------------------------------------------
 
@@ -150,6 +150,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
                         ->setHashKey()
                             ->setRsaPrivateKeys()
                                 ->setInitializationVector();
+
         static::$instance = $this;
         static::$objectCount++;
     }
