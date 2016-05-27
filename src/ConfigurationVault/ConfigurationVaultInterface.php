@@ -16,7 +16,7 @@ namespace UCSDMath\Configuration\ConfigurationVault;
 /**
  * ConfigurationVaultInterface is the interface implemented by all ConfigurationVault classes.
  *
- * Method noted as: (+) @api.
+ * Method list: (+) @api.
  *
  * @author Daryl Eisner <deisner@ucsd.edu>
  *
