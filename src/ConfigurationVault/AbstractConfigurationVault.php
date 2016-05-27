@@ -150,8 +150,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
                         ->setHashKey()
                             ->setRsaPrivateKeys()
                                 ->setInitializationVector();
-        static::$instance = new static;
-        static::$objectCount++;
     }
 
     //--------------------------------------------------------------------------
