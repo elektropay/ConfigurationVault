@@ -27,12 +27,12 @@ interface ConfigurationVaultInterface
     /**
      * Constants.
      *
-     * @var string CHARSET                   A preferred character encoding set
-     * @var string ENCRYPTION_SETTINGS_FILE  A encryption configuration settings file
-     * @var string KEY_BYTE_SIZE             A input length
-     * @var string MAC_BYTE_SIZE             A input length
-     * @var string HASH_FUNCTION             A seeding function
-     * @var string TEST_DATA                 A text as a constant.
+     * @var string CHARSET                  The preferred character encoding set
+     * @var string ENCRYPTION_SETTINGS_FILE The encryption configuration settings file
+     * @var string KEY_BYTE_SIZE            The input length
+     * @var string MAC_BYTE_SIZE            The input length
+     * @var string HASH_FUNCTION            The seeding function
+     * @var string TEST_DATA                The text as a constant.
      */
     const CHARSET                  = 'UTF-8';
     const ENCRYPTION_SETTINGS_FILE = 'configuration-settings-encryption.yml';
@@ -47,7 +47,7 @@ interface ConfigurationVaultInterface
     /**
      * Set ConfigurationVault to encryption mode.
      *
-     * @param bool $value  A option to work with encrypted configuration data
+     * @param bool $value The option to work with encrypted configuration data
      *
      * @return ConfigurationVaultInterface The current instance
      *
@@ -71,8 +71,8 @@ interface ConfigurationVaultInterface
     /**
      * Open configuration file settings.
      *
-     * @param string $vaultFilename              A specific configuration to open. (e.g., 'Database')
-     * @param string $vaultFileRequestedSection  A specific file section (e.g., 'webadmin')
+     * @param string $vaultFilename             The specific configuration to open. (e.g., 'Database')
+     * @param string $vaultFileRequestedSection The specific file section (e.g., 'webadmin')
      *
      * @return ConfigurationVaultInterface The current instance
      *
@@ -85,9 +85,9 @@ interface ConfigurationVaultInterface
     /**
      * Set the database record properties.
      *
-     * @param string $release      A release collection type (e.g., 'database', 'account', 'smtp')
-     * @param string $environment  A operating environment (e.g., 'development', 'staging', 'production')
-     * @param string $account      A specific section of data to open (e.g., 'webadmin', 'webuser', 'wwwdyn')
+     * @param string $release     The release collection type (e.g., 'database', 'account', 'smtp')
+     * @param string $environment The operating environment (e.g., 'development', 'staging', 'production')
+     * @param string $account     The specific section of data to open (e.g., 'webadmin', 'webuser', 'wwwdyn')
      *
      * @return ConfigurationVaultInterface The current instance
      */
@@ -98,7 +98,7 @@ interface ConfigurationVaultInterface
     /**
      * Set the account root path.
      *
-     * @param string $value  A directory path to the account root (e.g., outside of web root)
+     * @param string $value The directory path to the account root (e.g., outside of web root)
      *
      * @return ConfigurationVaultInterface The current instance
      *
@@ -111,7 +111,7 @@ interface ConfigurationVaultInterface
     /**
      * Set the database record properties.
      *
-     * @param string $value  A vault file name to open (e.g., 'database', 'account', 'encryption')
+     * @param string $value The vault file name to open (e.g., 'database', 'account', 'encryption')
      *
      * @return ConfigurationVaultInterface The current instance
      */
@@ -122,7 +122,7 @@ interface ConfigurationVaultInterface
     /**
      * Set the default requested section (e.g., 'webadmin', 'webuser', 'wwwdyn').
      *
-     * @param string $requestedSection  A default section name to pull from the vault file
+     * @param string $requestedSection The default section name to pull from the vault file
      *
      * @return ConfigurationVaultInterface The current instance
      *
@@ -135,7 +135,7 @@ interface ConfigurationVaultInterface
     /**
      * Set the location of the vault directory (e.g., '/home/www/.external-configuration-settings/').
      *
-     * @param string $value  A default location path to the configuration settings directory
+     * @param string $value The default location path to the configuration settings directory
      *
      * @return ConfigurationVaultInterface The current instance
      *

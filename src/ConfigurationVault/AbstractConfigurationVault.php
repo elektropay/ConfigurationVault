@@ -69,7 +69,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     /**
      * Constants.
      *
-     * @var string VERSION A version number
+     * @var string VERSION The version number
      *
      * @api
      */
@@ -80,29 +80,29 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     /**
      * Properties.
      *
-     * @var    YamlInterface               $yaml                        A YamlInterface
-     * @var    FilesystemInterface         $filesystem                  A FilesystemInterface
-     * @var    string                      $cipherKey                   A encryption key
-     * @var    array                       $hashKey                     A list of hash strings
-     * @var    array                       $resultDataSet               A result data set
-     * @var    string                      $vaultFilename               A requested configuration settings file
-     * @var    string                      $vaultFileType               A configuration file type
-     * @var    string                      $vaultRecordId               A configuration file record id
-     * @var    string                      $vaultRecordUUID             A configuration file record uuid
-     * @var    string                      $vaultRecordDate             A configuration file record date
-     * @var    string                      $rsaPublicKey1024            A public key
-     * @var    string                      $rsaPrivateKey1024           A private key
-     * @var    string                      $theAccountRootPath          A absolute path to the account root (e.g., not web root)
-     * @var    string                      $initializationVector        A primitive used for Cipher Block Chaining (CBC)
-     * @var    string                      $vaultRecordEncrypted        A status of record encryption
-     * @var    array                       $vaultFileEnvironments       A list of provided categories
-     * @var    string                      $vaultSettingsDirectory      A configuration directory location
-     * @var    string                      $vaultFileDefaultSection     A default section
-     * @var    string                      $vaultFileRequestedSection   A user requested section
-     * @var    string                      $vaultFileDefaultEnvironment A default category
-     * @static ConfigurationVaultInterface $instance                    A static instance ConfigurationVaultInterface
-     * @static int                         $objectCount                 A static count of ConfigurationVaultInterface
-     * @var    array                       $storageRegister             A stored set of data structures used by this class
+     * @var    YamlInterface               $yaml                        The YamlInterface
+     * @var    FilesystemInterface         $filesystem                  The FilesystemInterface
+     * @var    string                      $cipherKey                   The encryption key
+     * @var    array                       $hashKey                     The list of hash strings
+     * @var    array                       $resultDataSet               The result data set
+     * @var    string                      $vaultFilename               The requested configuration settings file
+     * @var    string                      $vaultFileType               The configuration file type
+     * @var    string                      $vaultRecordId               The configuration file record id
+     * @var    string                      $vaultRecordUUID             The configuration file record uuid
+     * @var    string                      $vaultRecordDate             The configuration file record date
+     * @var    string                      $rsaPublicKey1024            The public key
+     * @var    string                      $rsaPrivateKey1024           The private key
+     * @var    string                      $theAccountRootPath          The absolute path to the account root (e.g., not web root)
+     * @var    string                      $initializationVector        The primitive used for Cipher Block Chaining (CBC)
+     * @var    string                      $vaultRecordEncrypted        The status of record encryption
+     * @var    array                       $vaultFileEnvironments       The list of provided categories
+     * @var    string                      $vaultSettingsDirectory      The configuration directory location
+     * @var    string                      $vaultFileDefaultSection     The default section
+     * @var    string                      $vaultFileRequestedSection   The user requested section
+     * @var    string                      $vaultFileDefaultEnvironment The default category
+     * @static ConfigurationVaultInterface $instance                    The static instance ConfigurationVaultInterface
+     * @static int                         $objectCount                 The static count of ConfigurationVaultInterface
+     * @var    array                       $storageRegister             The stored set of data structures used by this class
      */
     protected $yaml                        = null;
     protected $filesystem                  = null;
@@ -136,8 +136,8 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     /**
      * Constructor.
      *
-     * @param FilesystemInterface $filesystem A FilesystemInterface
-     * @param YamlInterface       $yaml       A YamlInterface
+     * @param FilesystemInterface $filesystem The FilesystemInterface
+     * @param YamlInterface       $yaml       The YamlInterface
      *
      * @api
      */
@@ -183,7 +183,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     /**
      * Set ConfigurationVault to encryption mode.
      *
-     * @param bool $value  A option to work with encrypted configuration data
+     * @param bool $value The option to work with encrypted configuration data
      *
      * @return ConfigurationVaultInterface The current instance
      *
@@ -203,7 +203,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      *
      * @param string $encryptedString The data to decrypt
      *
-     * @return string  A decrypted data
+     * @return string The decrypted data
      */
     protected function decrypt(string $encryptedString, string $key = null): string
     {
@@ -293,8 +293,8 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     /**
      * Open configuration file settings.
      *
-     * @param string $vaultFilename              A specific configuration to open. (e.g., 'Database')
-     * @param string $vaultFileRequestedSection  A specific file section (e.g., 'webadmin')
+     * @param string $vaultFilename             The specific configuration to open. (e.g., 'Database')
+     * @param string $vaultFileRequestedSection The specific file section (e.g., 'webadmin')
      *
      * @return ConfigurationVaultInterface The current instance
      *
@@ -329,8 +329,8 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     /**
      * Set any required vault file arguments.
      *
-     * @param array $arguments  A specific list of arguments to set
-     * @param array $vaultData  A raw dataset from the vault file (YAML)
+     * @param array $arguments The specific list of arguments to set
+     * @param array $vaultData The raw dataset from the vault file (YAML)
      *
      * @return ConfigurationVaultInterface The current instance
      */
@@ -388,9 +388,9 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     /**
      * Set the database record properties.
      *
-     * @param string $release      A release collection type (e.g., 'database', 'account', 'smtp')
-     * @param string $environment  A operating environment (e.g., 'development', 'staging', 'production')
-     * @param string $account      A specific section of data to open (e.g., 'webadmin', 'webuser', 'wwwdyn')
+     * @param string $release     The release collection type (e.g., 'database', 'account', 'smtp')
+     * @param string $environment The operating environment (e.g., 'development', 'staging', 'production')
+     * @param string $account     The specific section of data to open (e.g., 'webadmin', 'webuser', 'wwwdyn')
      *
      * @return ConfigurationVaultInterface The current instance
      */
@@ -415,7 +415,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     /**
      * Set the account root path.
      *
-     * @param string $value  A directory path to the account root (e.g., outside of web root)
+     * @param string $value The directory path to the account root (e.g., outside of web root)
      *
      * @return ConfigurationVaultInterface The current instance
      *
@@ -433,7 +433,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     /**
      * Set the database record properties.
      *
-     * @param string $value  A vault file name to open (e.g., 'database', 'account', 'encryption')
+     * @param string $value The vault file name to open (e.g., 'database', 'account', 'encryption')
      *
      * @return ConfigurationVaultInterface The current instance
      */
@@ -453,7 +453,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     /**
      * Set the default requested section (e.g., 'webadmin', 'webuser', 'wwwdyn').
      *
-     * @param string $requestedSection  A default section name to pull from the vault file
+     * @param string $requestedSection The default section name to pull from the vault file
      *
      * @return ConfigurationVaultInterface The current instance
      *
@@ -473,7 +473,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     /**
      * Set the location of the vault directory (e.g., '/home/www/.external-configuration-settings/').
      *
-     * @param string $value  A default location path to the configuration settings directory
+     * @param string $value The default location path to the configuration settings directory
      *
      * @return ConfigurationVaultInterface The current instance
      *

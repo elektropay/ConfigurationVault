@@ -39,7 +39,7 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
     /**
      * Constants.
      *
-     * @var string VERSION A version number
+     * @var string VERSION The version number
      *
      * @api
      */
@@ -56,8 +56,8 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
     /**
      * Constructor.
      *
-     * @param FilesystemInterface $filesystem A FilesystemInterface
-     * @param YamlInterface       $yaml       A YamlInterface
+     * @param FilesystemInterface $filesystem The FilesystemInterface
+     * @param YamlInterface       $yaml       The YamlInterface
      *
      * @api
      */
@@ -107,7 +107,7 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
     /**
      * Set the default environment (e.g., 'development', 'staging', 'production').
      *
-     * @param string $value  A default environment type
+     * @param string $value The default environment type
      *
      * @return ConfigurationVaultInterface The current instance
      *
