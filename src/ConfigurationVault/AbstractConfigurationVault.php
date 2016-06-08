@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace UCSDMath\Configuration\ConfigurationVault;
 
-use UCSDMath\Filesystem\FilesystemInterface;
 use UCSDMath\Functions\ServiceFunctions;
-use UCSDMath\Functions\ServiceFunctionsInterface;
+use UCSDMath\Filesystem\FilesystemInterface;
 use UCSDMath\Serialization\Yaml\YamlInterface;
+use UCSDMath\Functions\ServiceFunctionsInterface;
 
 /**
  * AbstractConfigurationVault provides an abstract base class implementation of {@link ConfigurationVaultInterface}.
