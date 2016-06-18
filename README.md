@@ -6,8 +6,8 @@
         <p><strong>UCSDMath</strong> provides a testing framework for general internal Intranet software applications for
                    the UCSD, Department of Mathematics. This is used for development and testing only. [not for production]</p>
         <div align="right">
-            <a href="https://insight.sensiolabs.com/projects/4d4adc43-93d3-493b-b13c-a0ff359e1131">
-                <img style="float: right; margin: 0px 0px 15px 15px;" src="https://insight.sensiolabs.com/projects/4d4adc43-93d3-493b-b13c-a0ff359e1131/big.png" width="212" height="51">
+            <a href="https://insight.sensiolabs.com/projects/cad0cc9f-941d-41d8-8b52-1e86485c5025">
+                <img style="float: right; margin: 0px 0px 15px 15px;" src="https://insight.sensiolabs.com/projects/cad0cc9f-941d-41d8-8b52-1e86485c5025/big.png" width="212" height="51">
             </a>
         </div>
     </td>
