@@ -17,8 +17,8 @@
 </center>
 </td></tr></table>
 
-|Scrutinizer|Latest|PHP|Usage|Develop|Code Quality|License|
-|-----------|------|---|-----|-------|------------|-------|
+|Scrutinizer|Latest|PHP|Usage|Development|Code Quality|License|
+|-----------|------|---|-----|-----------|------------|-------|
 |[![Build Status](https://scrutinizer-ci.com/g/ucsdmath/ConfigurationVault/badges/build.png?b=master)](https://scrutinizer-ci.com/g/ucsdmath/ConfigurationVault/build-status/master)|[![Latest Stable Version](https://poser.pugx.org/ucsdmath/configuration-vault/v/stable)](https://packagist.org/packages/ucsdmath/configuration-vault)|[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.0-8892BF.svg)](https://php.net/)|[![Total Downloads](https://poser.pugx.org/ucsdmath/configuration-vault/downloads)](https://packagist.org/packages/ucsdmath/configuration-vault)|[![Latest Unstable Version](https://poser.pugx.org/ucsdmath/configuration-vault/v/unstable)](https://packagist.org/packages/ucsdmath/configuration-vault)|[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/ucsdmath/ConfigurationVault/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/ucsdmath/ConfigurationVault/?branch=master)|[![License](https://poser.pugx.org/ucsdmath/configuration-vault/license)](https://packagist.org/packages/ucsdmath/configuration-vault)|
 
 ConfigurationVault is a testing and development library only. This is not to be used in a production.
