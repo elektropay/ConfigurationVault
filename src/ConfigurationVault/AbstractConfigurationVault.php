@@ -312,7 +312,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
             $this->setRecordProperties($this->release, $this->environment, $this->account);
             $this->setVaultRecordEncrypted($this->getProperty('resultDataSet')['is_encrypted']);
             $this->setCipherKey();
-
         } elseif (null !== $this->vaultFileDefaultEnvironment) {
             $this->setProperty('resultDataSet', $this->resultDataSet[$this->release][$this->environment]);
         }
