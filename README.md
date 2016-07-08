@@ -13,8 +13,8 @@
         <a href="https://travis-ci.org/ucsdmath/ConfigurationVault">
         <img style="float: left; margin: 0px 0px 15px 15px;" src="https://travis-ci.org/ucsdmath/ConfigurationVault.svg?branch=master"></a></td>
     <td width="250" align="center">
-        <a href="https://insight.sensiolabs.com/projects/cad0cc9f-941d-41d8-8b52-1e86485c5025">
-        <img src="https://insight.sensiolabs.com/projects/cad0cc9f-941d-41d8-8b52-1e86485c5025/big.png" style="float: right; margin: 0px 0px 15px 15px;" width="212" height="51"></a></td>
+        <a href="https://insight.sensiolabs.com/projects/443aade9-4375-439a-96bd-b0b3d1b931ae">
+        <img src="https://insight.sensiolabs.com/projects/443aade9-4375-439a-96bd-b0b3d1b931ae/big.png" style="float: right; margin: 0px 0px 15px 15px;" width="212" height="51"></a></td>
     <td width="180">
         <a href="https://www.versioneye.com/php/ucsdmath:configuration-vault">
         <img style="float: left; margin: 0px 0px 15px 15px;" src="https://www.versioneye.com/php/ucsdmath:configuration-vault/badge.png?branch=master"></a></td>
