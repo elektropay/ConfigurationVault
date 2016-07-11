@@ -60,7 +60,7 @@ use UCSDMath\Functions\ServiceFunctionsInterface;
  * (+) ConfigurationVaultInterface setVaultRecordEncrypted($value = true);
  * (+) ConfigurationVaultInterface setRecordProperties($release, $environment, $account);
  * (+) ConfigurationVaultInterface setVaultDataArguments(array $arguments, array $vaultData);
- * (+) ConfigurationVaultInterface openVaultFile($vaultFilename, $vaultFileRequestedSection = null);
+ * (+) ConfigurationVaultInterface openVaultFile($vaultFilename, $requestedSection = null);
  *
  * @author Daryl Eisner <deisner@ucsd.edu>
  */
@@ -80,56 +80,56 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     /**
      * Properties.
      *
-     * @var    YamlInterface               $yaml                        The YamlInterface
-     * @var    FilesystemInterface         $filesystem                  The FilesystemInterface
-     * @var    string                      $cipherKey                   The encryption key
-     * @var    array                       $hashKey                     The list of hash strings
-     * @var    array                       $resultDataSet               The result data set
-     * @var    string                      $vaultFilename               The requested configuration settings file
-     * @var    string                      $vaultFileType               The configuration file type
-     * @var    string                      $vaultRecordId               The configuration file record id
-     * @var    string                      $vaultRecordUUID             The configuration file record uuid
-     * @var    string                      $vaultRecordDate             The configuration file record date
-     * @var    string                      $rsaPublicKey1024            The public key
-     * @var    string                      $rsaPrivateKey1024           The private key
-     * @var    string                      $theAccountRootPath          The absolute path to the account root (e.g., not web root)
-     * @var    string                      $initializationVector        The primitive used for Cipher Block Chaining (CBC)
-     * @var    string                      $vaultRecordEncrypted        The status of record encryption
-     * @var    array                       $vaultFileEnvironments       The list of provided categories
-     * @var    string                      $vaultSettingsDirectory      The configuration directory location
-     * @var    string                      $vaultFileDefaultSection     The default section
-     * @var    string                      $vaultFileRequestedSection   The user requested section
-     * @var    string                      $vaultFileDefaultEnvironment The default category
-     * @static ConfigurationVaultInterface $instance                    The static instance ConfigurationVaultInterface
-     * @static int                         $objectCount                 The static count of ConfigurationVaultInterface
-     * @var    array                       $storageRegister             The stored set of data structures used by this class
+     * @var    YamlInterface               $yaml                 The YamlInterface
+     * @var    FilesystemInterface         $filesystem           The FilesystemInterface
+     * @var    string                      $cipherKey            The encryption key
+     * @var    array                       $hashKey              The list of hash strings
+     * @var    array                       $resultDataSet        The result data set
+     * @var    string                      $vaultFilename        The requested configuration settings file
+     * @var    string                      $vaultFileType        The configuration file type
+     * @var    string                      $vaultRecordId        The configuration file record id
+     * @var    string                      $vaultRecordUUID      The configuration file record uuid
+     * @var    string                      $vaultRecordDate      The configuration file record date
+     * @var    string                      $rsaPublicKey1024     The public key
+     * @var    string                      $rsaPrivateKey1024    The private key
+     * @var    string                      $theAccountRootPath   The absolute path to the account root (e.g., not web root)
+     * @var    string                      $initializationVector The primitive used for Cipher Block Chaining (CBC)
+     * @var    string                      $vaultRecordEncrypted The status of record encryption
+     * @var    array                       $vaultEnvironments    The list of provided categories
+     * @var    string                      $vaultSettingsDir     The configuration directory location
+     * @var    string                      $defaultSection       The default section
+     * @var    string                      $requestedSection     The user requested section
+     * @var    string                      $defaultEnvironment   The default category environment
+     * @static ConfigurationVaultInterface $instance             The static instance ConfigurationVaultInterface
+     * @static int                         $objectCount          The static count of ConfigurationVaultInterface
+     * @var    array                       $storageRegister      The stored set of data structures used by this class
      */
-    protected $yaml                        = null;
-    protected $filesystem                  = null;
-    protected $cipherKey                   = null;
-    protected $environment                 = null;
-    protected $account                     = null;
-    protected $release                     = null;
-    protected $hashKey                     = [];
-    protected $resultDataSet               = [];
-    protected $vaultFilename               = null;
-    protected $vaultFileType               = null;
-    protected $vaultRecordId               = null;
-    protected $vaultRecordUUID             = null;
-    protected $vaultRecordDate             = null;
-    protected $rsaPublicKey1024            = null;
-    protected $rsaPrivateKey1024           = null;
-    protected $theAccountRootPath          = null;
-    protected $initializationVector        = null;
-    protected $vaultRecordEncrypted        = false;
-    protected $vaultFileEnvironments       = [];
-    protected $vaultSettingsDirectory      = null;
-    protected $vaultFileDefaultSection     = null;
-    protected $vaultFileRequestedSection   = null;
-    protected $vaultFileDefaultEnvironment = null;
-    protected static $instance             = null;
-    protected static $objectCount          = 0;
-    protected $storageRegister             = [];
+    protected $yaml                 = null;
+    protected $filesystem           = null;
+    protected $cipherKey            = null;
+    protected $environment          = null;
+    protected $account              = null;
+    protected $release              = null;
+    protected $hashKey              = [];
+    protected $resultDataSet        = [];
+    protected $vaultFilename        = null;
+    protected $vaultFileType        = null;
+    protected $vaultRecordId        = null;
+    protected $vaultRecordUUID      = null;
+    protected $vaultRecordDate      = null;
+    protected $rsaPublicKey1024     = null;
+    protected $rsaPrivateKey1024    = null;
+    protected $theAccountRootPath   = null;
+    protected $initializationVector = null;
+    protected $vaultRecordEncrypted = false;
+    protected $vaultEnvironments    = [];
+    protected $vaultSettingsDir     = null;
+    protected $defaultSection       = null;
+    protected $requestedSection     = null;
+    protected $defaultEnvironment   = null;
+    protected static $instance      = null;
+    protected static $objectCount   = 0;
+    protected $storageRegister      = [];
 
     //--------------------------------------------------------------------------
 
@@ -246,7 +246,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     protected function setHashKey(): ConfigurationVaultInterface
     {
-        $encryptionFileArray = $this->yaml->deserialize($this->filesystem->read($this->vaultSettingsDirectory . '/' . static::ENCRYPTION_SETTINGS_FILE));
+        $encryptionFileArray = $this->yaml->deserialize($this->filesystem->read($this->vaultSettingsDir . '/' . static::ENCRYPTION_SETTINGS_FILE));
         $release = $encryptionFileArray['type']; // encryption
         $environment = $encryptionFileArray['default_environment']; // private
         $this->setProperty('hashKey', $encryptionFileArray[$release][$environment]['seed_hash']['key']);
@@ -263,7 +263,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     protected function setRsaPrivateKeys(): ConfigurationVaultInterface
     {
-        $encryptionFileArray = $this->yaml->deserialize($this->filesystem->read($this->vaultSettingsDirectory . '/' . static::ENCRYPTION_SETTINGS_FILE));
+        $encryptionFileArray = $this->yaml->deserialize($this->filesystem->read($this->vaultSettingsDir . '/' . static::ENCRYPTION_SETTINGS_FILE));
         $release = $encryptionFileArray['type']; // encryption
         $environment = $encryptionFileArray['default_environment']; // private
         $this->setProperty('rsaPrivateKey1024', $encryptionFileArray[$release][$environment]['rsa_private_1024']['key']);
@@ -294,25 +294,25 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      * Open configuration file settings.
      *
      * @param string $vaultFilename             The specific configuration to open. (e.g., 'Database')
-     * @param string $vaultFileRequestedSection The specific file section (e.g., 'webadmin')
+     * @param string $requestedSection The specific file section (e.g., 'webadmin')
      *
      * @return ConfigurationVaultInterface The current instance
      *
      * @api
      */
-    public function openVaultFile(string $vaultFilename, string $vaultFileRequestedSection = null): ConfigurationVaultInterface
+    public function openVaultFile(string $vaultFilename, string $requestedSection = null): ConfigurationVaultInterface
     {
         /* Extract the raw YAML file into array and store in $this->resultDataSet */
         $this->setVaultFilename($vaultFilename);
-        $this->setVaultFileRequestedSection($vaultFileRequestedSection);
+        $this->setVaultFileRequestedSection($requestedSection);
         $this->loadVaultSettingsFile();
         $this->setEnvironmentAccountType();
 
-        if (null !== $this->getProperty('vaultFileRequestedSection')) {
+        if (null !== $this->getProperty('requestedSection')) {
             $this->setRecordProperties($this->release, $this->environment, $this->account);
             $this->setVaultRecordEncrypted($this->getProperty('resultDataSet')['is_encrypted']);
             $this->setCipherKey();
-        } elseif (null !== $this->vaultFileDefaultEnvironment) {
+        } elseif (null !== $this->defaultEnvironment) {
             $this->setProperty('resultDataSet', $this->resultDataSet[$this->release][$this->environment]);
         }
 
@@ -357,12 +357,12 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         $this->release = $this->getProperty('resultDataSet')['type'];
 
         /* Default Environment [production] | User may ask for different environment. */
-        $this->environment = null !== $this->getProperty('vaultFileDefaultEnvironment')
-            ? $this->getProperty('vaultFileDefaultEnvironment')
+        $this->environment = null !== $this->getProperty('defaultEnvironment')
+            ? $this->getProperty('defaultEnvironment')
             : $this->getProperty('resultDataSet')['default_environment'];
 
         /* Specific section [webadmin] */
-        $this->account = $this->getProperty('vaultFileRequestedSection');
+        $this->account = $this->getProperty('requestedSection');
 
         return $this;
     }
@@ -376,7 +376,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     {
         $this->setProperty(
             'resultDataSet',
-            $this->yaml->deserialize($this->filesystem->read($this->vaultSettingsDirectory . '/' . $this->vaultFilename))
+            $this->yaml->deserialize($this->filesystem->read($this->vaultSettingsDir . '/' . $this->vaultFilename))
         );
 
         return $this;
@@ -461,8 +461,8 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     public function setVaultFileRequestedSection(string $requestedSection = null): ConfigurationVaultInterface
     {
         $this->isString($requestedSection)
-            ? $this->setProperty('vaultFileRequestedSection', trim($requestedSection))
-            : $this->setProperty('vaultFileRequestedSection', null);
+            ? $this->setProperty('requestedSection', trim($requestedSection))
+            : $this->setProperty('requestedSection', null);
 
         return $this;
     }
@@ -480,7 +480,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     public function setVaultSettingsDirectory(string $value): ConfigurationVaultInterface
     {
-        $this->setProperty('vaultSettingsDirectory', rtrim($value, '/'));
+        $this->setProperty('vaultSettingsDir', rtrim($value, '/'));
 
         return $this;
     }
