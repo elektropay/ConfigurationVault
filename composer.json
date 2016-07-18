@@ -14,7 +14,6 @@
     ],
     "require": {
         "php": ">=7.0.0",
-        "nesbot/carbon": "1.21.0",
         "ucsdmath/functions": "1.8.x-dev",
         "ucsdmath/filesystem": "1.8.x-dev",
         "ucsdmath/serialization": "1.8.x-dev"
