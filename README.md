@@ -11,8 +11,8 @@
         <a href="https://www.codacy.com/app/ucsdmath-project/ConfigurationVault">
         <img src="https://api.codacy.com/project/badge/Grade/3d6afd20add84d1ea3d5b206ddf4dea6"></a></td>
     <td width="250" align="center">
-        <a href="https://insight.sensiolabs.com/projects/9d5e05b1-517e-4d7d-9981-010e59d3214e">
-        <img src="https://insight.sensiolabs.com/projects/9d5e05b1-517e-4d7d-9981-010e59d3214e/big.png" style="float: right; margin: 0px 0px 10px 10px;" width="212" height="51"></a></td>
+        <a href="https://insight.sensiolabs.com/projects/3c0c312e-c234-4844-86d3-46ca9fc5e856">
+        <img src="https://insight.sensiolabs.com/projects/3c0c312e-c234-4844-86d3-46ca9fc5e856/big.png" style="float: right; margin: 0px 0px 10px 10px;" width="212" height="51"></a></td>
     <td width="180" align="center">
         <a href="https://www.versioneye.com/user/projects/577fb9ab5bb139003969da5b">
         <img src="https://www.versioneye.com/user/projects/577fb9ab5bb139003969da5b/badge.png?style=flat" style="float:left;margin:0px 0px 10px 10px;"></a><br>
