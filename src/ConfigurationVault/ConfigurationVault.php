@@ -99,7 +99,7 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
      */
     public function isVaultFileReadable(): bool
     {
-        return is_readable($this->vaultSettingsDirectory . '/' . $this->vaultFilename);
+        return is_readable($this->vaultSettingsDir . '/' . $this->vaultFilename);
     }
 
     //--------------------------------------------------------------------------
