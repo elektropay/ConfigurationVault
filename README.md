@@ -19,7 +19,10 @@
 
     <td width="250" align="center">
         <a href="https://insight.sensiolabs.com/projects/3c0c312e-c234-4844-86d3-46ca9fc5e856">
-        <img src="https://insight.sensiolabs.com/projects/3c0c312e-c234-4844-86d3-46ca9fc5e856/big.png" style="float: right; margin: 0px 0px 10px 10px;" width="212" height="51"></a></td>
+        <img src="https://insight.sensiolabs.com/projects/3c0c312e-c234-4844-86d3-46ca9fc5e856/big.png" style="float: right; margin: 0px 0px 10px 10px;" width="212" height="51"></a><br>
+
+        <a href="https://travis-ci.org/ucsdmath/ConfigurationVault"><img src="https://img.shields.io/badge/PHP-%207.1%20Tested%20-33cc33.svg"></a>
+    </td>
     <td width="180" align="center">
         <a href="https://www.versioneye.com/user/projects/577fb9ab5bb139003969da5b">
         <img src="https://www.versioneye.com/user/projects/577fb9ab5bb139003969da5b/badge.png?style=flat" style="float:left;margin:0px 0px 10px 10px;"></a><br>
