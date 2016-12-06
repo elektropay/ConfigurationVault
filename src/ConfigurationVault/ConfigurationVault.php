@@ -43,7 +43,7 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
      *
      * @api
      */
-    const VERSION = '1.11.0';
+    const VERSION = '1.12.0';
 
     //--------------------------------------------------------------------------
 
