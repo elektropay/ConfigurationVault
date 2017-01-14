@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace UCSDMath\Configuration\ConfigurationVault;
 
-use UCSDMath\Functions\ServiceFunctions;
 use UCSDMath\Filesystem\FilesystemInterface;
 use UCSDMath\Serialization\Yaml\YamlInterface;
-use UCSDMath\Functions\ServiceFunctionsInterface;
+use UCSDMath\Configuration\ConfigurationVault\ExtendedOperations\ServiceFunctions;
+use UCSDMath\Configuration\ConfigurationVault\ExtendedOperations\ServiceFunctionsInterface;
 
 /**
  * AbstractConfigurationVault provides an abstract base class implementation of {@link ConfigurationVaultInterface}.
@@ -106,6 +106,9 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     protected $yaml                 = null;
     protected $filesystem           = null;
+
+
+
     protected $cipherKey            = null;
     protected $environment          = null;
     protected $account              = null;
@@ -143,10 +146,12 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     public function __construct(FilesystemInterface $filesystem, YamlInterface $yaml)
     {
-        $this->setProperty('filesystem', $filesystem)
-            ->setProperty('yaml', $yaml)
-                ->setVaultSettingsDirectory(realpath(__DIR__ . '/../../../../../../../../../../.external-configuration-settings'))
-                    ->setAccountRoot(realpath(__DIR__ . '/../../../../../../../../../../'))
+        $this->setProperty('yaml', $yaml)
+            ->setProperty('filesystem', $filesystem)
+
+
+                ->setAccountRoot(realpath(__DIR__ . '/../../../../../../../../../../'))
+                    ->setVaultSettingsDirectory(realpath(__DIR__ . '/../../../../../../../../../../.external-configuration-settings'))
                         ->setHashKey()
                             ->setRsaPrivateKeys()
                                 ->setInitializationVector();
@@ -412,7 +417,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     //--------------------------------------------------------------------------
 
     /**
-     * Set the account root path.
+     * Set the root path to the account root (e.g., /home/jdeere).
      *
      * @param string $value The directory path to the account root (e.g., outside of web root)
      *
