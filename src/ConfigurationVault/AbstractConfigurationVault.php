@@ -73,7 +73,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      *
      * @api
      */
-    const VERSION = '1.12.0';
+    const VERSION = '1.13.0';
 
     //--------------------------------------------------------------------------
 
@@ -106,8 +106,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     protected $yaml                 = null;
     protected $filesystem           = null;
-
-
 
     protected $cipherKey            = null;
     protected $environment          = null;
@@ -148,7 +146,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     {
         $this->setProperty('yaml', $yaml)
             ->setProperty('filesystem', $filesystem)
-
 
                 ->setAccountRoot(realpath(__DIR__ . '/../../../../../../../../../../'))
                     ->setVaultSettingsDirectory(realpath(__DIR__ . '/../../../../../../../../../../.external-configuration-settings'))
