@@ -29,9 +29,7 @@
         <a href="https://codeclimate.com/github/ucsdmath/ConfigurationVault">
         <img src="https://codeclimate.com/github/ucsdmath/ConfigurationVault/badges/gpa.svg"></a><br>
         <a href="https://travis-ci.org/ucsdmath/ConfigurationVault">
-        <img src="http://php7ready.timesplinter.ch/ucsdmath/ConfigurationVault/badge.svg"></a><br>
-        <a href="https://codeship.com/">
-        <img src="https://app.codeship.com/projects/0637fc60-98a5-0134-1b8a-426f368b20d2/status?branch=master"></a>
+        <img src="http://php7ready.timesplinter.ch/ucsdmath/ConfigurationVault/badge.svg"></a>
 </td></tr></table></td></tr></table>
 <table width="890"><tr>
     <td width="116" align="center"><b>Scrutinizer</b></td>
