@@ -1112,7 +1112,8 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         return join(array_map(
             function ($n) {
                 return sprintf('%03d', $n);
-            }, unpack('C*', $payload)
+            },
+            unpack('C*', $payload)
         ));
     }
 
