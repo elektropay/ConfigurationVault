@@ -544,7 +544,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
                         (($cipherMethodByteSize -1) * self::DEFAULT_MIN_HASHIDS_MAP_STEPS),
                         self::DEFAULT_MIN_HASHIDS_MAP_STEPS
                     ))
-                )->loadHashids();
+        )->loadHashids();
     }
 
     //--------------------------------------------------------------------------
@@ -1109,7 +1109,11 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     public function stringToNumber(string $payload): string
     {
-        return join(array_map(function ($n) {return sprintf('%03d', $n);}, unpack('C*', $payload)));
+        return join(array_map(
+            function ($n) {
+                return sprintf('%03d', $n);
+            }, unpack('C*', $payload)
+        ));
     }
 
     //--------------------------------------------------------------------------
