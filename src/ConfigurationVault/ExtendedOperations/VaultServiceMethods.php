@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace UCSDMath\Configuration\ConfigurationVault\ExtendedOperations;
 
+use UCSDMath\Configuration\ConfigurationVault\Exception\IOException;
 use UCSDMath\Configuration\ConfigurationVault\ConfigurationVaultInterface;
 
 /**

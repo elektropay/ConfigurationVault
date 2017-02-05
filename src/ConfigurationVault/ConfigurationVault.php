@@ -15,6 +15,8 @@ namespace UCSDMath\Configuration\ConfigurationVault;
 
 use UCSDMath\Filesystem\FilesystemInterface;
 use UCSDMath\Serialization\Yaml\YamlInterface;
+use UCSDMath\Configuration\ConfigurationVault\Exception\VaultException;
+use UCSDMath\Configuration\ConfigurationVault\Exception\FileNotFoundException;
 
 /**
  * ConfigurationVault is the default implementation of {@link ConfigurationVaultInterface} which
