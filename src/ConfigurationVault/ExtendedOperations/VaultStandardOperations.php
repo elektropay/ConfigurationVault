@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace UCSDMath\Configuration\ConfigurationVault\ExtendedOperations;
 
+use UCSDMath\Configuration\ConfigurationVault\Exception\IOException;
+use UCSDMath\Configuration\ConfigurationVault\Exception\VaultException;
+
 /**
  * VaultStandardOperations is the default implementation of {@link VaultStandardOperationsInterface} which
  * provides routine Vault methods that are commonly used in the framework.
@@ -119,7 +122,7 @@ trait VaultStandardOperations
     public function getRandomInt(int $min = self::MIN_RANDOM_INT, int $max = self::MAX_RANDOM_INT): int
     {
         if (!is_callable('random_bytes')) {
-            throw new \Exception('There is no suitable CSPRNG installed on your system');
+            throw new VaultException('There is no suitable CSPRNG installed on your system');
         }
 
         if ($max < $min) {
@@ -155,7 +158,7 @@ trait VaultStandardOperations
     public function getRandomHex(int $length = 32): string
     {
         if (!is_callable('random_bytes')) {
-            throw new \Exception('There is no suitable CSPRNG installed on your system');
+            throw new VaultException('There is no suitable CSPRNG installed on your system');
         }
 
         return bin2hex(random_bytes($length/2));
@@ -174,7 +177,7 @@ trait VaultStandardOperations
     protected function randomToken(int $length = 32, string $chars = self::PASSWORD_TOKENS): string
     {
         if (!is_callable('random_bytes')) {
-            throw new \Exception('There is no suitable CSPRNG installed on your system');
+            throw new VaultException('There is no suitable CSPRNG installed on your system');
         }
         list($bytes, $count, $result) = [random_bytes($length), strlen($chars), null];
         foreach (str_split($bytes) as $byte) {
@@ -198,7 +201,7 @@ trait VaultStandardOperations
     public function getUniqueId(int $length = 16): string
     {
         if (!is_callable('random_bytes')) {
-            throw new \Exception('There is no suitable CSPRNG installed on your system');
+            throw new VaultException('There is no suitable CSPRNG installed on your system');
         }
 
         /* Create string of cryptographic random bytes */
@@ -220,7 +223,7 @@ trait VaultStandardOperations
     public function getSha512(string $data = null, bool $isUpper = true): string
     {
         if (!is_callable('random_bytes')) {
-            throw new \Exception('There is no suitable CSPRNG installed on your system');
+            throw new VaultException('There is no suitable CSPRNG installed on your system');
         }
         $data = null === $data ? $this->getUniqueId() : $data;
 
