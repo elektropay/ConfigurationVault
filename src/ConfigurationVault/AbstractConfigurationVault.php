@@ -329,24 +329,24 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
             $this->renderAmbit($payload),
             sprintf('%s%s', $payload, $this->randomToken(self::DEFAULT_VAULT_SIZE - $this->stringSize($payload)))
         ];
-
         $this->setInitializationVector($ambit['hash'])->setEncryptionKey($ambit['hash']);
 
         /**
          * Default mode: \OPENSSL_RAW_DATA
          * Default method: AES-256-CTR
          * The iv should be unique to each encryption payload
+         * maybe provide: $iv = base64_encode(random_bytes(openssl_cipher_iv_length($this->get(self::VAULTED, 'method'))));
          */
-        //$iv = base64_encode(random_bytes(openssl_cipher_iv_length($this->get(self::VAULTED, 'method'))));
-
-        return sprintf('%s|%s',
+        return sprintf(
+            '%s|%s',
             $ambit['hash'],
             base64_encode(openssl_encrypt(
                 $payload,
                 $this->get(self::VAULTED, 'method'),
                 $this->get(self::VAULTED, 'key'),
                 $this->get(self::VAULTED, 'option'),
-                $this->get(self::VAULTED, 'iv')))
+                $this->get(self::VAULTED, 'iv')
+            ))
         );
     }
 
@@ -386,7 +386,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     protected function stringSize(string $payload): int
     {
-        return mb_strlen($payload , self::CHARSET);
+        return mb_strlen($payload, self::CHARSET);
     }
 
     //--------------------------------------------------------------------------
@@ -540,10 +540,11 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
             $this
                 ->loadHashids($this->hashidsProjectKey, self::DEFAULT_MIN_HASHIDS_MAP_STEPS)
                     ->hashids->decode(mb_substr(
-                        $this->getProperty('initializationVectorArray','map'),
+                        $this->getProperty('initializationVectorArray', 'map'),
                         (($cipherMethodByteSize -1) * self::DEFAULT_MIN_HASHIDS_MAP_STEPS),
                         self::DEFAULT_MIN_HASHIDS_MAP_STEPS
-        )))->loadHashids();
+                    ))
+                )->loadHashids();
     }
 
     //--------------------------------------------------------------------------
@@ -1108,11 +1109,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     public function stringToNumber(string $payload): string
     {
-        return join(array_map(
-            function ($n) {
-                return sprintf('%03d', $n);
-            }, unpack('C*', $payload)
-        ));
+        return join(array_map(function ($n) {return sprintf('%03d', $n);}, unpack('C*', $payload)));
     }
 
     //--------------------------------------------------------------------------
@@ -1256,7 +1253,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
             ? $this->setVaultDataArguments(
                 array_keys($this->getProperty('resultDataSet')),
                 $this->getProperty('resultDataSet')
-              )
+            )
             : $this->setVaultDataArguments(
                 array_slice(array_keys($this->getProperty('resultDataSet')), 0, count(array_keys($this->getProperty('resultDataSet'))) - 4),
                 $this->getProperty('resultDataSet')
