@@ -17,8 +17,8 @@ use UCSDMath\Filesystem\FilesystemInterface;
 use UCSDMath\Serialization\Yaml\YamlInterface;
 
 /**
- * ConfigurationVault is the default implementation of {@link ConfigurationVaultInterface} which
- * provides routine ConfigurationVault methods that are commonly used in the framework.
+ * VaultLocker is the default implementation of {@link ConfigurationVaultInterface} which
+ * provides routine VaultLocker methods that are commonly used in the framework.
  *
  * {@link AbstractConfigurationVault} is basically a base class for various Configuration Vault
  * routines which this class extends.
@@ -34,7 +34,7 @@ use UCSDMath\Serialization\Yaml\YamlInterface;
  *
  * @author Daryl Eisner <deisner@ucsd.edu>
  */
-class ConfigurationVault extends AbstractConfigurationVault implements ConfigurationVaultInterface
+class VaultLocker extends AbstractConfigurationVault implements ConfigurationVaultInterface
 {
     /**
      * Constants.
@@ -87,7 +87,7 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
      */
     public function getRecords(): array
     {
-        return $this->all();
+        return $this->getProperty('resultDataSet');
     }
 
     //--------------------------------------------------------------------------

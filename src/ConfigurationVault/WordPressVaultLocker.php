@@ -17,8 +17,8 @@ use UCSDMath\Filesystem\FilesystemInterface;
 use UCSDMath\Serialization\Yaml\YamlInterface;
 
 /**
- * ConfigurationVault is the default implementation of {@link ConfigurationVaultInterface} which
- * provides routine ConfigurationVault methods that are commonly used in the framework.
+ * WordPressVaultLocker is the default implementation of {@link ConfigurationVaultInterface} which
+ * provides routine VaultLocker methods that are commonly used in WordPress.
  *
  * {@link AbstractConfigurationVault} is basically a base class for various Configuration Vault
  * routines which this class extends.
@@ -34,7 +34,7 @@ use UCSDMath\Serialization\Yaml\YamlInterface;
  *
  * @author Daryl Eisner <deisner@ucsd.edu>
  */
-class ConfigurationVault extends AbstractConfigurationVault implements ConfigurationVaultInterface
+class WordPressVaultLocker extends AbstractConfigurationVault implements ConfigurationVaultInterface
 {
     /**
      * Constants.
@@ -43,13 +43,16 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
      *
      * @api
      */
-    const VERSION = '1.12.0';
+    const VERSION = '1.13.0';
 
     //--------------------------------------------------------------------------
 
     /**
      * Properties.
+     *
+     * @var string $wordpressConnectionSettings The name of the database settings
      */
+    protected $wordpressConnectionSettings = 'MyWordPressSettings';
 
     //--------------------------------------------------------------------------
 
@@ -64,6 +67,30 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
     public function __construct(FilesystemInterface $filesystem, YamlInterface $yaml)
     {
         parent::__construct($filesystem, $yaml);
+
+        $this->renderWordPressGlobalSettings();
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Does file exist and is readable.
+     *
+     * @return ConfigurationVaultInterface The current instance
+     */
+    public function renderWordPressGlobalSettings(): ConfigurationVaultInterface
+    {
+        /** Required by WordPress */
+        $this->openVaultFile($wordpressConnectionSettings);
+
+        define('DB_NAME', $this->get('database_name'));
+        define('DB_USER', $this->get('database_username'));
+        define('DB_PASSWORD', $this->get('database_password'));
+        define('DB_HOST', $this->get('database_host'));
+        define('DB_CHARSET', $this->get('database_charset'));
+        define('DB_COLLATE', $this->get('database_collation'));
+
+        return $this;
     }
 
     //--------------------------------------------------------------------------
@@ -87,7 +114,7 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
      */
     public function getRecords(): array
     {
-        return $this->all();
+        return $this->getProperty('resultDataSet');
     }
 
     //--------------------------------------------------------------------------
