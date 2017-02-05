@@ -124,12 +124,8 @@ trait VaultServiceMethods
         list(, $time) = explode(' ', $date);
         list($hours, $minutes, $seconds) = array_map('intval', explode(':', $time));
 
-        return $this
-            ->setProperty('coreSeedHashArray', $hash, 'hash')
-                ->setProperty('coreSeedHashArray', $hours, 'hours')
-                    ->setProperty('coreSeedHashArray', $minutes, 'minutes')
-                        ->setProperty('coreSeedHashArray', $seconds, 'seconds')
-                            ->setProperty('coreSeedHashArray', $uuid, 'uuid');
+        return $this->setProperty('coreSeedHashArray', $hash, 'hash')->setProperty('coreSeedHashArray', $hours, 'hours')
+            ->setProperty('coreSeedHashArray', $minutes, 'minutes')->setProperty('coreSeedHashArray', $seconds, 'seconds')->setProperty('coreSeedHashArray', $uuid, 'uuid');
     }
 
     //--------------------------------------------------------------------------
@@ -152,13 +148,8 @@ trait VaultServiceMethods
         list(, $time) = explode(' ', $date);
         list($hours, $minutes, $seconds) = array_map('intval', explode(':', $time));
 
-        return $this
-            ->setProperty('initializationVectorArray', $hash, 'hash')
-                ->setProperty('initializationVectorArray', $map, 'map')
-                    ->setProperty('initializationVectorArray', $hours, 'hours')
-                        ->setProperty('initializationVectorArray', $minutes, 'minutes')
-                            ->setProperty('initializationVectorArray', $seconds, 'seconds')
-                                ->setProperty('initializationVectorArray', $uuid, 'uuid');
+        return $this->setProperty('initializationVectorArray', $hash, 'hash')->setProperty('initializationVectorArray', $map, 'map')->setProperty('initializationVectorArray', $hours, 'hours')
+            ->setProperty('initializationVectorArray', $minutes, 'minutes')->setProperty('initializationVectorArray', $seconds, 'seconds')->setProperty('initializationVectorArray', $uuid, 'uuid');
     }
 
     //--------------------------------------------------------------------------
@@ -180,12 +171,8 @@ trait VaultServiceMethods
         list(, $time) = explode(' ', $date);
         list($hours, $minutes, $seconds) = array_map('intval', explode(':', $time));
 
-        return $this
-            ->setProperty('primaryHashArray', $hash, 'hash')
-                ->setProperty('primaryHashArray', $hours, 'hours')
-                    ->setProperty('primaryHashArray', $minutes, 'minutes')
-                        ->setProperty('primaryHashArray', $seconds, 'seconds')
-                            ->setProperty('primaryHashArray', $uuid, 'uuid');
+        return $this->setProperty('primaryHashArray', $hash, 'hash')->setProperty('primaryHashArray', $hours, 'hours')
+            ->setProperty('primaryHashArray', $minutes, 'minutes')->setProperty('primaryHashArray', $seconds, 'seconds')->setProperty('primaryHashArray', $uuid, 'uuid');
     }
 
     //--------------------------------------------------------------------------
@@ -199,18 +186,9 @@ trait VaultServiceMethods
      */
     protected function renderAmbit(string $payload): array
     {
-        list($dataSize, $ivSalt, $keySalt) = [
-            $this->stringSize($payload),
-            $this->getRandomInt(),
-            $this->getRandomInt()
-        ];
+        list($dataSize, $ivSalt, $keySalt) = [$this->stringSize($payload), $this->getRandomInt(), $this->getRandomInt()];
 
-        return [
-            'hash'     => $this->hashids->encode([$dataSize, $ivSalt, $keySalt]),
-            'dataSize' => $dataSize,
-            'ivSalt'   => $ivSalt,
-            'keySalt'  => $keySalt
-        ];
+        return ['hash' => $this->hashids->encode([$dataSize, $ivSalt, $keySalt]), 'dataSize' => $dataSize, 'ivSalt' => $ivSalt, 'keySalt' => $keySalt];
     }
 
     //--------------------------------------------------------------------------
@@ -238,20 +216,12 @@ trait VaultServiceMethods
      */
     protected function setRsaPublicPrivateKeys(): ConfigurationVaultInterface
     {
-        list($release, $environment) = [
-            $this->encryptionSettingsRawData['type'], // encryption
-            $this->encryptionSettingsRawData['default_environment'] // private
-        ];
+        /* type: encryption, default_environment: private */
+        list($release, $environment) = [$this->encryptionSettingsRawData['type'], $this->encryptionSettingsRawData['default_environment']];
 
         return $this
-            ->setProperty(
-                'rsaPrivateKey4096',
-                $this->encryptionSettingsRawData[$release][$environment]['private_key_4096']['data']
-            )
-            ->setProperty(
-                'rsaPublicKey4096',
-                $this->encryptionSettingsRawData[$release][$environment]['public_key_4096']['data']
-            );
+            ->setProperty('rsaPrivateKey4096', $this->encryptionSettingsRawData[$release][$environment]['private_key_4096']['data'])
+                ->setProperty('rsaPublicKey4096', $this->encryptionSettingsRawData[$release][$environment]['public_key_4096']['data']);
     }
 
     //--------------------------------------------------------------------------
@@ -334,11 +304,8 @@ trait VaultServiceMethods
         $this->unsetRegister(self::VAULTED);
 
         /* Informational: non-encrypted properties of the record */
-        return $this
-            ->set('id', $this->getProperty('vaultId'))
-                ->set('uuid', $this->getProperty('vaultUuid'))
-                    ->set('date', $this->getProperty('vaultDate'))
-                        ->set('is_encrypted', $this->getProperty('vaultIsEncrypted'));
+        return $this->set('id', $this->getProperty('vaultId'))->set('uuid', $this->getProperty('vaultUuid'))
+            ->set('date', $this->getProperty('vaultDate'))->set('is_encrypted', $this->getProperty('vaultIsEncrypted'));
     }
 
     //--------------------------------------------------------------------------
@@ -401,10 +368,7 @@ trait VaultServiceMethods
      */
     public function setVaultRequestedSection(string $vaultRequestedSection = null): ConfigurationVaultInterface
     {
-        return $this->setProperty(
-            'vaultRequestedSection',
-            '' === trim((string)$vaultRequestedSection) ? null : trim($vaultRequestedSection)
-        );
+        return $this->setProperty('vaultRequestedSection', '' === trim((string)$vaultRequestedSection) ? null : trim($vaultRequestedSection));
     }
 
     //--------------------------------------------------------------------------

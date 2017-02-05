@@ -35,7 +35,6 @@ interface ConfigurationVaultInterface
      * @var string HASH_FUNCTION                 The seeding function
      * @var string TEST_DATA                     The text as a constant.
      * @var string DEFAULT_CIPHER_METHOD         The default cipher method used to encrypt/decrypt openssl payloads.
-
      * @var int    MIN_RANDOM_INT                The input length
      * @var int    MAX_RANDOM_INT                The input length
      */

@@ -353,9 +353,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         if ($encoded !== null && empty($this->hashidsDecode($encoded))) {
             throw new VaultException(sprintf('Invalid Hashids string was found "%s". This cannot be decoded into an array.', $encoded));
         }
-
         list($dataSize,, $keySalt) = empty($this->hashidsDecode($encoded)) ? null : $this->hashidsDecode($encoded);
-
         list($hash, $hours, $minutes, $seconds, $uuid) = [
             $this->getProperty('primaryHashArray', 'hash'),
             $this->getProperty('primaryHashArray', 'hours'),
@@ -363,18 +361,9 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
             $this->getProperty('primaryHashArray', 'seconds'),
             $this->getProperty('primaryHashArray', 'uuid')
         ];
+        $unsizedKey = sha1(join([mb_substr($hash, $hours, $minutes, self::CHARSET), mb_substr($hash, (-1 * $seconds), null, self::CHARSET), $uuid, $keySalt]));
 
-        $unsizedKey = sha1(join([
-            mb_substr($hash, $hours, $minutes, self::CHARSET),
-            mb_substr($hash, (-1 * $seconds), null, self::CHARSET),
-            $uuid,
-            $keySalt
-        ]));
-
-        return $this
-            ->set(self::VAULTED, base64_decode($this->resizeKeyToMap($unsizedKey, $this->keyByteSizeMap)), 'key')
-                ->set(self::VAULTED, $keySalt, 'keySalt')
-                    ->set(self::VAULTED, $dataSize, 'dataSize');
+        return $this->set(self::VAULTED, base64_decode($this->resizeKeyToMap($unsizedKey, $this->keyByteSizeMap)), 'key')->set(self::VAULTED, $keySalt, 'keySalt')->set(self::VAULTED, $dataSize, 'dataSize');
     }
 
     //--------------------------------------------------------------------------
@@ -489,11 +478,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     {
         /* check against a defined whitelist */
         if (!in_array($method, array_values($this->availableOpenSslCipherMethods), true)) {
-            throw new VaultException(sprintf(
-                'Invalid cipher method was requested "%s". Check available cipher methods for your current OpenSSL version: %s',
-                $method,
-                $this->openSslVersion
-            ));
+            throw new VaultException(sprintf('Invalid cipher method was requested "%s". Check available cipher methods for your current OpenSSL version: %s', $method, $this->openSslVersion));
         }
 
         return $this->setProperty('cipherMethod', $method)->set(self::VAULTED, $method, 'method');
@@ -618,10 +603,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
             throw new IOException(sprintf('The directory path %s does not exist. Please check the input parameter on method: %s.', $directoryPath, __METHOD__), 0, null, $directoryPath);
         }
 
-        return $this->setProperty(
-            'vaultSettingsDirectory',
-            $directoryPath === null ? realpath(sprintf('%s/../%s', $_SERVER['DOCUMENT_ROOT'], static::VAULT_DIRECTORY_NAME)) : realpath($directoryPath)
-        );
+        return $this->setProperty('vaultSettingsDirectory', $directoryPath === null ? realpath(sprintf('%s/../%s', $_SERVER['DOCUMENT_ROOT'], static::VAULT_DIRECTORY_NAME)) : realpath($directoryPath));
     }
 
     //--------------------------------------------------------------------------
@@ -639,10 +621,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     public function openVaultFile(string $vaultFileDesignator, string $vaultRequestedSection = null): ConfigurationVaultInterface
     {
         /* Extract the raw YAML file into array and store in $this->resultDataSet */
-        $this->setVaultFile($vaultFileDesignator);
-        $this->setVaultRequestedSection($vaultRequestedSection);
-        $this->loadVaultSettingsFile();
-        $this->setVaultEnvironmentTypeSettings();
+        $this->setVaultFile($vaultFileDesignator)->setVaultRequestedSection($vaultRequestedSection)->loadVaultSettingsFile()->setVaultEnvironmentTypeSettings();
         null === $this->getProperty('vaultRequestedSection')
             ? $this->setRecordProperties($this->vaultReleaseType, $this->vaultEnvironment)->setVaultRecordEncrypted(false)
             : $this->setRecordProperties($this->vaultReleaseType, $this->vaultEnvironment, $this->vaultSection)->setVaultRecordEncrypted($this->getProperty('resultDataSet')['is_encrypted']);
@@ -668,12 +647,8 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     {
         return null === $vaultSection
             ? $this->setProperty('resultDataSet', $this->getProperty('resultDataSet')[$vaultReleaseType][$vaultEnvironment])
-            : $this
-            ->setProperty('resultDataSet', $this->getProperty('resultDataSet')[$vaultReleaseType][$vaultEnvironment][$vaultSection])
-                ->setProperty('vaultId', $this->getProperty('resultDataSet', 'id'))
-                    ->setProperty('vaultUuid', $this->getProperty('resultDataSet', 'uuid'))
-                        ->setProperty('vaultDate', $this->getProperty('resultDataSet', 'date'))
-                            ->setVaultRecordEncrypted($this->getProperty('resultDataSet', 'is_encrypted'));
+            : $this->setProperty('resultDataSet', $this->getProperty('resultDataSet')[$vaultReleaseType][$vaultEnvironment][$vaultSection])->setProperty('vaultId', $this->getProperty('resultDataSet', 'id'))
+                ->setProperty('vaultUuid', $this->getProperty('resultDataSet', 'uuid'))->setProperty('vaultDate', $this->getProperty('resultDataSet', 'date'))->setVaultRecordEncrypted($this->getProperty('resultDataSet', 'is_encrypted'));
     }
 
     //--------------------------------------------------------------------------
