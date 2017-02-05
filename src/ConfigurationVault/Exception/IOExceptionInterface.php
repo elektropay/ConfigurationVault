@@ -19,7 +19,7 @@ namespace UCSDMath\Configuration\ConfigurationVault\Exception;
  *
  * Method list: (+) @api.
  *
- * (+) IOExceptionInterface getPath();
+ * (+) IOExceptionInterface getPath()
  *
  * @author Daryl Eisner <deisner@ucsd.edu>
  *

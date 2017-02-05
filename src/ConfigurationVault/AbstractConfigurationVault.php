@@ -490,7 +490,12 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
             throw new IOException(sprintf('The directory path %s does not exist. Please check the input parameter on method: %s.', $directoryPath, __METHOD__), 0, null, $directoryPath);
         }
 
-        return $this->setProperty('vaultSettingsDirectory', $directoryPath === null ? realpath(sprintf('%s/../%s', $_SERVER['DOCUMENT_ROOT'], static::VAULT_DIRECTORY_NAME)) : realpath($directoryPath));
+        return $this->setProperty(
+            'vaultSettingsDirectory',
+            $directoryPath === null
+                ? realpath(sprintf('%s/../%s', $_SERVER['DOCUMENT_ROOT'], static::VAULT_DIRECTORY_NAME))
+                : realpath($directoryPath)
+        );
     }
 
     //--------------------------------------------------------------------------

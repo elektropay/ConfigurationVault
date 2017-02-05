@@ -16,7 +16,7 @@ namespace UCSDMath\Configuration\ConfigurationVault\Exception;
 /**
  * ExceptionInterface is the interface for all exceptions thrown by ConfigurationVault.
  *
- * Method list: (+) @api.
+ * Method list: (+) @api
  *
  * @author Daryl Eisner <deisner@ucsd.edu>
  *

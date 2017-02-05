@@ -19,7 +19,7 @@ namespace UCSDMath\Configuration\ConfigurationVault\Exception;
  * Method list: (+) @api, (-) protected or private visibility.
  *
  * (+) IOExceptionInterface __construct(string $message, int $code = 0, \Exception $previous = null, string $path = null);
- * (+) IOExceptionInterface getPath();
+ * (+) IOExceptionInterface getPath()
  *
  * @author Daryl Eisner <deisner@ucsd.edu>
  */

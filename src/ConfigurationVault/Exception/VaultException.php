@@ -19,7 +19,7 @@ use InvalidArgumentException;
  * VaultException is the interface for file and input/output stream related
  * exceptions thrown by all ConfigurationVault classes.
  *
- * Method list: (+) @api.
+ * Method list: (+) @api, (-) protected or private visibility.
  *
  * @author Daryl Eisner <deisner@ucsd.edu>
  *
