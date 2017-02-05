@@ -400,29 +400,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     //--------------------------------------------------------------------------
 
     /**
-     * Set the cipher method used to encrypt/decrypt OpenSSL payloads.
-     *
-     * @param string $method The cipher method used to encrypt/decrypt the payload (Default: 'AES-256-CTR','AES-256-GCM','AES-256-CCM',etc.)
-     *
-     * @return ConfigurationVaultInterface The current instance
-     *
-     * @throws VaultException When an invalid method is provided
-     *
-     * @api
-     */
-    public function setCipherMethod(string $method = self::DEFAULT_CIPHER_METHOD): ConfigurationVaultInterface
-    {
-        /* check against a defined whitelist */
-        if (!in_array($method, array_values($this->availableOpenSslCipherMethods), true)) {
-            throw new VaultException(sprintf('Invalid cipher method was requested "%s". Check available cipher methods for your current OpenSSL version: %s', $method, $this->openSslVersion));
-        }
-
-        return $this->setProperty('cipherMethod', $method)->set(self::VAULTED, $method, 'method');
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
      * Set the Hashids Project Key.
      *
      * @param string $optional The option to use your own seed for the Hashids Key
