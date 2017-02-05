@@ -38,11 +38,15 @@ trait VaultServiceMethods
     /**
      * Properties.
      *
+     * @var HashidsInterface $hashids The Hashids Interface
      * @var string $openSslVersion The OpenSSL version number installed on the system
-     * @var string $cipherMethod   The cipher method used by OpenSSL to encrypt/decrypt a payload (e.g.,'AES-256-CTR','AES-256-GCM','AES-256-CCM', etc.)
+     * @var string $cipherMethod The cipher method used by OpenSSL to encrypt/decrypt a payload (e.g.,'AES-256-CTR','AES-256-GCM','AES-256-CCM', etc.)
+     * @var array  $encryptionSettingsRawData The raw Encryption Settings data
      */
-    protected $openSslVersion = null;
-    protected $cipherMethod   = null;
+    protected $hashids                   = null;
+    protected $openSslVersion            = null;
+    protected $cipherMethod              = null;
+    protected $encryptionSettingsRawData = [];
 
     //--------------------------------------------------------------------------
 
@@ -51,9 +55,11 @@ trait VaultServiceMethods
      */
     abstract public function decrypt(string $payload): string;
     abstract protected function isVaultRecordEncrypted(): bool;
+    abstract protected function stringSize(string $payload): int;
     abstract public function getProperty(string $name, string $key = null);
     abstract public function set(string $key, $value, string $subkey = null);
     abstract public function setProperty(string $name, $value, string $key = null);
+    abstract public function getRandomInt(int $min = self::MIN_RANDOM_INT, int $max = self::MAX_RANDOM_INT): int;
 
     //--------------------------------------------------------------------------
 

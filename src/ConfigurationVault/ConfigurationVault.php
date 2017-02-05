@@ -123,30 +123,6 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
     //--------------------------------------------------------------------------
 
     /**
-     * Set the vault filename to open.
-     *
-     * @param string $vaultFileDesignator The specific configuration to open. (e.g., 'Database', 'SMTP', 'Account', 'Administrator', 'Encryption')
-     *
-     * @return ConfigurationVaultInterface The current instance
-     *
-     * @throws VaultException When an invalid filename is created
-     */
-    public function setVaultFile(string $vaultFileDesignator): ConfigurationVaultInterface
-    {
-        $filename = false !== strpos($vaultFileDesignator, 'configuration-settings')
-            ? sprintf('%s/%s.yml', $this->getProperty('vaultSettingsDirectory'), strtolower(trim($vaultFileDesignator, '/ ')))
-            : sprintf('%s/%s%s.yml', $this->getProperty('vaultSettingsDirectory'), 'configuration-settings-', strtolower(trim($vaultFileDesignator, '/ ')));
-
-        if (!realpath($filename)) {
-            throw new VaultException(sprintf('The parameters provided (file name: %s) does not exist or is not a valid file path. Please provide a real filename. Method: %s.', $filename, __METHOD__));
-        }
-
-        return $this->setProperty('vaultFile', $filename);
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
      * Set the Initialization Vector (IV).
      *
      * @param string $encoded The ciphered text

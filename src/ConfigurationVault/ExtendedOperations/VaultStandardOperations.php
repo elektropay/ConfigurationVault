@@ -44,6 +44,8 @@ trait VaultStandardOperations
     /**
      * Abstract Method Requirements.
      */
+    abstract protected function toIterator($files): \Traversable;
+    abstract public function getProperty(string $name, string $key = null);
 
     //--------------------------------------------------------------------------
 
