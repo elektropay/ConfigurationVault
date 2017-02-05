@@ -238,30 +238,17 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     public function __construct(FilesystemInterface $filesystem, YamlInterface $yaml)
     {
-        $this
-            ->setProperty('yaml', $yaml)
-            ->setProperty('filesystem', $filesystem)
+        $this->setProperty('yaml', $yaml)->setProperty('filesystem', $filesystem)
             ->setAccountHomeDirectory() // location required
             ->setVaultSettingsDirectory() // location required
             ->setEncryptionSettingsFileName()
             ->loadEncryptionSettingsRawData()
-            ->setHashidsProjectKey()
-            ->loadHashids()
-            ->setOpenSslVersion()
-            ->setPrimaryHashArray()
-            ->setCoreSeedHashArray()
-            ->setInitializationVectorArray()
-            ->setRsaPublicPrivateKeys()
-            ->setAvailableOpenSslDigests()
-            ->setAvailableOpenSslCipherMethods()
-            ->setCipherMethod()
-            ->setIvByteSize()
-            ->setByteSizeMap('ivByteSize')
-            ->setKeyByteSize()
-            ->setByteSizeMap('keyByteSize')
-            ->setOpenSslOption()
-            ->setInitializationVector()
-            ->setEncryptionKey();
+            ->setHashidsProjectKey()->loadHashids()
+            ->setPrimaryHashArray()->setCoreSeedHashArray()->setInitializationVectorArray()->setRsaPublicPrivateKeys()
+            ->setAvailableOpenSslDigests()->setAvailableOpenSslCipherMethods()->setCipherMethod()
+            ->setIvByteSize()->setByteSizeMap('ivByteSize')
+            ->setKeyByteSize()->setByteSizeMap('keyByteSize')
+            ->setOpenSslOption()->setOpenSslVersion();
     }
 
     //--------------------------------------------------------------------------
@@ -284,14 +271,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         if (!is_callable('random_bytes')) {
             throw new \Exception('There is no suitable CSPRNG installed on your system');
         }
-
-        /**
-         * Default mode: \OPENSSL_RAW_DATA
-         * Default method: AES-256-CTR
-         * The iv should be unique to each encryption
-         */
         $this->setInitializationVector($payload)->setEncryptionKey($payload);
-
         $decrypted = openssl_decrypt(
             base64_decode(substr($payload, self::THE_RAW_VAULT_DATA)),
             $this->get(self::VAULTED, 'method'),
@@ -312,6 +292,8 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      * and any valid mode you may want to use.  Please reference the
      * defined DEFAULT_CIPHER_METHOD to see what is currently favored.
      *
+     * Note: The Ambit consists of: ['hash','dataSize,'ivSalt','keySalt']
+     *
      * @param string $payload The data payload to decrypt (includes iv)
      *
      * @return string The decrypted data
@@ -323,30 +305,13 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         if (!is_callable('random_bytes')) {
             throw new \Exception('There is no suitable CSPRNG installed on your system');
         }
-
-        /* The Ambit consists of: ['hash','dataSize,'ivSalt','keySalt'] */
-        list($ambit, $payload) = [
-            $this->renderAmbit($payload),
-            sprintf('%s%s', $payload, $this->randomToken(self::DEFAULT_VAULT_SIZE - $this->stringSize($payload)))
-        ];
+        list($ambit, $payload) = [$this->renderAmbit($payload), sprintf('%s%s', $payload, $this->randomToken(self::DEFAULT_VAULT_SIZE - $this->stringSize($payload)))];
         $this->setInitializationVector($ambit['hash'])->setEncryptionKey($ambit['hash']);
 
-        /**
-         * Default mode: \OPENSSL_RAW_DATA
-         * Default method: AES-256-CTR
-         * The iv should be unique to each encryption payload
-         * maybe provide: $iv = base64_encode(random_bytes(openssl_cipher_iv_length($this->get(self::VAULTED, 'method'))));
-         */
         return sprintf(
             '%s|%s',
             $ambit['hash'],
-            base64_encode(openssl_encrypt(
-                $payload,
-                $this->get(self::VAULTED, 'method'),
-                $this->get(self::VAULTED, 'key'),
-                $this->get(self::VAULTED, 'option'),
-                $this->get(self::VAULTED, 'iv')
-            ))
+            base64_encode(openssl_encrypt($payload, $this->get(self::VAULTED, 'method'), $this->get(self::VAULTED, 'key'), $this->get(self::VAULTED, 'option'), $this->get(self::VAULTED, 'iv')))
         );
     }
 
@@ -523,26 +488,14 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     {
         /* check against a defined whitelist */
         if (!in_array($keyType, array_values($this->defaultByteSizeMapTypes), true)) {
-            throw new VaultException(sprintf(
-                'Invalid Byte Size Type was requested "%s". Check the predefined byte types for your current OpenSSL methods: %s',
-                $keyType,
-                $this->defaultByteSizeMapTypes
-            ));
+            throw new VaultException(sprintf('Invalid Byte Size Type was requested "%s". Check the predefined byte types for your current OpenSSL methods: %s', $keyType, $this->defaultByteSizeMapTypes));
         }
-
-        $cipherMethodByteSize =
-        $cipherMethodByteSize === null
-            ? $this->getProperty($keyType)
-            : $cipherMethodByteSize;
+        $cipherMethodByteSize = $cipherMethodByteSize === null ? $this->getProperty($keyType) : $cipherMethodByteSize;
 
         return $this->setProperty(
             sprintf('%s%s', $keyType, 'Map'),
             $this->loadHashids($this->hashidsProjectKey, self::DEFAULT_MIN_HASHIDS_MAP_STEPS)
-                ->hashids->decode(mb_substr(
-                    $this->getProperty('initializationVectorArray', 'map'),
-                    (($cipherMethodByteSize -1) * self::DEFAULT_MIN_HASHIDS_MAP_STEPS),
-                    self::DEFAULT_MIN_HASHIDS_MAP_STEPS
-                )
+                ->hashids->decode(mb_substr($this->getProperty('initializationVectorArray', 'map'), (($cipherMethodByteSize -1) * self::DEFAULT_MIN_HASHIDS_MAP_STEPS), self::DEFAULT_MIN_HASHIDS_MAP_STEPS)
             )
         )->loadHashids();
     }
@@ -741,17 +694,13 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     protected function setCoreSeedHashArray(): ConfigurationVaultInterface
     {
-        list($release, $environment) = [
-            $this->encryptionSettingsRawData['type'], // encryption
-            $this->encryptionSettingsRawData['default_environment'] // private
-        ];
-
+        /* type: encryption, default_environment: private */
+        list($release, $environment) = [ $this->encryptionSettingsRawData['type'], $this->encryptionSettingsRawData['default_environment']];
         list($hash, $uuid, $date) = [
             join($this->encryptionSettingsRawData[$release][$environment]['core_seed_hash']['data']),
             trim($this->encryptionSettingsRawData[$release][$environment]['core_seed_hash']['uuid']),
             trim($this->encryptionSettingsRawData[$release][$environment]['core_seed_hash']['date'])
         ];
-
         list(, $time) = explode(' ', $date);
         list($hours, $minutes, $seconds) = array_map('intval', explode(':', $time));
 
@@ -772,18 +721,14 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     protected function setInitializationVectorArray(): ConfigurationVaultInterface
     {
-        list($release, $environment) = [
-            $this->encryptionSettingsRawData['type'], // encryption
-            $this->encryptionSettingsRawData['default_environment'] // private
-        ];
-
+        /* type: encryption, default_environment: private */
+        list($release, $environment) = [ $this->encryptionSettingsRawData['type'], $this->encryptionSettingsRawData['default_environment']];
         list($hash, $uuid, $date, $map) = [
             join($this->encryptionSettingsRawData[$release][$environment]['initialization_vector']['data']),
             trim($this->encryptionSettingsRawData[$release][$environment]['initialization_vector']['uuid']),
             trim($this->encryptionSettingsRawData[$release][$environment]['initialization_vector']['date']),
             join($this->encryptionSettingsRawData[$release][$environment]['initialization_vector']['map'])
         ];
-
         list(, $time) = explode(' ', $date);
         list($hours, $minutes, $seconds) = array_map('intval', explode(':', $time));
 
@@ -805,17 +750,13 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     protected function setPrimaryHashArray(): ConfigurationVaultInterface
     {
-        list($release, $environment) = [
-            $this->encryptionSettingsRawData['type'], // encryption
-            $this->encryptionSettingsRawData['default_environment'] // private
-        ];
-
+        /* type: encryption, default_environment: private */
+        list($release, $environment) = [ $this->encryptionSettingsRawData['type'], $this->encryptionSettingsRawData['default_environment']];
         list($hash, $uuid, $date) = [
             join($this->encryptionSettingsRawData[$release][$environment]['primary_hash']['data']),
             trim($this->encryptionSettingsRawData[$release][$environment]['primary_hash']['uuid']),
             trim($this->encryptionSettingsRawData[$release][$environment]['primary_hash']['date'])
         ];
-
         list(, $time) = explode(' ', $date);
         list($hours, $minutes, $seconds) = array_map('intval', explode(':', $time));
 
@@ -840,26 +781,16 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     public function setHashidsProjectKey(string $optional = null): ConfigurationVaultInterface
     {
-        list($release, $environment) = [
-            $this->encryptionSettingsRawData['type'], // encryption
-            $this->encryptionSettingsRawData['default_environment'] // private
-        ];
-
+        /* type: encryption, default_environment: private */
+        list($release, $environment) = [ $this->encryptionSettingsRawData['type'], $this->encryptionSettingsRawData['default_environment']];
         list($hash, $uuid, $date) = [
             join($this->encryptionSettingsRawData[$release][$environment]['hashids']['data']),
             trim($this->encryptionSettingsRawData[$release][$environment]['hashids']['uuid']),
             trim($this->encryptionSettingsRawData[$release][$environment]['hashids']['date'])
         ];
-
         list(, $time) = explode(' ', $date);
         list($hours, $minutes, $seconds) = array_map('intval', explode(':', $time));
-
-        $this->setProperty(
-            'hashidsProjectKey',
-            $optional === null
-                ? sha1(join([mb_substr($hash, $hours, $minutes, self::CHARSET), mb_substr($hash, (-1 * $seconds), null, self::CHARSET), $uuid]))
-                : $optional
-        );
+        $this->setProperty('hashidsProjectKey', $optional === null ? sha1(join([mb_substr($hash, $hours, $minutes, self::CHARSET), mb_substr($hash, (-1 * $seconds), null, self::CHARSET), $uuid])) : $optional);
 
         return $this;
     }
@@ -877,18 +808,10 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     {
         /* we check that target exists and is readable */
         if (!$this->isReadable($this->encryptionSettingsFileName)) {
-            throw new IOException(
-                sprintf('Cannot read the target file "%s". Does not exists or maybe unreadable.', $this->encryptionSettingsFileName),
-                0,
-                null,
-                $this->encryptionSettingsFileName
-            );
+            throw new IOException(sprintf('Cannot read the target file "%s". Does not exists or maybe unreadable.', $this->encryptionSettingsFileName), 0, null, $this->encryptionSettingsFileName);
         }
 
-        return $this->setProperty(
-            'encryptionSettingsRawData',
-            $this->yaml->deserialize($this->filesystem->read($this->encryptionSettingsFileName))
-        );
+        return $this->setProperty('encryptionSettingsRawData', $this->yaml->deserialize($this->filesystem->read($this->encryptionSettingsFileName)));
     }
 
     //--------------------------------------------------------------------------
@@ -927,20 +850,16 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     public function setEncryptionSettingsFileName(string $vaultFile = null): ConfigurationVaultInterface
     {
         $vaultFilePath = sprintf('%s/%s', $this->getProperty('vaultSettingsDirectory'), $vaultFile);
-
         if ($vaultFile !== null && !$this->exists($vaultFilePath)) {
             throw new FileNotFoundException(sprintf('Failed to read "%s" because this file does not exist at this path location.', $vaultFilePath), 0, null, $vaultFilePath);
         }
-
         if ($vaultFile !== null && !is_file($vaultFilePath)) {
             throw new FileNotFoundException(sprintf('The Vault file "%s" is not a file. Please recheck the file path or filename.', $vaultFilePath), 0, null, $vaultFilePath);
         }
 
         return $this->setProperty(
             'encryptionSettingsFileName',
-            $vaultFile === null
-                ? realpath(sprintf('%s/%s', $this->getProperty('vaultSettingsDirectory'), static::ENCRYPTION_SETTINGS_FILE_NAME))
-                : realpath($vaultFilePath)
+            $vaultFile === null ? realpath(sprintf('%s/%s', $this->getProperty('vaultSettingsDirectory'), static::ENCRYPTION_SETTINGS_FILE_NAME)) : realpath($vaultFilePath)
         );
     }
 
@@ -961,7 +880,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
             if ('\\' === \DIRECTORY_SEPARATOR && strlen($file) > 258) {
                 throw new IOException('Could not check if file exist because path length exceeds 258 characters.', 0, null, $file);
             }
-
             if (!file_exists($file)) {
                 return false;
             }
@@ -1012,12 +930,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     public function setVaultSettingsDirectory(string $directoryPath = null): ConfigurationVaultInterface
     {
         if ($directoryPath !== null && !is_dir($directoryPath)) {
-            throw new IOException(
-                sprintf('The directory path %s does not exist. Please check the input parameter on method: %s.', $directoryPath, __METHOD__),
-                0,
-                null,
-                $directoryPath
-            );
+            throw new IOException(sprintf('The directory path %s does not exist. Please check the input parameter on method: %s.', $directoryPath, __METHOD__), 0, null, $directoryPath);
         }
 
         return $this->setProperty(
@@ -1046,18 +959,10 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     public function setAccountHomeDirectory(string $directoryPath = null): ConfigurationVaultInterface
     {
         if ($directoryPath !== null && !is_dir($directoryPath)) {
-            throw new IOException(
-                sprintf('The directory path %s does not exist. Please check the input parameter on method: %s.', $directoryPath, __METHOD__),
-                0,
-                null,
-                $directoryPath
-            );
+            throw new IOException(sprintf('The directory path %s does not exist. Please check the input parameter on method: %s.', $directoryPath, __METHOD__), 0, null, $directoryPath);
         }
 
-        return $this->setProperty(
-            'accountHomeDirectory',
-            $directoryPath === null ? realpath(sprintf('%s/../', $_SERVER['DOCUMENT_ROOT'])) : realpath($directoryPath)
-        );
+        return $this->setProperty('accountHomeDirectory', $directoryPath === null ? realpath(sprintf('%s/../', $_SERVER['DOCUMENT_ROOT'])) : realpath($directoryPath));
     }
 
     //--------------------------------------------------------------------------
@@ -1153,12 +1058,9 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         if (!is_callable('random_bytes')) {
             throw new \Exception('There is no suitable CSPRNG installed on your system');
         }
-
         $data = null === $data ? $this->getUniqueId() : $data;
 
-        return true === $isUpper
-            ? strtoupper(hash('sha512', $data))
-            : hash('sha512', $data);
+        return true === $isUpper ? strtoupper(hash('sha512', $data)) : hash('sha512', $data);
     }
 
     //--------------------------------------------------------------------------
@@ -1197,9 +1099,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         if (!is_callable('random_bytes')) {
             throw new \Exception('There is no suitable CSPRNG installed on your system');
         }
-
         list($bytes, $count, $result) = [random_bytes($length), strlen($chars), null];
-
         foreach (str_split($bytes) as $byte) {
             $result .= $chars[ord($byte) % $count];
         }
@@ -1246,23 +1146,14 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         $this->setVaultRequestedSection($vaultRequestedSection);
         $this->loadVaultSettingsFile();
         $this->setVaultEnvironmentTypeSettings();
-
         null === $this->getProperty('vaultRequestedSection')
-            ? $this->setRecordProperties($this->vaultReleaseType, $this->vaultEnvironment)
-                ->setVaultRecordEncrypted(false)
-            : $this->setRecordProperties($this->vaultReleaseType, $this->vaultEnvironment, $this->vaultSection)
-                ->setVaultRecordEncrypted($this->getProperty('resultDataSet')['is_encrypted']);
+            ? $this->setRecordProperties($this->vaultReleaseType, $this->vaultEnvironment)->setVaultRecordEncrypted(false)
+            : $this->setRecordProperties($this->vaultReleaseType, $this->vaultEnvironment, $this->vaultSection)->setVaultRecordEncrypted($this->getProperty('resultDataSet')['is_encrypted']);
 
         /* Removing the last four elements from the array */
         return null === $this->getProperty('vaultRequestedSection')
-            ? $this->setVaultDataArguments(
-                array_keys($this->getProperty('resultDataSet')),
-                $this->getProperty('resultDataSet')
-            )
-            : $this->setVaultDataArguments(
-                array_slice(array_keys($this->getProperty('resultDataSet')), 0, count(array_keys($this->getProperty('resultDataSet'))) - 4),
-                $this->getProperty('resultDataSet')
-            );
+            ? $this->setVaultDataArguments(array_keys($this->getProperty('resultDataSet')), $this->getProperty('resultDataSet'))
+            : $this->setVaultDataArguments(array_slice(array_keys($this->getProperty('resultDataSet')), 0, count(array_keys($this->getProperty('resultDataSet'))) - 4), $this->getProperty('resultDataSet'));
     }
 
     //--------------------------------------------------------------------------
@@ -1325,13 +1216,10 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     {
         /* The release collection type (e.g., 'database', 'account', 'smtp') */
         $this->setProperty('vaultReleaseType', $this->getProperty('resultDataSet', 'type'));
-
         /* The current environment defined and used for a vault file (e.g.,'development','staging','production') */
         $this->setProperty(
             'vaultEnvironment',
-            null !== $this->getProperty('vaultDefaultEnvironment')
-                ? $this->getProperty('vaultDefaultEnvironment')
-                : $this->getProperty('resultDataSet', 'default_environment')
+            null !== $this->getProperty('vaultDefaultEnvironment') ? $this->getProperty('vaultDefaultEnvironment') : $this->getProperty('resultDataSet', 'default_environment')
         );
 
         /* The specific section of the vault/settings file to be processed (e.g., 'webadmin', 'webuser', 'wwwdyn', etc.) */
@@ -1351,18 +1239,10 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     {
         /* we check that target exists and is readable */
         if (!$this->isReadable($this->vaultFile)) {
-            throw new IOException(
-                sprintf('Cannot read the target file "%s". Does not exists or maybe unreadable.', $this->vaultFile),
-                0,
-                null,
-                $this->vaultFile
-            );
+            throw new IOException(sprintf('Cannot read the target file "%s". Does not exists or maybe unreadable.', $this->vaultFile), 0, null, $this->vaultFile);
         }
 
-        return $this->setProperty(
-            'resultDataSet',
-            $this->yaml->deserialize($this->filesystem->read($this->vaultFile))
-        );
+        return $this->setProperty('resultDataSet', $this->yaml->deserialize($this->filesystem->read($this->vaultFile)));
     }
 
     //--------------------------------------------------------------------------
@@ -1380,9 +1260,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     {
         return $this->setProperty(
             'vaultRequestedSection',
-            '' === trim((string)$vaultRequestedSection)
-                ? null
-                : trim($vaultRequestedSection)
+            '' === trim((string)$vaultRequestedSection) ? null : trim($vaultRequestedSection)
         );
     }
 
@@ -1404,11 +1282,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
             : sprintf('%s/%s%s.yml', $this->getProperty('vaultSettingsDirectory'), 'configuration-settings-', strtolower(trim($vaultFileDesignator, '/ ')));
 
         if (!realpath($filename)) {
-            throw new VaultException(sprintf(
-                'The parameters provided (file name: %s) does not exist or is not a valid file path. Please provide a real filename. Method: %s.',
-                $filename,
-                __METHOD__
-            ));
+            throw new VaultException(sprintf('The parameters provided (file name: %s) does not exist or is not a valid file path. Please provide a real filename. Method: %s.', $filename, __METHOD__));
         }
 
         return $this->setProperty('vaultFile', $filename);
@@ -1435,12 +1309,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         }
 
         if ($max < $min) {
-            throw new VaultException(sprintf(
-                'Maximum integer must not be less than minimum: Max is: %s, Min is: %s. (%s)',
-                $max,
-                $min,
-                __METHOD__
-            ));
+            throw new VaultException(sprintf('Maximum integer must not be less than minimum: Max is: %s, Min is: %s. (%s)', $max, $min, __METHOD__));
         }
 
         return random_int($min, $max);
@@ -1459,11 +1328,8 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     protected function setVaultDataArguments(array $arguments, array $vaultData): ConfigurationVaultInterface
     {
         foreach ($arguments as $argument) {
-            true === $this->isVaultRecordEncrypted()
-                ? $this->set($argument, $this->decrypt($vaultData[$argument]))
-                : $this->set($argument, $vaultData[$argument]);
+            true === $this->isVaultRecordEncrypted() ? $this->set($argument, $this->decrypt($vaultData[$argument])) : $this->set($argument, $vaultData[$argument]);
         }
-
         $this->unsetRegister(self::VAULTED);
 
         /* Informational: non-encrypted properties of the record */
@@ -1518,10 +1384,8 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     {
         /* Remove the base64 encoding from our key */
         $encryptionKey = base64_decode($encryptionKey);
-
         /* Generate an initialization vector */
         $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($method));
-
         /* Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector. */
         $encrypted = openssl_encrypt($payload, $method, $encryptionKey, 0, $iv);
         unset($payload, $method, $encryptionKey);
@@ -1551,7 +1415,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     {
         /* Remove the base64 encoding from our key */
         $encryptionKey = base64_decode($encryptionKey);
-
         /* To decrypt, split the encrypted data from our IV - our unique separator used was "|" */
         list($encrypted_data, $iv) = explode('|', base64_decode($payload), 2);
         $decryptedMessage = openssl_decrypt($encrypted_data, $method, $encryptionKey, 0, $iv);
