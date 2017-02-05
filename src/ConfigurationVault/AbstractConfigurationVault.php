@@ -395,9 +395,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         if ($encoded !== null && empty($this->hashidsDecode($encoded))) {
             throw new VaultException(sprintf('Invalid Hashids string was found "%s". This cannot be decoded into an array.', $encoded));
         }
-
         list($dataSize, $ivSalt, $keySalt) = empty($this->hashidsDecode($encoded)) ? null : $this->hashidsDecode($encoded);
-
         list($hash, $hours, $minutes, $seconds, $uuid) = [
             $this->getProperty('initializationVectorArray', 'hash'),
             $this->getProperty('initializationVectorArray', 'hours'),
@@ -405,19 +403,10 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
             $this->getProperty('initializationVectorArray', 'seconds'),
             $this->getProperty('initializationVectorArray', 'uuid')
         ];
+        $unsizedKey = sha1(join([mb_substr($hash, $hours, $minutes, self::CHARSET), mb_substr($hash, (-1 * $seconds), null, self::CHARSET), $uuid, $ivSalt]));
 
-        $unsizedKey = sha1(join([
-            mb_substr($hash, $hours, $minutes, self::CHARSET),
-            mb_substr($hash, (-1 * $seconds), null, self::CHARSET),
-            $uuid,
-            $ivSalt
-        ]));
-
-        return $this
-            ->set(self::VAULTED, base64_decode($this->resizeKeyToMap($unsizedKey, $this->ivByteSizeMap)), 'iv')
-                ->set(self::VAULTED, $dataSize, 'dataSize')
-                    ->set(self::VAULTED, $ivSalt, 'ivSalt')
-                        ->set(self::VAULTED, $keySalt, 'keySalt');
+        return $this->set(self::VAULTED, base64_decode($this->resizeKeyToMap($unsizedKey, $this->ivByteSizeMap)), 'iv')
+                ->set(self::VAULTED, $dataSize, 'dataSize')->set(self::VAULTED, $ivSalt, 'ivSalt')->set(self::VAULTED, $keySalt, 'keySalt');
     }
 
     //--------------------------------------------------------------------------
