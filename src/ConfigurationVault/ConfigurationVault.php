@@ -121,6 +121,122 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
     //--------------------------------------------------------------------------
 
     /**
+     * Set the vault filename to open.
+     *
+     * @param string $vaultFileDesignator The specific configuration to open. (e.g., 'Database', 'SMTP', 'Account', 'Administrator', 'Encryption')
+     *
+     * @return ConfigurationVaultInterface The current instance
+     *
+     * @throws VaultException When an invalid filename is created
+     */
+    public function setVaultFile(string $vaultFileDesignator): ConfigurationVaultInterface
+    {
+        $filename = false !== strpos($vaultFileDesignator, 'configuration-settings')
+            ? sprintf('%s/%s.yml', $this->getProperty('vaultSettingsDirectory'), strtolower(trim($vaultFileDesignator, '/ ')))
+            : sprintf('%s/%s%s.yml', $this->getProperty('vaultSettingsDirectory'), 'configuration-settings-', strtolower(trim($vaultFileDesignator, '/ ')));
+
+        if (!realpath($filename)) {
+            throw new VaultException(sprintf('The parameters provided (file name: %s) does not exist or is not a valid file path. Please provide a real filename. Method: %s.', $filename, __METHOD__));
+        }
+
+        return $this->setProperty('vaultFile', $filename);
+    }
+
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Set the Initialization Vector (IV).
+     *
+     * @param string $encoded The ciphered text
+     *
+     * @return ConfigurationVaultInterface The current instance
+     *
+     * @throws VaultException When an invalid method is provided
+     *
+     * @api
+     */
+    public function setEncryptionKey(string $encoded = null): ConfigurationVaultInterface
+    {
+        if ($encoded !== null && empty($this->hashidsDecode($encoded))) {
+            throw new VaultException(sprintf('Invalid Hashids string was found "%s". This cannot be decoded into an array.', $encoded));
+        }
+        list($dataSize,, $keySalt) = empty($this->hashidsDecode($encoded)) ? null : $this->hashidsDecode($encoded);
+        list($hash, $hours, $minutes, $seconds, $uuid) = [
+            $this->getProperty('primaryHashArray', 'hash'),
+            $this->getProperty('primaryHashArray', 'hours'),
+            $this->getProperty('primaryHashArray', 'minutes'),
+            $this->getProperty('primaryHashArray', 'seconds'),
+            $this->getProperty('primaryHashArray', 'uuid')
+        ];
+        $unsizedKey = sha1(join([mb_substr($hash, $hours, $minutes, self::CHARSET), mb_substr($hash, (-1 * $seconds), null, self::CHARSET), $uuid, $keySalt]));
+
+        return $this->set(self::VAULTED, base64_decode($this->resizeKeyToMap($unsizedKey, $this->keyByteSizeMap)), 'key')->set(self::VAULTED, $keySalt, 'keySalt')->set(self::VAULTED, $dataSize, 'dataSize');
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Set the Initialization Vector (IV).
+     *
+     * @param string $encoded The ciphered text
+     *
+     * @return ConfigurationVaultInterface The current instance
+     *
+     * @throws VaultException When an invalid method is provided
+     *
+     * @api
+     */
+    public function setInitializationVector(string $encoded = null): ConfigurationVaultInterface
+    {
+        if ($encoded !== null && empty($this->hashidsDecode($encoded))) {
+            throw new VaultException(sprintf('Invalid Hashids string was found "%s". This cannot be decoded into an array.', $encoded));
+        }
+        list($dataSize, $ivSalt, $keySalt) = empty($this->hashidsDecode($encoded)) ? null : $this->hashidsDecode($encoded);
+        list($hash, $hours, $minutes, $seconds, $uuid) = [
+            $this->getProperty('initializationVectorArray', 'hash'),
+            $this->getProperty('initializationVectorArray', 'hours'),
+            $this->getProperty('initializationVectorArray', 'minutes'),
+            $this->getProperty('initializationVectorArray', 'seconds'),
+            $this->getProperty('initializationVectorArray', 'uuid')
+        ];
+        $unsizedKey = sha1(join([mb_substr($hash, $hours, $minutes, self::CHARSET), mb_substr($hash, (-1 * $seconds), null, self::CHARSET), $uuid, $ivSalt]));
+
+        return $this->set(self::VAULTED, base64_decode($this->resizeKeyToMap($unsizedKey, $this->ivByteSizeMap)), 'iv')
+                ->set(self::VAULTED, $dataSize, 'dataSize')->set(self::VAULTED, $ivSalt, 'ivSalt')->set(self::VAULTED, $keySalt, 'keySalt');
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Validate the file path and name.
+     *
+     * @param string $vaultFilePath The absolute filename or path
+     * @param string $vaultFile     The name of the Vault Settings File to use
+     *
+     * @return ConfigurationVaultInterface The current instance
+     *
+     * @throws FileNotFoundException When the vault file is missing or is not a file
+     *
+     * @api
+     */
+    public function validateEncryptionSettingsFileName($vaultFilePath = null, $vaultFile = null): ConfigurationVaultInterface
+    {
+        if ($vaultFile !== null) {
+            if (!$this->exists($vaultFilePath)) {
+                throw new FileNotFoundException(sprintf('Failed to read "%s" because this file does not exist at this path location.', $vaultFilePath), 0, null, $vaultFilePath);
+            }
+            if (!is_file($vaultFilePath)) {
+                throw new FileNotFoundException(sprintf('The Vault file "%s" is not a file. Please recheck the file path or filename.', $vaultFilePath), 0, null, $vaultFilePath);
+            }
+        }
+
+        return $this;
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
      * Reset to default settings.
      *
      * @return ConfigurationVaultInterface The current instance
