@@ -843,13 +843,35 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      *
      * @return ConfigurationVaultInterface The current instance
      *
-     * @throws FileNotFoundException When the vault file is missing or is not a file
-     *
      * @api
      */
     public function setEncryptionSettingsFileName(string $vaultFile = null): ConfigurationVaultInterface
     {
         $vaultFilePath = sprintf('%s/%s', $this->getProperty('vaultSettingsDirectory'), $vaultFile);
+        $this->validateEncryptionSettingsFileName($vaultFilePath, $vaultFile);
+
+        return $this->setProperty(
+            'encryptionSettingsFileName',
+            $vaultFile === null ? realpath(sprintf('%s/%s', $this->getProperty('vaultSettingsDirectory'), static::ENCRYPTION_SETTINGS_FILE_NAME)) : realpath($vaultFilePath)
+        );
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Validate the file path and name.
+     *
+     * @param string $vaultFilePath The absolute filename or path
+     * @param string $vaultFile     The name of the Vault Settings File to use
+     *
+     * @return ConfigurationVaultInterface The current instance
+     *
+     * @throws FileNotFoundException When the vault file is missing or is not a file
+     *
+     * @api
+     */
+    public function validateEncryptionSettingsFileName($vaultFilePath = null, $vaultFile = null): ConfigurationVaultInterface
+    {
         if ($vaultFile !== null && !$this->exists($vaultFilePath)) {
             throw new FileNotFoundException(sprintf('Failed to read "%s" because this file does not exist at this path location.', $vaultFilePath), 0, null, $vaultFilePath);
         }
@@ -857,10 +879,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
             throw new FileNotFoundException(sprintf('The Vault file "%s" is not a file. Please recheck the file path or filename.', $vaultFilePath), 0, null, $vaultFilePath);
         }
 
-        return $this->setProperty(
-            'encryptionSettingsFileName',
-            $vaultFile === null ? realpath(sprintf('%s/%s', $this->getProperty('vaultSettingsDirectory'), static::ENCRYPTION_SETTINGS_FILE_NAME)) : realpath($vaultFilePath)
-        );
+        return $this
     }
 
     //--------------------------------------------------------------------------
