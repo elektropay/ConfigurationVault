@@ -567,11 +567,13 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     public function validateEncryptionSettingsFileName($vaultFilePath = null, $vaultFile = null): ConfigurationVaultInterface
     {
-        if ($vaultFile !== null && !$this->exists($vaultFilePath)) {
-            throw new FileNotFoundException(sprintf('Failed to read "%s" because this file does not exist at this path location.', $vaultFilePath), 0, null, $vaultFilePath);
-        }
-        if ($vaultFile !== null && !is_file($vaultFilePath)) {
-            throw new FileNotFoundException(sprintf('The Vault file "%s" is not a file. Please recheck the file path or filename.', $vaultFilePath), 0, null, $vaultFilePath);
+        if ($vaultFile !== null ) {
+            if (!$this->exists($vaultFilePath)) {
+                throw new FileNotFoundException(sprintf('Failed to read "%s" because this file does not exist at this path location.', $vaultFilePath), 0, null, $vaultFilePath);
+            }
+            if (!is_file($vaultFilePath)) {
+                throw new FileNotFoundException(sprintf('The Vault file "%s" is not a file. Please recheck the file path or filename.', $vaultFilePath), 0, null, $vaultFilePath);
+            }
         }
 
         return $this;
