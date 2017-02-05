@@ -299,33 +299,42 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
     /**
      * Reset to default settings.
      *
+     * 
+     *    - vaultId: reset the configuration settings id for the record in process
+     *    - vaultUuid: reset the configuration settings uuid for the record in process
+     *    - vaultDate: reset the configuration settings date for the record in process
+     *    - vaultFile: reset the configuration-settings file to open. (e.g., 'Database', 'Account', 'SMTP', etc.)
+     *    - resultDataSet: reset the raw data from the specific vault file requested
+     *    - storageRegister: restart storage register
+     *    - vaultSection: reset the specific section of the vault/settings file to be processed (e.g., 'webadmin', 'webuser', 'wwwdyn', etc.)
+     *    - vaultIsEncrypted: reset the configuration settings is_encrypted for the record in process
+     *    - vaultEnvironments: reset the list of provided categories found in the configuration setting file
+     *    - vaultReleaseType: reset the release collection type (e.g., 'database', 'account', 'smtp')
+     *    - vaultEnvironment: reset the current environment defined and used for a vault file (e.g.,'development','staging','production')
+     *    - vaultDefaultSection: reset the default section found in the configuration setting file
+     *    - vaultRequestedSection: reset the requested section of the vault file (e.g., 'webadmin', 'webuser', 'wwwdyn', etc.)
+     *    - loadHashids(): set to default Hashids Project Key
+     *    - setCipherMethod(): set to default cipher method: AES-256-CTR
+     *    - setIvByteSize(): set to default IV byte size for AES-256-CTR
+     *    - setByteSizeMap('ivByteSize'): a map to ensure correct size for $ivByteSize
+     *    - setKeyByteSize(): set to default encryption key byte size for AES-256-CTR
+     *    - setByteSizeMap('keyByteSize'):a map to ensure correct size for $keyByteSize
+     *    - setOpenSslOption(): set the bitwise disjunction \OPENSSL_RAW_DATA
+     *
      * @return ConfigurationVaultInterface The current instance
      *
      * @api
      */
     public function reset(): ConfigurationVaultInterface
     {
-        return $this
-            ->setProperty('vaultId', null)               // reset the configuration settings id for the record in process
-            ->setProperty('vaultUuid', null)             // reset the configuration settings uuid for the record in process
-            ->setProperty('vaultDate', null)             // reset the configuration settings date for the record in process
-            ->setProperty('vaultFile', null)             // reset the configuration-settings file to open. (e.g., 'Database', 'Account', 'SMTP', etc.)
-            ->setProperty('resultDataSet', [])           // reset the raw data from the specific vault file requested
-            ->setProperty('storageRegister', [])         // restart storage register
-            ->setProperty('vaultSection', null)          // reset the specific section of the vault/settings file to be processed (e.g., 'webadmin', 'webuser', 'wwwdyn', etc.)
-            ->setProperty('vaultIsEncrypted', null)      // reset the configuration settings is_encrypted for the record in process
-            ->setProperty('vaultEnvironments', [])       // reset the list of provided categories found in the configuration setting file
-            ->setProperty('vaultReleaseType', null)      // reset the release collection type (e.g., 'database', 'account', 'smtp')
-            ->setProperty('vaultEnvironment', null)      // reset the current environment defined and used for a vault file (e.g.,'development','staging','production')
-            ->setProperty('vaultDefaultSection', null)   // reset the default section found in the configuration setting file
-            ->setProperty('vaultRequestedSection', null) // reset the requested section of the vault file (e.g., 'webadmin', 'webuser', 'wwwdyn', etc.)
-            ->loadHashids()                              // set to default Hashids Project Key
-            ->setCipherMethod()                          // set to default cipher method: AES-256-CTR
-            ->setIvByteSize()                            // set to default IV byte size for AES-256-CTR
-            ->setByteSizeMap('ivByteSize')               // a map to ensure correct size for $ivByteSize
-            ->setKeyByteSize()                           // set to default encryption key byte size for AES-256-CTR
-            ->setByteSizeMap('keyByteSize')              // a map to ensure correct size for $keyByteSize
-            ->setOpenSslOption();                        // set the bitwise disjunction \OPENSSL_RAW_DATA
+        return $this->setProperty('vaultId', null)->setProperty('vaultUuid', null)
+            ->setProperty('vaultDate', null)->setProperty('vaultFile', null)
+            ->setProperty('resultDataSet', [])->setProperty('storageRegister', [])
+            ->setProperty('vaultSection', null)->setProperty('vaultIsEncrypted', null)
+            ->setProperty('vaultEnvironments', [])->setProperty('vaultReleaseType', null)
+            ->setProperty('vaultEnvironment', null)->setProperty('vaultDefaultSection', null)
+            ->setProperty('vaultRequestedSection', null)->loadHashids()->setCipherMethod()->setIvByteSize()
+            ->setByteSizeMap('ivByteSize')->setKeyByteSize()->setByteSizeMap('keyByteSize')->setOpenSslOption();
     }
 
     //--------------------------------------------------------------------------
