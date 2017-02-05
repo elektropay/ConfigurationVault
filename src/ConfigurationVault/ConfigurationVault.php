@@ -299,7 +299,7 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
     /**
      * Reset to default settings.
      *
-     * 
+     *
      *    - vaultId: reset the configuration settings id for the record in process
      *    - vaultUuid: reset the configuration settings uuid for the record in process
      *    - vaultDate: reset the configuration settings date for the record in process

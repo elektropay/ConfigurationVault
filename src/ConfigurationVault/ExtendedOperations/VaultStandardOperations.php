@@ -362,10 +362,5 @@ trait VaultStandardOperations
         return mb_strlen($payload, self::CHARSET);
     }
 
-
-
-
-
-
     //--------------------------------------------------------------------------
 }
