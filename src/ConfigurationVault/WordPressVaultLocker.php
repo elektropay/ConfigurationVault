@@ -81,7 +81,7 @@ class WordPressVaultLocker extends AbstractConfigurationVault implements Configu
     public function renderWordPressGlobalSettings(): ConfigurationVaultInterface
     {
         /** Required by WordPress */
-        $this->openVaultFile($wordpressConnectionSettings);
+        $this->openVaultFile($this->wordpressConnectionSettings);
 
         define('DB_NAME', $this->get('database_name'));
         define('DB_USER', $this->get('database_username'));

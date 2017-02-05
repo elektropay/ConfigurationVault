@@ -424,7 +424,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
             throw new VaultException(sprintf('Invalid Hashids string was found "%s". This cannot be decoded into an array.', $encoded));
         }
 
-        list($dataSize, $ivSalt, $keySalt) = empty($this->hashidsDecode($encoded)) ? null : $this->hashidsDecode($encoded);
+        list($dataSize,, $keySalt) = empty($this->hashidsDecode($encoded)) ? null : $this->hashidsDecode($encoded);
 
         list($hash, $hours, $minutes, $seconds, $uuid) = [
             $this->getProperty('primaryHashArray', 'hash'),
@@ -752,7 +752,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
             trim($this->encryptionSettingsRawData[$release][$environment]['core_seed_hash']['date'])
         ];
 
-        list($date, $time) = explode(' ', $date);
+        list(, $time) = explode(' ', $date);
         list($hours, $minutes, $seconds) = array_map('intval', explode(':', $time));
 
         return $this
@@ -784,7 +784,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
             join($this->encryptionSettingsRawData[$release][$environment]['initialization_vector']['map'])
         ];
 
-        list($date, $time) = explode(' ', $date);
+        list(, $time) = explode(' ', $date);
         list($hours, $minutes, $seconds) = array_map('intval', explode(':', $time));
 
         return $this
@@ -851,7 +851,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
             trim($this->encryptionSettingsRawData[$release][$environment]['hashids']['date'])
         ];
 
-        list($date, $time) = explode(' ', $date);
+        list(, $time) = explode(' ', $date);
         list($hours, $minutes, $seconds) = array_map('intval', explode(':', $time));
 
         $this->setProperty(
