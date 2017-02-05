@@ -486,48 +486,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     //--------------------------------------------------------------------------
 
     /**
-     * Set the Encryption Key Byte Size (as determined by the cipher method used in OpenSSL).
-     *
-     * @param int $size The size in bytes for the key
-     *
-     * @return ConfigurationVaultInterface The current instance
-     */
-    protected function setKeyByteSize(int $size = self::DEFAULT_ENCRYPTION_KEY_BYTE_SIZE): ConfigurationVaultInterface
-    {
-        if (!$size) {
-            throw new \Exception(sprintf(
-                'Byte size was not found or invalid cipher method was requested. Check available cipher methods for your current OpenSSL version: %s',
-                $this->openSslVersion
-            ));
-        }
-
-        return $this->setProperty('keyByteSize', $size);
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Set the initialization vector (iv) Byte Size (as determined by the cipher method used in OpenSSL).
-     *
-     * @return ConfigurationVaultInterface The current instance
-     */
-    protected function setIvByteSize(): ConfigurationVaultInterface
-    {
-        $ivByteSize = openssl_cipher_iv_length($this->cipherMethod);
-
-        if (!$ivByteSize) {
-            throw new \Exception(sprintf(
-                'Byte size was not found or invalid cipher method was requested. Check available cipher methods for your current OpenSSL version: %s',
-                $this->openSslVersion
-            ));
-        }
-
-        return $this->setProperty('ivByteSize', $ivByteSize);
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
      * Set the cipher method used to encrypt/decrypt OpenSSL payloads.
      *
      * @param string $method The cipher method used to encrypt/decrypt the payload (Default: 'AES-256-CTR','AES-256-GCM','AES-256-CCM',etc.)
@@ -644,26 +602,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         }
 
         return $this;
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Return as PHP Traversable Instance.
-     *
-     * {@see https://webmozart.io/blog/2012/10/07/give-the-traversable-interface-some-love/}
-     *
-     * @param mixed $files The string, array, object.
-     *
-     * @return \Traversable
-     */
-    protected function toIterator($files): \Traversable
-    {
-        if (!$files instanceof \Traversable) {
-            $files = new \ArrayObject(is_array($files) ? $files : array($files));
-        }
-
-        return $files;
     }
 
     //--------------------------------------------------------------------------
@@ -870,43 +808,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         }
 
         return $this->setProperty('vaultFile', $filename);
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Set any required vault file arguments.
-     *
-     * @param array $arguments The specific list of arguments to set
-     * @param array $vaultData The raw dataset from the vault file (YAML)
-     *
-     * @return ConfigurationVaultInterface The current instance
-     */
-    protected function setVaultDataArguments(array $arguments, array $vaultData): ConfigurationVaultInterface
-    {
-        foreach ($arguments as $argument) {
-            true === $this->isVaultRecordEncrypted() ? $this->set($argument, $this->decrypt($vaultData[$argument])) : $this->set($argument, $vaultData[$argument]);
-        }
-        $this->unsetRegister(self::VAULTED);
-
-        /* Informational: non-encrypted properties of the record */
-        return $this
-            ->set('id', $this->getProperty('vaultId'))
-                ->set('uuid', $this->getProperty('vaultUuid'))
-                    ->set('date', $this->getProperty('vaultDate'))
-                        ->set('is_encrypted', $this->getProperty('vaultIsEncrypted'));
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Set OpenSSL version number.
-     *
-     * @return ConfigurationVaultInterface The current instance
-     */
-    protected function setOpenSslVersion(): ConfigurationVaultInterface
-    {
-        return $this->setProperty('openSslVersion', \OPENSSL_VERSION_TEXT);
     }
 
     //--------------------------------------------------------------------------
