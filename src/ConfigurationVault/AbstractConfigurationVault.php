@@ -22,7 +22,8 @@ use UCSDMath\Configuration\ConfigurationVault\Exception\VaultException;
 use UCSDMath\Configuration\ConfigurationVault\Exception\FileNotFoundException;
 use UCSDMath\Configuration\ConfigurationVault\ExtendedOperations\ServiceFunctions;
 use UCSDMath\Configuration\ConfigurationVault\ExtendedOperations\ServiceFunctionsInterface;
-
+use UCSDMath\Configuration\ConfigurationVault\ExtendedOperations\VaultStandardOperations;
+use UCSDMath\Configuration\ConfigurationVault\ExtendedOperations\VaultStandardOperationsInterface;
 /**
  * AbstractConfigurationVault provides an abstract base class implementation of {@link ConfigurationVaultInterface}.
  * This service groups a common code base implementation that ConfigurationVault extends.
@@ -343,20 +344,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     //--------------------------------------------------------------------------
 
     /**
-     * Provides the length of a string.
-     *
-     * @param string $payload The string being checked for length
-     *
-     * @return int Returns the number of characters
-     */
-    protected function stringSize(string $payload): int
-    {
-        return mb_strlen($payload, self::CHARSET);
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
      * Set the option integer flag.
      *
      * @param int $option The bitwise disjunction used in OpenSSL (Default: 0, \OPENSSL_RAW_DATA: 1, \OPENSSL_ZERO_PADDING: 2)
@@ -453,23 +440,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
                 ->set(self::VAULTED, $dataSize, 'dataSize')
                     ->set(self::VAULTED, $ivSalt, 'ivSalt')
                         ->set(self::VAULTED, $keySalt, 'keySalt');
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Resize the IV Key.
-     *
-     * @param array  $specificMapSize The map size parameters
-     * @param string $hash            The hash to size
-     *
-     * @return string The hash sized correctly
-     *
-     * @api
-     */
-    protected function resizeKeyToMap(string $hash, array $specificMapSize): string
-    {
-        return sprintf('%s%s', mb_substr($hash, 0, $specificMapSize[0], self::CHARSET), $this->repeatString('=', $specificMapSize[1]));
     }
 
     //--------------------------------------------------------------------------
@@ -648,18 +618,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     //--------------------------------------------------------------------------
 
     /**
-     * Set OpenSSL version number.
-     *
-     * @return ConfigurationVaultInterface The current instance
-     */
-    protected function setOpenSslVersion(): ConfigurationVaultInterface
-    {
-        return $this->setProperty('openSslVersion', \OPENSSL_VERSION_TEXT);
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
      * Set the list of available digest methods in the current version of PHP's OpenSSL.
      *
      * @param bool $aliases The option to include digest aliases in results
@@ -817,26 +775,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     //--------------------------------------------------------------------------
 
     /**
-     * Tells whether a file exists and is readable.
-     *
-     * @param string $filename Path to the file
-     *
-     * @return bool
-     *
-     * @throws IOException When windows path is longer than 258 characters
-     */
-    protected function isReadable(string $filename): bool
-    {
-        if ('\\' === \DIRECTORY_SEPARATOR && strlen($filename) > 258) {
-            throw new IOException('Could not check if file is readable because path length exceeds 258 characters.', 0, null, $filename);
-        }
-
-        return is_readable($filename);
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
      * Set the Vault Settings File Name (e.g., '/home/jdeere/.external-configuration-settings/encryption-settings.yml').
      *
      * @param string $vaultFile The name of the Vault Settings File to use
@@ -880,31 +818,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         }
 
         return $this;
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Check the existance of files or directories.
-     *
-     * @param string|array|\Traversable $files The filename, array of files, or \Traversable.
-     *
-     * @return bool
-     *
-     * @api
-     */
-    public function exists($files): bool
-    {
-        foreach ($this->toIterator($files) as $file) {
-            if ('\\' === \DIRECTORY_SEPARATOR && strlen($file) > 258) {
-                throw new IOException('Could not check if file exist because path length exceeds 258 characters.', 0, null, $file);
-            }
-            if (!file_exists($file)) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     //--------------------------------------------------------------------------
@@ -987,168 +900,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     //--------------------------------------------------------------------------
 
     /**
-     * Reverse a string.
-     *
-     * @param string $payload The string to be reversed
-     *
-     * @return string The reversed string.
-     *
-     * @api
-     */
-    public function reverseString(string $payload): string
-    {
-        return strrev($payload);
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Repeat a string.
-     *
-     * @param string $str    The string to be repeated
-     * @param int    $number The number of time the string should be repeated
-     *
-     * @return string The repeated string.
-     *
-     * @api
-     */
-    public function repeatString(string $str, int $number): string
-    {
-        return str_repeat($str, $number);
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Convert string to number.
-     *
-     * Converts every byte into its decimal number equivalent, zero-padding
-     * it to a fixed length of 3 digits so it can be unambiguously converted back.
-     *
-     * @param string $payload The data to encode
-     *
-     * @return string The data as a string of numbers
-     *
-     * @api
-     */
-    public function stringToNumber(string $payload): string
-    {
-        return join(array_map(
-            function ($n) {
-                return sprintf('%03d', $n);
-            },
-            unpack('C*', $payload)
-        ));
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Convert numbers to string.
-     *
-     * Converts the zero-padded decimal number (3-digit) back to it's
-     * character equivalent created by stringToNumber(string $payload)
-     *
-     * @param string $payload The data to decode
-     *
-     * @return string The string conversion
-     *
-     * @api
-     */
-    public function numberToString(string $payload): string
-    {
-        return join(array_map('chr', str_split($payload, 3)));
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Return a SHA-512 hash (CSPRNG Requires PHP v7.x).
-     *
-     * @param string $data    The string to translate
-     * @param bool   $isUpper The option to modify case [upper, lower]
-     *
-     * @return string The hash string (128-characters)
-     *
-     * @api
-     */
-    public function getSha512(string $data = null, bool $isUpper = true): string
-    {
-        if (!is_callable('random_bytes')) {
-            throw new \Exception('There is no suitable CSPRNG installed on your system');
-        }
-        $data = null === $data ? $this->getUniqueId() : $data;
-
-        return true === $isUpper ? strtoupper(hash('sha512', $data)) : hash('sha512', $data);
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Return a unique id (CSPRNG Requires PHP v7.x).
-     *
-     * @param int $length The byte length
-     *
-     * @return string The ASCII string containing the hexadecimal of the input string
-     *
-     * @api
-     */
-    public function getUniqueId(int $length = 16): string
-    {
-        if (!is_callable('random_bytes')) {
-            throw new \Exception('There is no suitable CSPRNG installed on your system');
-        }
-
-        /* Create string of cryptographic random bytes */
-        return bin2hex(random_bytes($length));
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Get a random token string (CSPRNG Requires PHP v7.x).
-     *
-     * @param int $length The length of the token
-     * @param string $chars The string characters to use for the token
-     *
-     * @return string The random token string
-     */
-    protected function randomToken(int $length = 32, string $chars = self::PASSWORD_TOKENS): string
-    {
-        if (!is_callable('random_bytes')) {
-            throw new \Exception('There is no suitable CSPRNG installed on your system');
-        }
-        list($bytes, $count, $result) = [random_bytes($length), strlen($chars), null];
-        foreach (str_split($bytes) as $byte) {
-            $result .= $chars[ord($byte) % $count];
-        }
-
-        return $result;
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Get a random hex string (CSPRNG Requires PHP v7.x).
-     *
-     * @param int $length The length of the token
-     *
-     * @return string The random token string
-     *
-     * @api
-     */
-    public function getRandomHex(int $length = 32): string
-    {
-        if (!is_callable('random_bytes')) {
-            throw new \Exception('There is no suitable CSPRNG installed on your system');
-        }
-
-        return bin2hex(random_bytes($length/2));
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
      * Open a selected configuration file.
      *
      * @param string $vaultFileDesignator   The specific configuration to open. (e.g., 'Database', 'SMTP', 'Account', 'Administrator', etc.)
@@ -1210,18 +961,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
                     ->setProperty('vaultUuid', $this->getProperty('resultDataSet', 'uuid'))
                         ->setProperty('vaultDate', $this->getProperty('resultDataSet', 'date'))
                             ->setVaultRecordEncrypted($this->getProperty('resultDataSet', 'is_encrypted'));
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Returns bool status of property $vaultIsEncrypted.
-     *
-     * @return bool
-     */
-    protected function isVaultRecordEncrypted(): bool
-    {
-        return $this->getProperty('vaultIsEncrypted');
     }
 
     //--------------------------------------------------------------------------
@@ -1310,33 +1049,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     //--------------------------------------------------------------------------
 
     /**
-     * Generates cryptographically secure pseudo-random integers (CSPRNG Requires PHP v7.x).
-     *
-     * @param int $min The lowest value to be returned, which must be PHP_INT_MIN or higher
-     * @param int $max The highest value to be returned, which must be less than or equal to PHP_INT_MAX.
-     *
-     * @return int A cryptographically secure random integer in a range min-to-max
-     *
-     * @throws VaultException When an invalid max value is provided
-     *
-     * @api
-     */
-    public function getRandomInt(int $min = self::MIN_RANDOM_INT, int $max = self::MAX_RANDOM_INT): int
-    {
-        if (!is_callable('random_bytes')) {
-            throw new \Exception('There is no suitable CSPRNG installed on your system');
-        }
-
-        if ($max < $min) {
-            throw new VaultException(sprintf('Maximum integer must not be less than minimum: Max is: %s, Min is: %s. (%s)', $max, $min, __METHOD__));
-        }
-
-        return random_int($min, $max);
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
      * Set any required vault file arguments.
      *
      * @param array $arguments The specific list of arguments to set
@@ -1385,61 +1097,13 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     //--------------------------------------------------------------------------
 
     /**
-     * Encrypt a message.
+     * Set OpenSSL version number.
      *
-     * Defaults to using Advanced Encryption Standard (AES), 256 bits
-     * and any valid mode you may want to use.  Please reference the
-     * defined DEFAULT_CIPHER_METHOD to see what is currently favored.
-     *
-     * @param string $payload       The data payload to encrypt
-     * @param string $encryptionKey The encryption key
-     * @param string $method        The cipher method used (e.g.,'AES-256-CTR','AES-256-GCM','AES-256-CCM', etc.)
-     *
-     * @return string The encrypted data
-     *
-     * @api
+     * @return ConfigurationVaultInterface The current instance
      */
-    public function encryptMessage(string $payload, string $encryptionKey, string $method = 'aes-256-cbc'): string
+    protected function setOpenSslVersion(): ConfigurationVaultInterface
     {
-        /* Remove the base64 encoding from our key */
-        $encryptionKey = base64_decode($encryptionKey);
-        /* Generate an initialization vector */
-        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($method));
-        /* Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector. */
-        $encrypted = openssl_encrypt($payload, $method, $encryptionKey, 0, $iv);
-        unset($payload, $method, $encryptionKey);
-
-        /* The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (|) */
-        return base64_encode($encrypted . '|' . $iv);
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Decrypt a messages.
-     *
-     * Defaults to using Advanced Encryption Standard (AES), 256 bits
-     * and any valid mode you may want to use.  Please reference the
-     * defined DEFAULT_CIPHER_METHOD to see what is currently favored.
-     *
-     * @param string $payload       The data payload to decrypt (includes iv)
-     * @param string $encryptionKey The encryption key
-     * @param string $method        The cipher method used (e.g.,'AES-256-CTR','AES-256-GCM','AES-256-CCM', etc.)
-     *
-     * @return string The decrypted data
-     *
-     * @api
-     */
-    public function decryptMessage(string $payload, string $encryptionKey, string $method = 'aes-256-cbc'): string
-    {
-        /* Remove the base64 encoding from our key */
-        $encryptionKey = base64_decode($encryptionKey);
-        /* To decrypt, split the encrypted data from our IV - our unique separator used was "|" */
-        list($encrypted_data, $iv) = explode('|', base64_decode($payload), 2);
-        $decryptedMessage = openssl_decrypt($encrypted_data, $method, $encryptionKey, 0, $iv);
-        unset($payload, $method, $encryptionKey, $iv, $encrypted_data);
-
-        return $decryptedMessage;
+        return $this->setProperty('openSslVersion', \OPENSSL_VERSION_TEXT);
     }
 
     //--------------------------------------------------------------------------
@@ -1453,6 +1117,16 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     {
         static::$objectCount--;
     }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Method implementations inserted:
+     *
+     * Method list: (+) @api, (-) protected or private visibility.
+     *
+     */
+    use VaultStandardOperations;
 
     //--------------------------------------------------------------------------
 
