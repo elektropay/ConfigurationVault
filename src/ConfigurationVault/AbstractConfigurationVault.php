@@ -421,8 +421,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         return $this->setProperty(
             sprintf('%s%s', $keyType, 'Map'),
             $this->loadHashids($this->hashidsProjectKey, self::DEFAULT_MIN_HASHIDS_MAP_STEPS)
-                ->hashids->decode(mb_substr($this->getProperty('initializationVectorArray', 'map'), (($cipherMethodByteSize -1) * self::DEFAULT_MIN_HASHIDS_MAP_STEPS), self::DEFAULT_MIN_HASHIDS_MAP_STEPS)
-            )
+                ->hashids->decode(mb_substr($this->getProperty('initializationVectorArray', 'map'), (($cipherMethodByteSize -1) * self::DEFAULT_MIN_HASHIDS_MAP_STEPS), self::DEFAULT_MIN_HASHIDS_MAP_STEPS))
         )->loadHashids();
     }
 
@@ -648,7 +647,8 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         return null === $vaultSection
             ? $this->setProperty('resultDataSet', $this->getProperty('resultDataSet')[$vaultReleaseType][$vaultEnvironment])
             : $this->setProperty('resultDataSet', $this->getProperty('resultDataSet')[$vaultReleaseType][$vaultEnvironment][$vaultSection])->setProperty('vaultId', $this->getProperty('resultDataSet', 'id'))
-                ->setProperty('vaultUuid', $this->getProperty('resultDataSet', 'uuid'))->setProperty('vaultDate', $this->getProperty('resultDataSet', 'date'))->setVaultRecordEncrypted($this->getProperty('resultDataSet', 'is_encrypted'));
+                ->setProperty('vaultUuid', $this->getProperty('resultDataSet', 'uuid'))->setProperty('vaultDate', $this->getProperty('resultDataSet', 'date'))
+                    ->setVaultRecordEncrypted($this->getProperty('resultDataSet', 'is_encrypted'));
     }
 
     //--------------------------------------------------------------------------
