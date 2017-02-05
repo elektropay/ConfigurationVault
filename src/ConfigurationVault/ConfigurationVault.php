@@ -51,10 +51,7 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
 
     /**
      * Properties.
-     *
-     * @var string $wordpressConnectionSettings The name of the database settings
      */
-    protected $wordpressConnectionSettings = 'MyWordPressSettings';
 
     //--------------------------------------------------------------------------
 
@@ -279,28 +276,6 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
         }
 
         return bin2hex(random_bytes($length/2));
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Does file exist and is readable.
-     *
-     * @return ConfigurationVaultInterface The current instance
-     */
-    public function renderWordPressGlobalSettings(): ConfigurationVaultInterface
-    {
-        /** Required by WordPress */
-        $this->openVaultFile($this->wordpressConnectionSettings);
-
-        define('DB_NAME', $this->get('database_name'));
-        define('DB_USER', $this->get('database_username'));
-        define('DB_PASSWORD', $this->get('database_password'));
-        define('DB_HOST', $this->get('database_host'));
-        define('DB_CHARSET', $this->get('database_charset'));
-        define('DB_COLLATE', $this->get('database_collation'));
-
-        return $this;
     }
 
     //--------------------------------------------------------------------------
