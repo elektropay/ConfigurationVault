@@ -879,7 +879,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
             throw new FileNotFoundException(sprintf('The Vault file "%s" is not a file. Please recheck the file path or filename.', $vaultFilePath), 0, null, $vaultFilePath);
         }
 
-        return $this
+        return $this;
     }
 
     //--------------------------------------------------------------------------
