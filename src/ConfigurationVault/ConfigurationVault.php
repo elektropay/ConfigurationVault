@@ -45,13 +45,16 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
      *
      * @api
      */
-    const VERSION = '1.12.0';
+    const VERSION = '1.13.0';
 
     //--------------------------------------------------------------------------
 
     /**
      * Properties.
+     *
+     * @var string $wordpressConnectionSettings The name of the database settings
      */
+    protected $wordpressConnectionSettings = 'MyWordPressSettings';
 
     //--------------------------------------------------------------------------
 
@@ -256,6 +259,64 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
         }
 
         return $this->setProperty('cipherMethod', $method)->set(self::VAULTED, $method, 'method');
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Get a random hex string (CSPRNG Requires PHP v7.x).
+     *
+     * @param int $length The length of the token
+     *
+     * @return string The random token string
+     *
+     * @api
+     */
+    public function getRandomHex(int $length = 32): string
+    {
+        if (!is_callable('random_bytes')) {
+            throw new VaultException('There is no suitable CSPRNG installed on your system');
+        }
+
+        return bin2hex(random_bytes($length/2));
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Does file exist and is readable.
+     *
+     * @return ConfigurationVaultInterface The current instance
+     */
+    public function renderWordPressGlobalSettings(): ConfigurationVaultInterface
+    {
+        /** Required by WordPress */
+        $this->openVaultFile($this->wordpressConnectionSettings);
+
+        define('DB_NAME', $this->get('database_name'));
+        define('DB_USER', $this->get('database_username'));
+        define('DB_PASSWORD', $this->get('database_password'));
+        define('DB_HOST', $this->get('database_host'));
+        define('DB_CHARSET', $this->get('database_charset'));
+        define('DB_COLLATE', $this->get('database_collation'));
+
+        return $this;
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Set the option integer flag.
+     *
+     * @param int $option The bitwise disjunction used in OpenSSL (Default: 0, \OPENSSL_RAW_DATA: 1, \OPENSSL_ZERO_PADDING: 2)
+     *
+     * @return ConfigurationVaultInterface The current instance
+     *
+     * @api
+     */
+    public function setOpenSslOption(int $option = \OPENSSL_RAW_DATA): ConfigurationVaultInterface
+    {
+        return $this->set(self::VAULTED, $option, 'option');
     }
 
     //--------------------------------------------------------------------------

@@ -147,26 +147,6 @@ trait VaultStandardOperations
     //--------------------------------------------------------------------------
 
     /**
-     * Get a random hex string (CSPRNG Requires PHP v7.x).
-     *
-     * @param int $length The length of the token
-     *
-     * @return string The random token string
-     *
-     * @api
-     */
-    public function getRandomHex(int $length = 32): string
-    {
-        if (!is_callable('random_bytes')) {
-            throw new VaultException('There is no suitable CSPRNG installed on your system');
-        }
-
-        return bin2hex(random_bytes($length/2));
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
      * Get a random token string (CSPRNG Requires PHP v7.x).
      *
      * @param int $length The length of the token

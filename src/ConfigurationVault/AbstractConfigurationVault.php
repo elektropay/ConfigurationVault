@@ -322,22 +322,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     //--------------------------------------------------------------------------
 
     /**
-     * Set the option integer flag.
-     *
-     * @param int $option The bitwise disjunction used in OpenSSL (Default: 0, \OPENSSL_RAW_DATA: 1, \OPENSSL_ZERO_PADDING: 2)
-     *
-     * @return ConfigurationVaultInterface The current instance
-     *
-     * @api
-     */
-    public function setOpenSslOption(int $option = \OPENSSL_RAW_DATA): ConfigurationVaultInterface
-    {
-        return $this->set(self::VAULTED, $option, 'option');
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
      * Get the Initialization Vector (IV) character map size.
      *
      * @param string $keyType              The key type to set (either: 'ivByteSize', 'keyByteSize')
