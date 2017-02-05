@@ -300,7 +300,7 @@ trait VaultStandardOperations
     public function exists($files): bool
     {
         foreach ($this->toIterator($files) as $file) {
-            if ('\\' === \DIRECTORY_SEPARATOR && strlen($file) > 258) {
+            if (strlen($file) > 258) {
                 throw new IOException('Could not check if file exist because path length exceeds 258 characters.', 0, null, $file);
             }
             if (!file_exists($file)) {
