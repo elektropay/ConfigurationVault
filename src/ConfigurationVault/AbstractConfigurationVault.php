@@ -638,32 +638,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     //--------------------------------------------------------------------------
 
     /**
-     * Set the location of the Account Home Directory.
-     *
-     * The Account Home Directory is defined as the location where the unix user account
-     * exists (e.g., '/home/jdeere').  This is a location that exist outside or one level above
-     * the document root directory (i.e., above public_html).
-     *
-     * @param string $directoryPath The absolute path to the Account Home Directory (i.e., not document root)
-     *
-     * @return ConfigurationVaultInterface The current instance
-     *
-     * @throws IOException on invalid directory path
-     *
-     * @api
-     */
-    public function setAccountHomeDirectory(string $directoryPath = null): ConfigurationVaultInterface
-    {
-        if ($directoryPath !== null && !is_dir($directoryPath)) {
-            throw new IOException(sprintf('The directory path %s does not exist. Please check the input parameter on method: %s.', $directoryPath, __METHOD__), 0, null, $directoryPath);
-        }
-
-        return $this->setProperty('accountHomeDirectory', $directoryPath === null ? realpath(sprintf('%s/../', $_SERVER['DOCUMENT_ROOT'])) : realpath($directoryPath));
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
      * Open a selected configuration file.
      *
      * @param string $vaultFileDesignator   The specific configuration to open. (e.g., 'Database', 'SMTP', 'Account', 'Administrator', etc.)
@@ -693,20 +667,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     //--------------------------------------------------------------------------
 
     /**
-     * Set ConfigurationVault to encryption mode.
-     *
-     * @param bool $value The option to work with encrypted configuration data
-     *
-     * @return ConfigurationVaultInterface The current instance
-     */
-    protected function setVaultRecordEncrypted($value = true): ConfigurationVaultInterface
-    {
-        return $this->setProperty('vaultIsEncrypted', (bool) $value);
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
      * Set the database record properties.
      *
      * @param string $vaultReleaseType The release collection type (e.g., 'database', 'account', 'smtp') as specified within the vault file
@@ -730,27 +690,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     //--------------------------------------------------------------------------
 
     /**
-     * Set the environment type settings.
-     *
-     * @return ConfigurationVaultInterface The current instance
-     */
-    protected function setVaultEnvironmentTypeSettings(): ConfigurationVaultInterface
-    {
-        /* The release collection type (e.g., 'database', 'account', 'smtp') */
-        $this->setProperty('vaultReleaseType', $this->getProperty('resultDataSet', 'type'));
-        /* The current environment defined and used for a vault file (e.g.,'development','staging','production') */
-        $this->setProperty(
-            'vaultEnvironment',
-            null !== $this->getProperty('vaultDefaultEnvironment') ? $this->getProperty('vaultDefaultEnvironment') : $this->getProperty('resultDataSet', 'default_environment')
-        );
-
-        /* The specific section of the vault/settings file to be processed (e.g., 'webadmin', 'webuser', 'wwwdyn', etc.) */
-        return $this->setProperty('vaultSection', $this->getProperty('vaultRequestedSection'));
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
      * Load the Vault Settings File Information to Array.
      *
      * @return ConfigurationVaultInterface The current instance
@@ -765,25 +704,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         }
 
         return $this->setProperty('resultDataSet', $this->yaml->deserialize($this->filesystem->read($this->vaultFile)));
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Set the default specific section of the settings file.
-     *
-     * @param string $vaultRequestedSection The requested section of the vault/settings file (e.g., 'webadmin', 'webuser', 'wwwdyn', etc.)
-     *
-     * @return ConfigurationVaultInterface The current instance
-     *
-     * @api
-     */
-    public function setVaultRequestedSection(string $vaultRequestedSection = null): ConfigurationVaultInterface
-    {
-        return $this->setProperty(
-            'vaultRequestedSection',
-            '' === trim((string)$vaultRequestedSection) ? null : trim($vaultRequestedSection)
-        );
     }
 
     //--------------------------------------------------------------------------
