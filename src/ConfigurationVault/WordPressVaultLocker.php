@@ -96,18 +96,6 @@ class WordPressVaultLocker extends AbstractConfigurationVault implements Configu
     //--------------------------------------------------------------------------
 
     /**
-     * Destructor.
-     *
-     * @api
-     */
-    public function __destruct()
-    {
-        parent::__destruct();
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
      * Pull the entire dataset.
      *
      * @return array

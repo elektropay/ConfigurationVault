@@ -26,7 +26,6 @@ use UCSDMath\Serialization\Yaml\YamlInterface;
  * Method list: (+) @api, (-) protected or private visibility.
  *
  * (+) ConfigurationVaultInterface __construct(FilesystemInterface $filesystem, YamlInterface $yaml);
- * (+) void __destruct();
  * (+) array getRecords();
  * (+) bool isVaultFileReadable();
  * (+) ConfigurationVaultInterface reset();
@@ -64,18 +63,6 @@ class VaultLocker extends AbstractConfigurationVault implements ConfigurationVau
     public function __construct(FilesystemInterface $filesystem, YamlInterface $yaml)
     {
         parent::__construct($filesystem, $yaml);
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Destructor.
-     *
-     * @api
-     */
-    public function __destruct()
-    {
-        parent::__destruct();
     }
 
     //--------------------------------------------------------------------------
