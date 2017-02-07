@@ -361,7 +361,9 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     public function hashidsDecode(string $id = null, int $starting = 0, int $minLength = self::DEFAULT_MIN_HASHIDS_LENGTH)
     {
-        return $id === null ? null : $this->hashids->decode(mb_substr($id, $starting, $minLength, self::CHARSET));
+        return $id === null
+            ? null
+            : $this->hashids->decode(mb_substr($id, $starting, $minLength, self::CHARSET));
     }
 
     //--------------------------------------------------------------------------
@@ -403,7 +405,12 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         ];
         list(, $time) = explode(' ', $date);
         list($hours, $minutes, $seconds) = array_map('intval', explode(':', $time));
-        $this->setProperty('hashidsProjectKey', $optional === null ? sha1(join([mb_substr($hash, $hours, $minutes, self::CHARSET), mb_substr($hash, (-1 * $seconds), null, self::CHARSET), $uuid])) : $optional);
+        $this->setProperty(
+            'hashidsProjectKey',
+            $optional === null
+                ? sha1(join([mb_substr($hash, $hours, $minutes, self::CHARSET), mb_substr($hash, (-1 * $seconds), null, self::CHARSET), $uuid]))
+                : $optional
+            );
 
         return $this;
     }
@@ -421,7 +428,12 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     {
         /* we check that target exists and is readable */
         if (!$this->isReadable($this->encryptionSettingsFileName)) {
-            throw new IOException(sprintf('Cannot read the target file "%s". Does not exists or maybe unreadable.', $this->encryptionSettingsFileName), 0, null, $this->encryptionSettingsFileName);
+            throw new IOException(
+                sprintf('Cannot read the target file "%s". Does not exists or maybe unreadable.', $this->encryptionSettingsFileName),
+                0,
+                null,
+                $this->encryptionSettingsFileName
+            );
         }
 
         return $this->setProperty('encryptionSettingsRawData', $this->yaml->deserialize($this->filesystem->read($this->encryptionSettingsFileName)));
@@ -445,7 +457,9 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
 
         return $this->setProperty(
             'encryptionSettingsFileName',
-            $vaultFile === null ? realpath(sprintf('%s/%s', $this->getProperty('vaultSettingsDirectory'), static::ENCRYPTION_SETTINGS_FILE_NAME)) : realpath($vaultFilePath)
+            $vaultFile === null
+                ? realpath(sprintf('%s/%s', $this->getProperty('vaultSettingsDirectory'), static::ENCRYPTION_SETTINGS_FILE_NAME))
+                : realpath($vaultFilePath)
         );
     }
 
@@ -471,7 +485,12 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     public function setVaultSettingsDirectory(string $directoryPath = null): ConfigurationVaultInterface
     {
         if ($directoryPath !== null && !is_dir($directoryPath)) {
-            throw new IOException(sprintf('The directory path %s does not exist. Please check the input parameter on method: %s.', $directoryPath, __METHOD__), 0, null, $directoryPath);
+            throw new IOException(
+                sprintf('The directory path %s does not exist. Please check the input parameter on method: %s.', $directoryPath, __METHOD__),
+                0,
+                null,
+                $directoryPath
+            );
         }
 
         return $this->setProperty(
@@ -526,7 +545,8 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
             : sprintf('%s/%s%s.yml', $this->getProperty('vaultSettingsDirectory'), 'configuration-settings-', strtolower(trim($vaultFileDesignator, '/ ')));
 
         if (!realpath($filename)) {
-            throw new VaultException(sprintf('The parameters provided (file name: %s) does not exist or is not a valid file path. Please provide a real filename. Method: %s.', $filename, __METHOD__));
+            throw new VaultException(
+                sprintf('The parameters provided (file name: %s) does not exist or is not a valid file path. Please provide a real filename. Method: %s.', $filename, __METHOD__));
         }
 
         return $this->setProperty('vaultFile', $filename);
@@ -547,9 +567,11 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     {
         return null === $vaultSection
             ? $this->setProperty('resultDataSet', $this->getProperty('resultDataSet')[$vaultReleaseType][$vaultEnvironment])
-            : $this->setProperty('resultDataSet', $this->getProperty('resultDataSet')[$vaultReleaseType][$vaultEnvironment][$vaultSection])->setProperty('vaultId', $this->getProperty('resultDataSet', 'id'))
-                ->setProperty('vaultUuid', $this->getProperty('resultDataSet', 'uuid'))->setProperty('vaultDate', $this->getProperty('resultDataSet', 'date'))
-                    ->setVaultRecordEncrypted($this->getProperty('resultDataSet', 'is_encrypted'));
+            : $this->setProperty('resultDataSet', $this->getProperty('resultDataSet')[$vaultReleaseType][$vaultEnvironment][$vaultSection])
+                ->setProperty('vaultId', $this->getProperty('resultDataSet', 'id'))
+                    ->setProperty('vaultUuid', $this->getProperty('resultDataSet', 'uuid'))
+                        ->setProperty('vaultDate', $this->getProperty('resultDataSet', 'date'))
+                            ->setVaultRecordEncrypted($this->getProperty('resultDataSet', 'is_encrypted'));
     }
 
     //--------------------------------------------------------------------------
@@ -565,7 +587,12 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     {
         /* we check that target exists and is readable */
         if (!$this->isReadable($this->vaultFile)) {
-            throw new IOException(sprintf('Cannot read the target file "%s". Does not exists or maybe unreadable.', $this->vaultFile), 0, null, $this->vaultFile);
+            throw new IOException(
+                sprintf('Cannot read the target file "%s". Does not exists or maybe unreadable.', $this->vaultFile),
+                0,
+                null,
+                $this->vaultFile
+            );
         }
 
         return $this->setProperty('resultDataSet', $this->yaml->deserialize($this->filesystem->read($this->vaultFile)));
