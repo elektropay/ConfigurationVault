@@ -100,7 +100,7 @@ trait VaultStandardOperations
         /* Remove the base64 encoding from our key */
         $encryptionKey = base64_decode($encryptionKey);
         /* To decrypt, split the encrypted data from our IV - our unique separator used was "|" */
-        list($encrypted_data, $iv) = explode('|', base64_decode($payload), 2);
+        [$encrypted_data, $iv] = explode('|', base64_decode($payload), 2);
         $decryptedMessage = openssl_decrypt($encrypted_data, $method, $encryptionKey, 0, $iv);
         unset($payload, $method, $encryptionKey, $iv, $encrypted_data);
 
@@ -161,7 +161,7 @@ trait VaultStandardOperations
         if (!is_callable('random_bytes')) {
             throw new VaultException('There is no suitable CSPRNG installed on your system');
         }
-        list($bytes, $count, $result) = [random_bytes($length), strlen($chars), null];
+        [$bytes, $count, $result] = [random_bytes($length), strlen($chars), null];
         foreach (str_split($bytes) as $byte) {
             $result .= $chars[ord($byte) % $count];
         }

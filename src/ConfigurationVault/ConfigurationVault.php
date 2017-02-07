@@ -138,8 +138,8 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
         if ($encoded !== null && empty($this->hashidsDecode($encoded))) {
             throw new VaultException(sprintf('Invalid Hashids string was found "%s". This cannot be decoded into an array.', $encoded));
         }
-        list($dataSize,, $keySalt) = empty($this->hashidsDecode($encoded)) ? null : $this->hashidsDecode($encoded);
-        list($hash, $hours, $minutes, $seconds, $uuid) = [
+        [$dataSize,, $keySalt] = empty($this->hashidsDecode($encoded)) ? null : $this->hashidsDecode($encoded);
+        [$hash, $hours, $minutes, $seconds, $uuid] = [
             $this->getProperty('primaryHashArray', 'hash'),
             $this->getProperty('primaryHashArray', 'hours'),
             $this->getProperty('primaryHashArray', 'minutes'),
@@ -169,8 +169,8 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
         if ($encoded !== null && empty($this->hashidsDecode($encoded))) {
             throw new VaultException(sprintf('Invalid Hashids string was found "%s". This cannot be decoded into an array.', $encoded));
         }
-        list($dataSize, $ivSalt, $keySalt) = empty($this->hashidsDecode($encoded)) ? null : $this->hashidsDecode($encoded);
-        list($hash, $hours, $minutes, $seconds, $uuid) = [
+        [$dataSize, $ivSalt, $keySalt] = empty($this->hashidsDecode($encoded)) ? null : $this->hashidsDecode($encoded);
+        [$hash, $hours, $minutes, $seconds, $uuid] = [
             $this->getProperty('initializationVectorArray', 'hash'),
             $this->getProperty('initializationVectorArray', 'hours'),
             $this->getProperty('initializationVectorArray', 'minutes'),

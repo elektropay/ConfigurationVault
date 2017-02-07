@@ -122,14 +122,14 @@ trait VaultServiceMethods
     protected function setCoreSeedHashArray(): ConfigurationVaultInterface
     {
         /* type: encryption, default_environment: private */
-        list($release, $environment) = [ $this->encryptionSettingsRawData['type'], $this->encryptionSettingsRawData['default_environment']];
-        list($hash, $uuid, $date) = [
+        [$release, $environment] = [ $this->encryptionSettingsRawData['type'], $this->encryptionSettingsRawData['default_environment']];
+        [$hash, $uuid, $date] = [
             join($this->encryptionSettingsRawData[$release][$environment]['core_seed_hash']['data']),
             trim($this->encryptionSettingsRawData[$release][$environment]['core_seed_hash']['uuid']),
             trim($this->encryptionSettingsRawData[$release][$environment]['core_seed_hash']['date'])
         ];
-        list(, $time) = explode(' ', $date);
-        list($hours, $minutes, $seconds) = array_map('intval', explode(':', $time));
+        [, $time] = explode(' ', $date);
+        [$hours, $minutes, $seconds] = array_map('intval', explode(':', $time));
 
         return $this->setProperty('coreSeedHashArray', $hash, 'hash')->setProperty('coreSeedHashArray', $hours, 'hours')
             ->setProperty('coreSeedHashArray', $minutes, 'minutes')->setProperty('coreSeedHashArray', $seconds, 'seconds')->setProperty('coreSeedHashArray', $uuid, 'uuid');
@@ -145,15 +145,15 @@ trait VaultServiceMethods
     protected function setInitializationVectorArray(): ConfigurationVaultInterface
     {
         /* type: encryption, default_environment: private */
-        list($release, $environment) = [ $this->encryptionSettingsRawData['type'], $this->encryptionSettingsRawData['default_environment']];
-        list($hash, $uuid, $date, $map) = [
+        [$release, $environment] = [ $this->encryptionSettingsRawData['type'], $this->encryptionSettingsRawData['default_environment']];
+        [$hash, $uuid, $date, $map] = [
             join($this->encryptionSettingsRawData[$release][$environment]['initialization_vector']['data']),
             trim($this->encryptionSettingsRawData[$release][$environment]['initialization_vector']['uuid']),
             trim($this->encryptionSettingsRawData[$release][$environment]['initialization_vector']['date']),
             join($this->encryptionSettingsRawData[$release][$environment]['initialization_vector']['map'])
         ];
-        list(, $time) = explode(' ', $date);
-        list($hours, $minutes, $seconds) = array_map('intval', explode(':', $time));
+        [, $time] = explode(' ', $date);
+        [$hours, $minutes, $seconds] = array_map('intval', explode(':', $time));
 
         return $this->setProperty('initializationVectorArray', $hash, 'hash')->setProperty('initializationVectorArray', $map, 'map')->setProperty('initializationVectorArray', $hours, 'hours')
             ->setProperty('initializationVectorArray', $minutes, 'minutes')->setProperty('initializationVectorArray', $seconds, 'seconds')->setProperty('initializationVectorArray', $uuid, 'uuid');
@@ -169,14 +169,14 @@ trait VaultServiceMethods
     protected function setPrimaryHashArray(): ConfigurationVaultInterface
     {
         /* type: encryption, default_environment: private */
-        list($release, $environment) = [ $this->encryptionSettingsRawData['type'], $this->encryptionSettingsRawData['default_environment']];
-        list($hash, $uuid, $date) = [
+        [$release, $environment] = [ $this->encryptionSettingsRawData['type'], $this->encryptionSettingsRawData['default_environment']];
+        [$hash, $uuid, $date] = [
             join($this->encryptionSettingsRawData[$release][$environment]['primary_hash']['data']),
             trim($this->encryptionSettingsRawData[$release][$environment]['primary_hash']['uuid']),
             trim($this->encryptionSettingsRawData[$release][$environment]['primary_hash']['date'])
         ];
-        list(, $time) = explode(' ', $date);
-        list($hours, $minutes, $seconds) = array_map('intval', explode(':', $time));
+        [, $time] = explode(' ', $date);
+        [$hours, $minutes, $seconds] = array_map('intval', explode(':', $time));
 
         return $this->setProperty('primaryHashArray', $hash, 'hash')->setProperty('primaryHashArray', $hours, 'hours')
             ->setProperty('primaryHashArray', $minutes, 'minutes')->setProperty('primaryHashArray', $seconds, 'seconds')->setProperty('primaryHashArray', $uuid, 'uuid');
@@ -193,7 +193,7 @@ trait VaultServiceMethods
      */
     protected function renderAmbit(string $payload): array
     {
-        list($dataSize, $ivSalt, $keySalt) = [$this->stringSize($payload), $this->getRandomInt(), $this->getRandomInt()];
+        [$dataSize, $ivSalt, $keySalt] = [$this->stringSize($payload), $this->getRandomInt(), $this->getRandomInt()];
 
         return ['hash' => $this->hashids->encode([$dataSize, $ivSalt, $keySalt]), 'dataSize' => $dataSize, 'ivSalt' => $ivSalt, 'keySalt' => $keySalt];
     }
@@ -224,7 +224,7 @@ trait VaultServiceMethods
     protected function setRsaPublicPrivateKeys(): ConfigurationVaultInterface
     {
         /* type: encryption, default_environment: private */
-        list($release, $environment) = [$this->encryptionSettingsRawData['type'], $this->encryptionSettingsRawData['default_environment']];
+        [$release, $environment] = [$this->encryptionSettingsRawData['type'], $this->encryptionSettingsRawData['default_environment']];
 
         return $this
             ->setProperty('rsaPrivateKey4096', $this->encryptionSettingsRawData[$release][$environment]['private_key_4096']['data'])

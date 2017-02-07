@@ -268,12 +268,14 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      *
      * @return string The decrypted data
      *
+     * @return ConfigurationVaultInterface The current instance
+     *
      * @api
      */
     public function decrypt(string $payload): string
     {
         if (!is_callable('random_bytes')) {
-            throw new \Exception('There is no suitable CSPRNG installed on your system');
+            throw new VaultException('There is no suitable CSPRNG installed on your system');
         }
         $this->setInitializationVector($payload)->setEncryptionKey($payload);
         $decrypted = openssl_decrypt(
@@ -302,14 +304,16 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      *
      * @return string The decrypted data
      *
+     * @return ConfigurationVaultInterface The current instance
+     *
      * @api
      */
     public function encrypt(string $payload): string
     {
         if (!is_callable('random_bytes')) {
-            throw new \Exception('There is no suitable CSPRNG installed on your system');
+            throw new VaultException('There is no suitable CSPRNG installed on your system');
         }
-        list($ambit, $payload) = [$this->renderAmbit($payload), sprintf('%s%s', $payload, $this->randomToken(self::DEFAULT_VAULT_SIZE - $this->stringSize($payload)))];
+        [$ambit, $payload] = [$this->renderAmbit($payload), sprintf('%s%s', $payload, $this->randomToken(self::DEFAULT_VAULT_SIZE - $this->stringSize($payload)))];
         $this->setInitializationVector($ambit['hash'])->setEncryptionKey($ambit['hash']);
 
         return sprintf(
@@ -335,7 +339,8 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     {
         /* check against a defined whitelist */
         if (!in_array($keyType, array_values($this->defaultByteSizeMapTypes), true)) {
-            throw new VaultException(sprintf('Invalid Byte Size Type was requested "%s". Check the predefined byte types for your current OpenSSL methods: %s', $keyType, $this->defaultByteSizeMapTypes));
+            throw new VaultException(
+                sprintf('Invalid Byte Size Type was requested "%s". Check the predefined byte types for your current OpenSSL methods: %s', $keyType, $this->defaultByteSizeMapTypes));
         }
         $cipherMethodByteSize = $cipherMethodByteSize === null ? $this->getProperty($keyType) : $cipherMethodByteSize;
 
@@ -397,14 +402,14 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     public function setHashidsProjectKey(string $optional = null): ConfigurationVaultInterface
     {
         /* type: encryption, default_environment: private */
-        list($release, $environment) = [ $this->encryptionSettingsRawData['type'], $this->encryptionSettingsRawData['default_environment']];
-        list($hash, $uuid, $date) = [
+        [$release, $environment] = [ $this->encryptionSettingsRawData['type'], $this->encryptionSettingsRawData['default_environment']];
+        [$hash, $uuid, $date] = [
             join($this->encryptionSettingsRawData[$release][$environment]['hashids']['data']),
             trim($this->encryptionSettingsRawData[$release][$environment]['hashids']['uuid']),
             trim($this->encryptionSettingsRawData[$release][$environment]['hashids']['date'])
         ];
-        list(, $time) = explode(' ', $date);
-        list($hours, $minutes, $seconds) = array_map('intval', explode(':', $time));
+        [, $time] = explode(' ', $date);
+        [$hours, $minutes, $seconds] = array_map('intval', explode(':', $time));
         $this->setProperty(
             'hashidsProjectKey',
             $optional === null
