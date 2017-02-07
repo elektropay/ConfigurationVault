@@ -29,9 +29,7 @@
         <a href="https://codeclimate.com/github/ucsdmath/ConfigurationVault">
         <img src="https://codeclimate.com/github/ucsdmath/ConfigurationVault/badges/gpa.svg"></a><br>
         <a href="https://travis-ci.org/ucsdmath/ConfigurationVault">
-        <img src="http://php7ready.timesplinter.ch/ucsdmath/ConfigurationVault/badge.svg"></a><br>
-        <a href="https://codeship.com/">
-        <img src="https://app.codeship.com/projects/0637fc60-98a5-0134-1b8a-426f368b20d2/status?branch=master"></a>
+        <img src="http://php7ready.timesplinter.ch/ucsdmath/ConfigurationVault/badge.svg"></a>
 </td></tr></table></td></tr></table>
 <table width="890"><tr>
     <td width="116" align="center"><b>Scrutinizer</b></td>
@@ -51,7 +49,7 @@
         <img src="https://poser.pugx.org/ucsdmath/configuration-vault/v/stable"></a></td>
     <td valign="top" width="108" align="center">
         <a href="https://php.net/">
-        <img src="https://img.shields.io/badge/php-%3E%3D%207.0-8892BF.svg"></a></td>
+        <img src="https://img.shields.io/badge/PHP-%3E%3D%207.1-8892BF.svg"></a></td>
     <td valign="top" width="150" align="center">
         <a href="https://packagist.org/packages/ucsdmath/configuration-vault">
         <img src="https://poser.pugx.org/ucsdmath/configuration-vault/downloads"></a></td>
@@ -79,7 +77,7 @@ adding the ucsdmath/configuration-vault package to your composer.json file:
 
 ```
 "require": {
-    "php": "^7.0",
+    "php": "^7.1",
     "ucsdmath/configuration-vault": "dev-master"
 },
 ```
