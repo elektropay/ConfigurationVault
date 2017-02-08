@@ -19,7 +19,7 @@ namespace UCSDMath\Configuration\ConfigurationVault\Exception;
  * Method list: (+) @api, (-) protected or private visibility.
  *
  * (+) IOExceptionInterface __construct(string $message, int $code = 0, \Exception $previous = null, string $path = null);
- * (+) IOExceptionInterface getPath()
+ * (+) IOExceptionInterface getPath();
  *
  * @author Daryl Eisner <deisner@ucsd.edu>
  */
@@ -62,9 +62,11 @@ class IOException extends \RuntimeException implements IOExceptionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Returns the associated path for the exception.
+     *
+     * @return string The path
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
