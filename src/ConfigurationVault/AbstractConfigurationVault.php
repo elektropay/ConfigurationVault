@@ -339,11 +339,11 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     {
         /* check against a defined whitelist */
         if (!in_array($keyType, array_values($this->defaultByteSizeMapTypes), true)) {
-            throw new VaultException(
-                sprintf('Invalid Byte Size Type was requested "%s". Check the predefined byte types for your current OpenSSL methods: %s',
+            throw new VaultException(sprintf(
+                'Invalid Byte Size Type was requested "%s". Check the predefined byte types for your current OpenSSL methods: %s',
                 $keyType,
-                $this->defaultByteSizeMapTypes)
-            );
+                $this->defaultByteSizeMapTypes
+            ));
         }
         $cipherMethodByteSize = $cipherMethodByteSize === null ? $this->getProperty($keyType) : $cipherMethodByteSize;
 
