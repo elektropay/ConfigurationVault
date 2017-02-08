@@ -38,33 +38,33 @@ interface ConfigurationVaultInterface
      * @var int    MIN_RANDOM_INT                The input length
      * @var int    MAX_RANDOM_INT                The input length
      */
-    const CHARSET                          = 'utf-8';
-    const ENCRYPTION_SETTINGS_FILE_NAME    = 'configuration-settings-encryption.yml';
-    const VAULT_DIRECTORY_NAME             = '.external-configuration-settings';
-    const KEY_BYTE_SIZE                    = 32;
-    const MAC_BYTE_SIZE                    = 32;
-    const HASH_FUNCTION                    = 'sh1';
-    const TEST_DATA                        = 'Hi There...';
-    const DEFAULT_VAULT_SECTION            = 'webadmin';
-    const MIN_RANDOM_INT                   = 1;
-    const MAX_RANDOM_INT                   = 9999999999999999;
-    const PASSWORD_TOKENS                  = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-    const SEED_HASH_TOKENS                 = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-    const IV_HASH_TOKENS                   = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-    const HEXADECIMAL_TOKENS               = '0123456789ABCDEFabcdef';
-    const PRIMARY_HASH_TOKENS              = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz/#!&$@*_.~+^=';
-    const DEFAULT_CIPHER_METHOD            = 'AES-256-CTR';
-    const CTR_CIPHER_METHOD                = 'AES-256-CTR';
-    const GCM_CIPHER_METHOD                = 'AES-256-GCM';
-    const XTS_CIPHER_METHOD                = 'AES-256-XTS';
-    const CCM_CIPHER_METHOD                = 'AES-256-CCM';
-    const CBC_CIPHER_METHOD                = 'AES-256-CBC';
-    const DEFAULT_MIN_HASHIDS_LENGTH       = 30;
-    const DEFAULT_MIN_HASHIDS_MAP_STEPS    = 5;
-    const DEFAULT_ENCRYPTION_KEY_BYTE_SIZE = 32;
-    const VAULTED                          = '::privately-vaulted::';
-    const DEFAULT_VAULT_SIZE               = 50;
-    const THE_RAW_VAULT_DATA               = -68;
+    public const CHARSET                          = 'utf-8';
+    public const ENCRYPTION_SETTINGS_FILE_NAME    = 'configuration-settings-encryption.yml';
+    public const VAULT_DIRECTORY_NAME             = '.external-configuration-settings';
+    public const KEY_BYTE_SIZE                    = 32;
+    public const MAC_BYTE_SIZE                    = 32;
+    public const HASH_FUNCTION                    = 'sh1';
+    public const TEST_DATA                        = 'Hi There...';
+    public const DEFAULT_VAULT_SECTION            = 'webadmin';
+    public const MIN_RANDOM_INT                   = 1;
+    public const MAX_RANDOM_INT                   = 9999999999999999;
+    public const PASSWORD_TOKENS                  = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    public const SEED_HASH_TOKENS                 = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    public const IV_HASH_TOKENS                   = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    public const HEXADECIMAL_TOKENS               = '0123456789ABCDEFabcdef';
+    public const PRIMARY_HASH_TOKENS              = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz/#!&$@*_.~+^=';
+    public const DEFAULT_CIPHER_METHOD            = 'AES-256-CTR';
+    public const CTR_CIPHER_METHOD                = 'AES-256-CTR';
+    public const GCM_CIPHER_METHOD                = 'AES-256-GCM';
+    public const XTS_CIPHER_METHOD                = 'AES-256-XTS';
+    public const CCM_CIPHER_METHOD                = 'AES-256-CCM';
+    public const CBC_CIPHER_METHOD                = 'AES-256-CBC';
+    public const DEFAULT_MIN_HASHIDS_LENGTH       = 30;
+    public const DEFAULT_MIN_HASHIDS_MAP_STEPS    = 5;
+    public const DEFAULT_ENCRYPTION_KEY_BYTE_SIZE = 32;
+    public const VAULTED                          = '::privately-vaulted::';
+    public const DEFAULT_VAULT_SIZE               = 50;
+    public const THE_RAW_VAULT_DATA               = -68;
 
     //--------------------------------------------------------------------------
 }
