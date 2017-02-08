@@ -340,7 +340,10 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
         /* check against a defined whitelist */
         if (!in_array($keyType, array_values($this->defaultByteSizeMapTypes), true)) {
             throw new VaultException(
-                sprintf('Invalid Byte Size Type was requested "%s". Check the predefined byte types for your current OpenSSL methods: %s', $keyType, $this->defaultByteSizeMapTypes));
+                sprintf('Invalid Byte Size Type was requested "%s". Check the predefined byte types for your current OpenSSL methods: %s',
+                $keyType,
+                $this->defaultByteSizeMapTypes)
+            );
         }
         $cipherMethodByteSize = $cipherMethodByteSize === null ? $this->getProperty($keyType) : $cipherMethodByteSize;
 
@@ -415,7 +418,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
             $optional === null
                 ? sha1(join([mb_substr($hash, $hours, $minutes, self::CHARSET), mb_substr($hash, (-1 * $seconds), null, self::CHARSET), $uuid]))
                 : $optional
-            );
+        );
 
         return $this;
     }
@@ -550,8 +553,11 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
             : sprintf('%s/%s%s.yml', $this->getProperty('vaultSettingsDirectory'), 'configuration-settings-', strtolower(trim($vaultFileDesignator, '/ ')));
 
         if (!realpath($filename)) {
-            throw new VaultException(
-                sprintf('The parameters provided (file name: %s) does not exist or is not a valid file path. Please provide a real filename. Method: %s.', $filename, __METHOD__));
+            throw new VaultException(sprintf(
+                'The parameters provided (file name: %s) does not exist or is not a valid file path. Please provide a real filename. Method: %s.',
+                $filename,
+                __METHOD__
+            ));
         }
 
         return $this->setProperty('vaultFile', $filename);
