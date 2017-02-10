@@ -1,0 +1,80 @@
+# <?php die(); /*
+#--------------------------------------------------------
+#
+#  This file is part of the UCSDMath package.
+#
+#  (c) 2015-2017 UCSD Mathematics | Math Computing Support <mathhelp@math.ucsd.edu>
+#
+#  For the full copyright and license information, please view the LICENSE
+#  file that was distributed with this source code.
+#
+#  ConfigurationVault Settings for: Remote Host Accounts
+#
+#  @file    .external-configuration-settings/configuration-settings-account.yml
+#  @author  Daryl Eisner <deisner@ucsd.edu>
+#  @version 1.14.0
+#  @date    2017-02-05
+#  @note    This file provides configuration settings, usernames, passwords for
+#           various Remote Host Accounts used by the UCSDMath Framework v.1.14.0
+#           components.
+#
+#           This file should be placed in a secure location by:
+#               1) Placing the file outside of the web server's document root directory.
+#               2) Ensure the use of safe and propure permission settings:
+#                      > chmod 644 configuration-settings-account.yml
+#               3) Reference by using the ConfigurationVault or VaultLocker Classes.
+#
+#--------------------------------------------------------
+title: 'Remote Host Accounts'
+description: |
+    A set of configuration settings for remote host account connections.
+    Many of these environments could be defined within network protocols
+    or services: sftp, smtp, https, scp, ssh, etc.
+default_environment: sftp
+default_section: Server-Viper
+environments:
+    - sftp
+    - scp
+    - ssh
+    - https
+type: account
+configuration_date: '2017-02-08'
+file_name: configuration-settings-account.yml
+account:
+    sftp:
+        Server-Maverick:
+            account_host:         [8, 2419668466785649, 5788696661556414]|wingman.tomcat.org
+            account_username:     [8, 2419668466785649, 5788696661556414]|maverick
+            account_password:     [8, 2419668466785649, 5788696661556414]|need4SPEED!
+            default_directory:    [8, 2419668466785649, 5788696661556414]|/home/maverick/public_html
+            account_options:      [8, 2419668466785649, 5788696661556414]|None
+            is_secure_connection: [8, 2419668466785649, 5788696661556414]|true
+            id: 1
+            uuid: AAFA246C-363C-4A56-826B-6402F3705136
+            date: '2017-02-08 10:20:30'
+            is_encrypted: true
+        Server-Goose:
+            account_host:         [8, 2419668466785649, 5788696661556414]|wingman.tomcat.org
+            account_username:     [8, 2419668466785649, 5788696661556414]|goose
+            account_password:     [8, 2419668466785649, 5788696661556414]|need4SPEED!
+            default_directory:    [8, 2419668466785649, 5788696661556414]|/home/goose/public_html
+            account_options:      [8, 2419668466785649, 5788696661556414]|None
+            is_secure_connection: [8, 2419668466785649, 5788696661556414]|true
+            id: 2
+            uuid: ACB286F7-75FA-4AC7-AD68-3FE01DF22B3C
+            date: '2017-02-08 10:20:30'
+            is_encrypted: true
+        Server-Viper:
+            account_host:         [8, 2419668466785649, 5788696661556414]|wingman.tomcat.org
+            account_username:     [8, 2419668466785649, 5788696661556414]|viper
+            account_password:     [8, 2419668466785649, 5788696661556414]|need4SPEED!
+            default_directory:    [8, 2419668466785649, 5788696661556414]|/home/viper/public_html
+            account_options:      [8, 2419668466785649, 5788696661556414]|None
+            is_secure_connection: [8, 2419668466785649, 5788696661556414]|true
+            id: 3
+            uuid: 2E5EE186-02FD-44B5-B0E0-4C0D384A2700
+            date: '2017-02-08 10:20:30'
+            is_encrypted: true
+    scp: null
+    ssh: null
+    https: null

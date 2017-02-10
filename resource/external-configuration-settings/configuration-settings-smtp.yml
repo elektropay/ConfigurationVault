@@ -1,0 +1,72 @@
+# <?php die(); /*
+#--------------------------------------------------------
+#
+#  This file is part of the UCSDMath package.
+#
+#  (c) 2015-2017 UCSD Mathematics | Math Computing Support <mathhelp@math.ucsd.edu>
+#
+#  For the full copyright and license information, please view the LICENSE
+#  file that was distributed with this source code.
+#
+#  ConfigurationVault Settings for: SMTP Mail Transmission Services
+#
+#  @file    .external-configuration-settings/configuration-settings-smtp.yml
+#  @author  Daryl Eisner <deisner@ucsd.edu>
+#  @version 1.14.0
+#  @date    2017-02-05
+#  @note    This file provides configuration settings, usernames, passwords for
+#           various SMTP Mail Transmission Services used by the UCSDMath Framework v.1.14.0
+#           components.
+#
+#           This file should be placed in a secure location by:
+#               1) Placing the file outside of the web server's document root directory.
+#               2) Ensure the use of safe and propure permission settings:
+#                      > chmod 644 configuration-settings-smtp.yml
+#               3) Reference by using the ConfigurationVault or VaultLocker Classes.
+#
+#--------------------------------------------------------
+title: 'SMTP Mail Transmission Services'
+description: |
+    A set of configuration settings for sending remote email messages.
+    Using the connections to SMTP Services may require secure connections
+    based on the specific server configuration.  Please note below if the
+    record is defined as a secure connection.  This is not real folks!!!
+default_environment: production
+default_section: smtp-google-maverick
+environments:
+    - production
+    - development
+    - staging
+type: smtp
+configuration_date: '2017-02-08'
+file_name: configuration-settings-smtp.yml
+smtp:
+    production:
+        smtp-google-maverick:
+            mailer_transport:     [12, 750344411935891, 7641192629469150]|smtp
+            mailer_host:          [12, 750344411935891, 7641192629469150]|smtp.gmail.com
+            mailer_username:      [12, 750344411935891, 7641192629469150]|Maverick@gmail.com
+            mailer_password:      [12, 750344411935891, 7641192629469150]|need4SPEED!
+            mailer_port:          [12, 750344411935891, 7641192629469150]|465
+            mailer_account_name:  [12, 750344411935891, 7641192629469150]|Pete Mitchell
+            mailer_require_ssl:   [12, 750344411935891, 7641192629469150]|yes
+            is_secure-connection: [12, 750344411935891, 7641192629469150]|true
+            id: 1
+            uuid: 0D602D2F-7FF3-472F-A979-B886C5D6A305
+            date: '2017-02-08 20:30:40'
+            is_encrypted: true
+        verizon-text-message:
+            mailer_transport:     [12, 750344411935891, 7641192629469150]|smtp
+            mailer_host:          [12, 750344411935891, 7641192629469150]|vtext.com
+            mailer_username:      [12, 750344411935891, 7641192629469150]|None
+            mailer_password:      [12, 750344411935891, 7641192629469150]|None
+            mailer_port:          [12, 750344411935891, 7641192629469150]|465
+            mailer_account_name:  [12, 750344411935891, 7641192629469150]|null
+            mailer_require_ssl:   [12, 750344411935891, 7641192629469150]|no
+            is_secure_connection: [12, 750344411935891, 7641192629469150]|false
+            id: 2
+            uuid: 1E4BE2DF-A961-41DD-9B06-61C7C7D91951
+            date: '2017-02-08 20:30:40'
+            is_encrypted: true
+    development: null
+    staging: null

@@ -1,0 +1,524 @@
+# <?php die(); /*
+#--------------------------------------------------------
+#
+#  This file is part of the UCSDMath package.
+#
+#  (c) 2015-2017 UCSD Mathematics | Math Computing Support <mathhelp@math.ucsd.edu>
+#
+#  For the full copyright and license information, please view the LICENSE
+#  file that was distributed with this source code.
+#
+#  ConfigurationVault Settings for: Encryption Key Methods (Public and Private)
+#
+#  @file    .external-configuration-settings/configuration-settings-encryption.yml
+#  @author  Daryl Eisner <deisner@ucsd.edu>
+#  @version 1.14.0
+#  @date    2017-02-05
+#  @note    This file provides configuration settings, public and private hash string
+#           keys for various Encryption Key Methods used by the UCSDMath Framework v.1.14.0
+#           components.
+#
+#           This file should be placed in a secure location by:
+#               1) Placing the file outside of the web server's document root directory.
+#               2) Ensure the use of safe and propure permission settings:
+#                      > chmod 644 configuration-settings-encryption.yml
+#               3) Reference by using the ConfigurationVault or VaultLocker Classes.
+#
+#--------------------------------------------------------
+title: 'Encryption Key Methods (Public and Private)'
+description: |
+    A configuration settings file for private/public keys and general use hashes.
+    This file provides unique binary sequences for application encryption operations.
+    Primarily, the settings here are designed for use with the Encryption and
+    ConfigurationVault components included within the UCSDMath Framework.
+default_environment: private
+default_section: default
+environments:
+    - private
+    - public
+type: encryption
+configuration_date: '2017-02-08'
+file_name: configuration-settings-encryption.yml
+encryption:
+    private:
+        hashids:
+            description: |
+                The following data represents a pseudorandom string (CSPRNG) to prime Hashids configuration at
+                object instantiation. The Hashids software component is used to encode/decode integers and
+                arrays on multiple projects (e.g., such as initialization vectors). Use this string to generate
+                keys for private and internal viewed website information. Reminder: the Hashids library is not
+                intended to be used to perform cryptographic methods or to encode sensitive data.
+            data:
+                - THIS_IS_A_SAMPLE_ONLY_m2vMjs5KGpdxNxPqE7WHzCr4QatrUmvpQkkjRZbUyYy4u6erXctTvFE3bjDTbtfCnBa3GVg5eM8E8f
+                - Z8uB3fLJMRLk24EVEUfBveVXpdbm3cZc84CGFafM46vpyVZQ9cbUW4cKspEqFbeTRC5ZeZ9KsdVhsE9SuUvGRjLWmq4rpVr2LPCu
+                - LWeVRaJVdYxrJMcBccqzaywkEneb9C6XdCAnpkSa89YaWgNbKLs5FFrMvFPkdMxZJVYxeDFhUfpp6b9zWg6QsrxAeLpk4YDAnT3u
+                - Mk9bgs5AqfFcZ4mhS8MYg2aVeypM7UwFN8fWxVnkqpRMmzWLMG4yDe37WgH7YkEC46mK4bAr7ryaZcKyZB9cTzxTnJswSYWyVAd6
+            map: null
+            id: 1
+            uuid: A74C63E2-7C8D-469C-B65F-21A12130B064
+            date: '2017-02-08 20:30:40'
+            is_encrypted: false
+        primary_hash:
+            description: |
+                The following data represents a pseudorandom string (CSPRNG) to build keys for encryption/decryption
+                purposes. This information should be stored in a safe location outside of the web server's
+                document root directory.  Primarily, this data is accessed by the UCSDMath Encryption and
+                ConfigurationVault components to protect information using the OpenSSL encryption and decryption API's.
+            data:
+                - THIS_IS_A_SAMPLE_ONLY_HjHn7Yzq7bJmmM2VyXVPLXLZxYBNqPDmq6dFfnHVqpJaQqRjWKDVsPDcdVdmsRuNKu3YGThs2jpkfT
+                - BxC9Gs2uJ2DjqFbreUEAek5Ps72WRTg6VPT7PzTFmdZUw4JZkCjy9jyj34FDU5NKtDZFgfDJCedYqm8VvRf6fmx4qJkpgrvmy5rs
+                - 6h7Fq5Tdbe477a3SSUdSdGHJP48fPYLWfCPsU5GV2kTmpnCSYSkXkPTJCYSWVkfZVDNJTzJeG8FeRvbHdBdW4zaTJFZKFJXcm6CX
+                - TjEmLaFCMnmaE6KAWLmt6yHsD3VdMK9EvSZ7eXqt4sMcA7HD658hUCAqnXG8pp3AhHmLgp2aDDuTZs4Q2GZ6RUfEcKrQqDDYuYYD
+                - vT88e7Eeh4wTD8kWGqBRQqmKDkzAqmPamBCYmsbyR5Kbu7bHVL36Vt99VdJ2k5ZWH2RDJTEzLGPxpKqs93wTx6fr6xDjWq67UCWf
+                - 6Cu6VnxKX3ay8TsqWYWukdbauRLp6awhbc5XtgCVTwrWEdR7MmPkRSxPCw6AhaJE65jxGnauqTdm7gwPDThKR3rvP3MaFfykEGLf
+                - LStHHSz9tfwU7s3TxyZR874xP482NBm9ccyCemxhGKd285Bw8axwpER37StxpnJ6eq8RduB9QyEXYZuSC7HcbqxLGnJHDs3Wajeg
+                - pDLBnkwmdru4YMBHUxvgDCY6EnP2RkyZtE5afCMnFcNCkVTt8vGZAEUDh4wvWe38SLyyjmNnQTrGhzNBmMeELepLXQmEHHTQFqvJ
+                - qFeab3zhxwMC7mBtQNLd685d3mRmSXcqm9XJttY8kenm5Vn3a7UNaUNnYnXHuKvBFgQXMXp6Uywk9fGpCUDjWJD4GMDvMJnwrYph
+                - cFbcQ8ZJ9R5tAa65e4mdKUgpaBNMCc22cDDQMXh9KNWEb9tFfTB9mCgpR266Js8NnyuTkCAGUrReDaEnmHPzfaxJPpGeguhBGyEY
+                - Fw5yTwNbZ72K9A749srk2q4BbaADHe5VZxzqjSSv5dgDHZGtw2Wr97w6LVuaZkdnypxm5TQrW4KTzwgWUGVYwtAE4YtPDaPRYPGA
+                - pASeDkbNcjsP6tdV2PHPfWnsy5FPnYYZgJwTqUard4Rs7nAGeNtUpVbWhUsffYsepYZDjzyVMYmTg2URUH4gTxQakNRrDHYYmTFP
+                - 3H7XfxyeUm3a9ZZC64D9uUBgNahUhYaB5d6jBESJEX9LtjyjDbN6JNmKexjWJG8sXcfaQVe9vtZrPCgmVG3jPeV8KHAzugGWVEGe
+                - 9YFHDm7SSnDJQLp3mMTyM34P9GTdGP7pszCGD2WRPncDUkg2h2c6XFKP7HSvNkz8XtwdCmfMfkkAxUmnpR8HMQbaEvaHenTyrUeQ
+                - JSVyeQpd5pmjhWcAjLa8QNL636MH3qyYj3CTeXQecg6TNkGmbCgckrGEWheL5qWLaTfLJUV3bmjGdKU66jFVyQHmW3Qhsw86tbcc
+                - d2L4UmQMRgGU8U2fZL48Sz5NFQq6Y6nSWmWEfNPqtM8MA7pwcqkHc657PM2MUL4USYEE38qzjUzpy46vbhrG3PpMruDtLt7s5qyf
+                - pJzbpy2ZVGQRrESXBFSr3xPHyWJaHC28xkWwLd9Dj4xEFjK4X49PpLNdKmFc5Kj922EZZA68yh9VfePTsZfXVdydUbsBmbtKHPuB
+                - aN3B4VshbNmGpWdEqYTcvVdHBGpRxUzbUKfwH2sWbQ4YJBP37UTBhz3m6EfnDrdqP3sc2xDzFxWYsTRwZH3eAnumFaTNJF8Yyq4x
+                - CHbGtZTqqhtLmaWKL7SA9eWYN8eym9kuDypfQCVLQrcrxnWJPa8SL74gS9XRMEcz68sa25a9LWMA7GLCB4Lyw2a3xazA4e4FfLky
+                - hZfMEdLBH57re7rpaW2LzADrz58reKbZkjbu9erGXqrfXsLakZWRSJFjBqYQfRsCscXAaarrK4ReVDkTtQQhECKSH4eNjPY2pveK
+            map: null
+            id: 2
+            uuid: F246334A-956D-42BF-8240-1C07553248BF
+            date: '2017-02-08 20:30:40'
+            is_encrypted: false
+        core_seed_hash:
+            description: |
+                The following data represents a pseudorandom string (CSPRNG) to provide information for generating
+                cryptographic keys for use with the UCSDMath Encryption and ConfigurationVault Component.
+                This information should be stored in a safe location outside the web server's document root directory.
+            data:
+                - THIS_IS_A_SAMPLE_ONLY_cGuZVafAkP2RwZTqNKAXDyc5taNehJ8yGzun9txawNauexft5YAbE9zAUR2q8uXsv8bnrEUcgRrzz6
+                - JnR4P6rBnzz2fb972kXPf55n8w2Thj67rt55kUVbB6HMurRUKg2C3CKWmQB7DnaHxUmEfdakMN5TDH3C5LXpeUMZ6M9JNPpvDHhE
+                - Px2tRX6d86qYR42YLBDzf6M7kL8PtysjzFCNNAMtrtX9Pxs3Qfa2ZtegjfNE7JYHNUWAU3hPsRRejEPnt34k9JmE6rUCAVAsZQpn
+                - DQNhPHreAN868rQZ9KGNzmdKeLcUGQXrWS5x6QEnMbWAkZjUdDJTLjzuP3KcWzKbqmKbtBvrztcVXNXWEKmuEFhyBBKbYbAZq2gf
+                - WsnTMjNaxtdb7vGRphmf6nZ3XEQ4aR5UJQGTcEfje4fPmvX77AdDQgSc6BA9qe6EBE75rfYGeZMU3dDYgp9ybGFmuL7nXjCuffP3
+                - fAx5RrKEzfxyaKTxY9mgNB6hJuHhTqCsJTFPenh7WkSzDKxBy7uBWjUzyp5XTEZws7yw64HjMXMgycLYjXhYJLY7WBkbRWdVkqYY
+                - sNTjVxNHJR2Zd38nkUFw5UrTujTUPSFtKkshqT9CPJWkWqaNMV3TbHFQxeCnTbakWdGdxFF4Da8FgbfL996xnpn94NBLNMFQFyNA
+                - J2ehegt68wJVMGTjK3sVFQnrEDaGB9AsxD68aPZqVkJsEWf6EUru5aZDrCTCYsM2rfT5ZX2tH2LdbUZHuLpT2E4M8gECmtGEDN4x
+                - dgEWJ3nULRcLVdhRXSALRrLzpbyYX9LnsDyx7zYe88pQzaPC68HpmwL9p4P4bZYL8mFgDQp9HK9bjwbYyLkQApHqVU8WD32bbLNr
+                - 7DXnU236TBVhnRNRbecv9ZwaNV9JNEMndDrtNwYPCvmfs8Ffh2PvYWqSFLveXLRy5WVKPkp7vNQvWnrTNL4cJubxT9zXKNXNpN4K
+            map: null
+            id: 3
+            uuid: D7F686B6-CA2B-49A2-961A-6D4DAF945A8E
+            date: '2017-02-08 20:30:40'
+            is_encrypted: false
+        initialization_vector:
+            description: |
+                The following data represents a pseudorandom string (CSPRNG) to provide information for generating
+                cryptographic initialization vectors for use with the OpenSSL encryption and decryption methods.
+                This information should be stored in a safe location outside of the web server's document root directory.
+                For more secure encryption/decryption purposes, repeat use of initialization vectors should be
+                avoided. However, this could be provided for less secure project uses.
+                A map is included below to construct iv byte strings with padding for all bytes below or equal to 1024.
+                To decode the map, use Hashids with a hash length of five (5) to provide the integer size for
+                string length and padding [length, padding].
+            data:
+                - THIS_IS_A_SAMPLE_ONLY_4E7PFfmJWtXZmcuwQxHssGE5Fq82aatbdtbszbPD6H5tRUEMnnDRA85fPUkbVD4PXtBVU8sUcnA5t9
+                - kSeeK7bXTKADDez7bxHmTCa83wXPMSyATmkvDu4GmJuvjE6VZmv9Jm9QPWxFfSPpAjkZwh4KfHqktBrNpysvjQ4CVV6hVm2vkKTF
+                - s9ZFQSY35kr5C6PYzzNGXrsTnBL7tLhMQyqzVdM76ykNMgucsPMR7kakkKF7yCBtc8yBvLBkHF6ujXSTY3hDb7JQTxSV2uU3WcUj
+                - rcFkewrmqN8LN2drrTx59LgAdBvqubzGr9XFVccrGzG76KHGVFae2XSsnQXtyqbFuTcJQkVJ6YGrcNNV45MW7VjkxT5KQYL8qHVC
+                - SMM2aevy9tJN4DaU4Ucwmjh4WnMBGJzN7QrzAhwJ59aZBgvKH4LbM36kjkwKMaf6LtSh9K5em9aUQAUDexSg3ZwFuyqXb7mY2vvW
+            map:
+                - THIS_IS_A_SAMPLE_ONLY_V8jV8Jh92gnFX2gqie2gdUO2Gws92G0TR2G9urVxRtpVxECqVxnfLVlRh8VlZSKVlYFj4bjUe4bKHM
+                - 4bZsD4jguW4jycz4jwteQMPf7QMAILQMghgQmzFeQmgiYQmyUr46nsp46XT56LeubdWet6dWzCMdW3fl8qrhd8qjSa8qJF9g6nsX
+                - g6qTeg6duOG7wc9G70tRG79CrxGRfpxGEIqxGnhLloRF8loZiKloYUjb0jheb0KSMb0ZFDjOgtWjOyCzjOwfeMYPh7MYASLMYgFg
+                - m3zcem3gtYm3yCr6LnFp6LXi56jetbdeef6dezIMde3hl8xrFd8xjia8xJU9gYnSXgYqFe6jZubdeoT6deMuMdeJcl8x3hd8x6Sa
+                - 8xdF9gYRIXgYGhegYLSOGGqT9GGKuRGGNcrxZwspxZjTqxZ8uLleWI8lephKleESjbEnTebE9uMbEJcDj8RtWj8mCzjzvFeMdpf7
+                - MddILMdkhgmjetemj7CYmjJfr6D7fp6D8I56DZhbdzoF6dzMiMdzJUl8v3td8v6Ca8vdf9g1RIXg1Gheg1LSOGMqt9GMKCRGMNfr
+                - xXwtpxXjCqxX8fLlDWu8lDpcKlDEtjb6nheb69SMb6JFDjzRFWjzmizj3vSeMkpT7MkduLMkkcgmleteml7CYmlJfr6W7Up6W8H5
+                - 6WZsbd3oS6d3MFMd3Jil8b3Ud8b6Ha8bds9goRcXgoGte6WJUbd3jI6d3ghMd3rsl8bXFd8bpia8b8U9goKTXgo9uegozcOGbzt9
+                - GbkCRGbLfrx57fpx5yIqxmauLlKeu8lKDcKlKjtjbWkFebWeiMbWbUDjnjFWjnqizjnEUeMeqt7Me3CLMeEfgmrxFemrmiYmrqUr
+                - 6v9fp6v1I56vJhbdkjt6dkgCMdkrfl87Xud87pca878t9gJKtXgJ9CegJzfOG6zs9G6kTRG6Lurxm7upxmycqxbaULlnet8lnDCK
+                - lnjfjbkksebkeTMbkbuDjkjtWjkqCzjkEfeM7qc7M73tLM7ECgmexFememiYmeqUr609tp601C560Jsbd7jT6d7guMd7rcl8rXFd
+                - 8rpia8r8U9gNKhXgN9Se60yUbd7YH6d7OsMd7GTl8rYhd8rwSa8j1U9gbYuXgb1cegbotOGJmt9GJJCRGJyfrxBdUpxBeHqxB0sL
+                - lP1u8lPvcKlPBtjbe3SebeyFMbepiDjGAtWjGDCzjGLfeMarT7MaGuLMa6cgm7Whem7bSYm7nFr6MAfp6MkI56MyhbdqYI6dqOhM
+                - dqGSl8jYtd8jwCa8J1s9glYuXgl1ceglotOGymt9GyJCRGyyfrxgdipxgeUqxg0HLlX1s8lXvTKlXBujbb3febbyIMbbphDjWAUW
+                - jWDHzjWLseMWru7MWGcLMW6tgmJWUemJbHYmJnsr6lAfp6lkI56lyhbdZYu6dZOcMdZGtl8JYFd8Jwia8B1s9ggYCXgg1fe6PWsb
+                - dl7h6dlqSMdlZFl8BnFd8BKia8BZU9gg8cXggPteggBsOG3Yf9G3WIRG3DhrxOkSpxOKFqxOYiLl6zu8l6xcKl6OtjbMdHebMqsM
+                - bMPTDjZ1sWjZdTzjZoueMx8t7MxDCLMxNfgm96iem9OUYmwoHr67jup67Dc567Wtbdn7f6dnqIMdnZhl8nnFd8nKia8nZU9gn8sX
+                - gnPTegnBuOGoYs9GoWTRGoDurxdkfpxdKIqxdYhLlNzf8lNxIKlNOsjbvdtebvqCMbvPsDjj1hWjjdSzjjoFeM98h7M9DSLM9NFg
+                - mw6femwOIYmPotr68jFp68Di568WUbdK7U6dKqHMdKZsl8Knud8KKca8KZt9gq8tXgqPCe68wFbdKwF6dKyiMdK8Ul8KOsd8KWTa
+                - 8KGu9gqjuXgqWcegqwtOGREh9GRZSRGRrFrxeLHpxePsqxeDTLlqks8lq7TKlqlujb8Yheb8lSMbr1uDjE8CWjEzfzjE3IeMR7s7
+                - MRaTLMRWugmKwHemKPsYmKKTr6ZRup6ZEc56Zwtbd9wC6d9yfMd98Il8ZOFd8ZWia8ZGU9gdjUXgdWHegdwsOGeEi9GeZURGerHr
+                - x0Lfpx0PIqx0DhLl0kF8l07iKl0lUjbrYsebrlTMbD1sDjr8tWjrzCzjr3feM07u7M0acLM0WtgmDwFemDPiYmDKUr6gRTp6gEu5
+                - 6gwcbdvws6dvyTMdv8ul89OFd89Wia89GU9gmjiXgmWUe6gNTbdvpU6dvDHMdvxsl89Ahd89lSa89LF9gmkSXgmpFegmDiOGOdC9
+                - GO1fRGwjIrxAZCpxAXfqxA5ILl1nf8l1PIKl1XhjbOvcebO8tMbOrCDj77iWj7NUzj7BHeMqOH7MqXsLMqZTgmARiemAXUYmANHr
+                - 6R6Up6R5H56RNsbdopI6doDhMdoxSl8MAfd8MlIa8MLh9g8kFXg8pieg8DUOGwdI9Gw1hRG0jhrxvZupxvXcqxv5tLlvnf8lvPIK
+                - lvXhjbwvCebw8fMbwrIDjN7hWjNNSzjNBFeM3OT7M3XuLM3ZcgmvRhemvXSYmvNFr6E6Sp6E5F56ENibdMpt6dMDCMdMxfl80Ahd
+                - 80lSa80LF9gPkuXgPpce6EKFbdMNS6dMbFMdJ0Fl8kxhd8kvSa8kbF9gBNhXgBbSegBlFOG9ou9G9RcRG9etrxqAUpxqvHqxqqsL
+                - lBmf8lByIKlBGhjbgRCebg7fMbgLIDjB6tWjBPCzjB9feME1u7MELcLMEntgmBGUemBEHYmB8sr6wrsp6wBT56wKubdJNf6dJbIM
+                - dm0Fl8axTd8avua8abc9gANiXgAbUegAlHOGnos9GnRTRGneurxzAupxzvcqxzqtLlMmc8lMytKlMGCjbmRIebm7hMbmLSDjM6tW
+                - jMPCzjM9feMj1h7MjLSLMjnFgmMGUemMEHYmM8sr6Yrtp6YBC56YKfbdmNH6dmbsMdw0hl83xTd83vua83bc9gxNhXgxbSe6alFb
+                - dwnt6dwKCMdw9fl83MHd830sa83kT9gxxfXgx3Iegx7hOGYPH9GYlsRGY5TrxRJFpxRNiqxRWsLlmJc8lmLtKlmbCjb3oFeb3AiM
+                - b3NUDjxeUWjx0HzjxXseMOKu7MOycLMXMugmmpCemmjfYmmlIr630Up63MH563lsbdynh6dyKsMdy9Tl86MUd860Ha86ks9g3xFX
+                - g33ieg37UOGWPC9GWlfRGW5IrxEJfpxENIqxEWhLlyJC8lyLfKlybIjbyoSebyAFMbyNiDjYecWjY0tzjYXCeMXKu7MXycLMZMsg
+                - mqpIemqjhYmqlSr6z0tp6zMC56zlfbd8nh6d8KSMd89Fl8dMFd8d0ia8dkU9g7xtXg73Ce6zztbd8Rf6d81IMd8Lhl8dzfd8dRIa
+                - 8dNh9g70uXg7Xceg7rtOGDgu9GDAcRGDptrxn1FpxnriqxnMULlG3s8lG9sKladSjbaEieba6UMbaXHDjakTWjaGuzjaWceMo9t7
+                - MowCLMoRfgmaASemavFYmaBir6Oacp6O3t56OzCbdaRc6da1tMdaLCl8ozfd8oRIa8oNh9gv0FXgvXiegvrUOGxgf9GxAIRGxpsr
+                - xp1FpxpriqxpMULla3S8la9FKlRdFjbREUebR6HMbRXsDjAkhWjAGszjAWTeMz9u7MzwcLMzRtgmRAFemRviYmRBsr69acp693t5
+                - 69zCbdRRf6dR1IMdRLhl8Oztd8ORCa8ONf9gR0sXgRXTe69pcbdREt6dRACMdRBfl8Oyud8Oeca8Ogt9gRMUXgRaHegGetOGlGs9
+                - GlMTRGlburxKbTpxKBuqxKgcLlZNt8lZqCKlZ0fjb7Oheb7wSMb7gFDjDxFWjDYizjDJUeMlzf7MllILMl5hgmXksemXZTYmXdur
+                - 61xHp61ds561pTbd1Ec6d1AtMd1BCl8Wyfd8WeIa8Wgh9gGMtXgGaCegLeUOG5GS9G5MFRG5bsrxYbHpxYBsqxYgTLlYNc8lYqtK
+                - lY0sjbLOfebLwIMbLghDjLxFWjLYizjLJUeM5zt7M5lCLM55fgmNkUemNZHYmNdsr6Jxhp6JdS56JpFbdLEU6dLAHMdLBsl8GyTd
+                - 8Geua8Ggc9gLMfXgLaIe6meFbd5es6d5zTMd53ul8mrud8mjca8mJt9g5nhXg5qSeg5dFOGvwF9Gv0iRGv9Urx3RCpx3Efqx3nIL
+                - lARc8lAZtKlAYCjb5jHeb5KsMb5ZTDj5gcWj5ytzj5wCeMvPu7MvAcLMvgtgm5ziem5gUYm5yHr6mnFp6mXi566eFbdjeu6djzcM
+                - dj3tl8zrFd8zjia8zJU9gjnFXgjqiegjdUOGqws9Gq0TRGq9urxJRFpxJEiqxJnULlzRU8lzZHKlzYsjbjjtebjKCMbjZfDj6gUW
+                - j6yHzj6wseMrPF7MrAiLMrgUgmkzCemkgfYmkyIr66nFp66Xi565ehbdgeT6dgzuMdg3cl8Rrtd8RjCa8RJf9gWniXgWqUe65Zfb
+                - dgoH6dgMsMdgJTl8R3ud8R6ca8Rdt9gWRSXgWGFegWLiOGKqs9GKKTRGKNurxNwfpxNjIqxN8hLlxWh8lxpSKlxEFjbKnUebK9HM
+                - bKJsDjPRuWjPmczj9vIeM6pt7M6dCLM6kfgmdeFemd7iYmdJUr6N7up6N8c56NZtbdroh6drMSMdrJFl8N3ud8N6ca8Ndt9gwRhX
+                - gwGSegwLFOGNqF9GNKiRGNNUrxWwupxWjcqxW8tLlOWu8lOpcKlOEtjbZnFebZ9iMbZJUDj9RfWj9mIzjKvTeMBpF7MBdiLMBkUg
+                - m1ehem17SYm1JFr6G7hp6G8S56GZFbddof6ddMIMddJhl8P3sd8P6Ta8Pdu9gERsXgEGTe6GJhbddju6ddgcMddrtl8PXUd8PpHa
+                - 8P8s9gEKUXgE9segEzTOGBzt9GBkCRGBLfrxl7hpxlySqxwaiLlJeh8lJDSKlJjFjbdkUebdeHMbdbsDjgjFWjgqizjgEUeM1qi7
+                - M13ULM1EHgmWxCemWmfYmWqIr6x9hp6x1S56xJFbdpju6dpgcMdprtl8XXud8Xpca8X8t9g0KFXg09ieg0zUOGEzC9GEkfRGELIr
+                - xw7ipxwyUqxjahLlLet8
+            map: null
+            id: 4
+            uuid: B1C77690-3E55-43B0-A970-217F7650AB7E
+            date: '2017-02-08 20:30:40'
+            is_encrypted: false
+        private_key_4096:
+            description: |
+                The following data represents a private key string to decipher encrypted messages within web applications.
+                Primarily, UCSDMath Framework applications should use the PHP OpenSSL API's.
+            data: |
+                -----BEGIN RSA PRIVATE KEY-----
+                Proc-Type: 4,ENCRYPTED
+                DEK-Info: DES-EDE3-CBC,8958A5DFB2C5ED5D
+
+                7Xs0MP2ZSxwvfuDACr7JLKk+ronHqv/OiAxSuhuKdn/Lue8GDeHePZ0EtVyRzc8P
+                eIPDkWcgtVolsj4hkAMEOXuiw58koFOywLD336aIlH2FiQBd7lZeWWprZCtDpJhF
+                4e+iAFDupEbIZQYFR3DgxHFLNGpkwql7dI8coFbfM9G1/e2Pa4hGDyPyMIY9ev8I
+                geWQyS7ZHG8S5GG7FwkjDwa7HCZ5xLgQknRcxCdtZq8YtwWUzdLu1DaANr19h5Ss
+                KhiPhCnXQlWQpPbLX+BUN/t0ZRR5yV9npBiKc4o4oNgj2Dwue9dn3Un6DqXQGyFs
+                IJ6ERabBVFdlgNAGYiop4C9JwSdJDQd7pMFt6Fo0Xuc5cViyiFyfKJjbwkPP2/Cb
+                8Gl7Zspec6dH4QvthjeB35vG5+vlklX4DDa6tA7C3N+M+ZAQpOe5ePUS8jtm1PuT
+                T1lNLcpZBh/S84YTdMBpK7ojYIAdJ1avPtjulx6Bcm6ZiwWr4KHcF6hqtjI05U3X
+                YVjn/gW2d4aOY0oKYkerhPIs2ObWnBC1JnPXhjRV0RhWMKKx+8J++XDypaMKiTX6
+                v7QLFROefX34NFR1b5W6y0v0O/DnvQJUgrB3HkZM9jf3TuoY0fQJBD4eUWWGvs7j
+                hv795hqs1n2axSI54/CK1Bq85FQkPJmfJlFbNVSpzpJsZtH8BsO7eh92vOIHxr5Y
+                KdhdH40iwn1N9rxHUQ+HrkuKo4pep8+hXeY1GE0rpJn60tqIP0uqA0WgPjbdJfWu
+                AJcIfJNH7OEMLj1f1MxhA/rjmsRLIQl/hlb2fVKp1qx9uY4+Tkkvq54gmRoMUYjD
+                x6dt7jJ78LxkVgQk3VODnei58kjBSIaZthvgiayuNQNpkmidlC+/24Cu6VOSexGA
+                ecfbRvDpOsXPvryVbm3AhWpdKRCvd185/Ihb0YWQHaubkAEAh5aUudHVSkV3gCXp
+                VRsgRmNwc2kkqFwJR82Y4/K8zTRVIuxFhRggrEZ7KbxYPrnTSq57t2CdyNrgAc3t
+                JJGNr4y4fhM5qVG3Pxp8VCT9ahYHPEu1rnAVVS+q2/V//beAcvKmLRUuRduJmQc/
+                bfPh7AnRFHn6DlP6BpFmt47YhVUK4sjdiq/a1EkRh06+QGvHdtliWIuJyRCeI5SF
+                7K82Dk4DP+V1T+wC2ZbqB4aK6iJyuZeWj2iQBur30UOlbeUG5VR6QSaTs4M8KbIw
+                zlnO2WUz7xW7p68aGAaExUeEdxUjyQdH1B14nqVixwASE6KEGfki8eigT/oOOfeG
+                YkqulJXylnUFiqxHWp4sOhlUlA1Ytkt8ULiHxhKqW1PHn6cBHEH4hRBw5GHvG1aY
+                IKz+xBBxsZ3ehWHX0Zp07Eymdh0pQCcf6h0OEximfqLWd8iNEfs5PH32P2L5RNMc
+                jc8+PHkzZKxKDaYpcIO+P5C9py1XsxfEylylaUlcOwFfsMLmqFB06bATVgA5Odql
+                nDEcLXOWUqOgKh+sojfwRW+Zn9k+I+RWtPNkdjXfrjYbnHMRml8fnsLX/hHl+wE5
+                JrwBc/MKhNlgRBrsViKKQuaHOpfmVFqM5grsrgAHof4JbLDKEJXNPrvloQwT1PR6
+                8wGP6cK5Of84f2jBqzGl3xEW5yaA3xe7hUotYnW7OdM4LKI8L3H3QV3cCC9NiI0T
+                b+nCr7YIgXTMPZYB3Hgtvp6CxvD6JP0jqfPhBgnlgRhqRhuZT6KkSYd5Vnre5608
+                OG6NdijD27uFP75riZDTXNW77OLzbyiRb2ZM78YJzuTi5pb5IP3xmYvstsyQA4qB
+                PvkbjmiploFEzLEBrX5DBA1/udSTlYlpwNTiChpmdwdYXSKdIRL3lpCZArVzU+Kh
+                5VuSY5Doaphzb22sbYPM6jAWQYal9wNox9Vs8UQwXnQlrXjAU5I7QKIKU7sTDvWo
+                gzLaNCMDWfYJXUNJnmnKZKGi1iJPCJqmxnyMdHh9/p9jznObIf9zMZW73WKp81X9
+                lQTkjc9AZIuhxhzr4IvrFOjocrYCD4mHQEEhmggcT1APP/uvAro8IMw05YmNU6qK
+                TaToFLoNPMkhmeEBUY7mVhBF/t4wNtlxBsfTl9S8keRUAlS1FvERiqKtlqcg0zGB
+                8HFTj0lgGM3kHnSZbxOQEzQCZK+1rr9eSqwcT1tRcDGBHiXNeJ6G5MO66BWyPpnj
+                Ggv273nAJFAOLl9fA6q4pkZUEZuoMm+Fr/Tc79kkL6iPEtBpXtKI+lKEbyQAupU4
+                h6NK1mPW09dqp+GjY2zP2LAJ1PO1BNeKvn7qqIapM+RQhDvsCTjV0PVc29tz9snp
+                D0anL+gY9vGmRmGIYGeOcp/ExKhsOCUvTmHq1tMF7QX8jeXy6W8SJT6bx29OxMGr
+                OupHUmaPWvCVX3/uDePbU4iEZEV+m1Xh+yMkV2mHM7maa3o5eHNpr8BnI6qqA+uE
+                ph/KembrkouRLYLaeh9x6qT2ZznduexPEnyehc4qmiJCUbBgaWv33LInNhoxR8+r
+                0O/x6+B23M+WJgWUS9p6h5r8bTefScdsi0tj6CpH5KQiWOZWQ8G9oFgzNvmCE45N
+                Ho/6Yzs7hAQKrZ7DuJDp3OUkhlP48aBQ1e9ibU02YMJ3sOGRr32eToT1FSagiK10
+                XWAjGRUFczcRfERHFf5f/11qVUvpJvnUuoUOuucMjS8P78pNQfNMLvLG1qYB7KXJ
+                iavXICTirHmpuulOtl+I5oCXJzHdE3OSbwt1hhGoFr5s1JGO+gBmIiSi45F0aWf7
+                IOHcsxJcbClzmRBcY1AkRAY8lMKBT7D6aMSmDeZ3xkVf0plkzmyEWolXzyjbBQ4T
+                OgB1JPup+6yEr2/RD33TLPJCQoSX3hT/e8hmT6GJsX3a4Gq5xoULOFH41D9qgXdN
+                DWkzL8pTHFwlIncxyrhdDUUSUerfSJjQpkEJMWtgJIjBTQOWV7z6E+mhygDU8xXq
+                WkzSe8dlyDqg6DM7QuTeEIqGzP5I84b/njUBaj79RalXkNai9iUHjGhd+GaHH9H+
+                Y9uldDSPc4JziWY3frIRuf1ZreEMXr82owz09BjlqLMV/5XVUd3uV9mD3WzOZB0T
+                KBAymK1Cmez1MamS9O52FgN+qPPKDnczpxTY2OogZhuxH8PUnDUfEQN0YHKWdaeB
+                -----END RSA PRIVATE KEY-----
+            map: null
+            id: 5
+            uuid: 0A7BB067-7E76-45D3-A0D9-625054C3C6F8
+            date: '2017-02-08 20:30:40'
+            is_encrypted: false
+        public_key_4096:
+            description: |
+                The following data represents a public key string to cipher encrypted messages within web applications.
+                Primarily, UCSDMath Framework applications should use the PHP OpenSSL API's.
+            data: |
+                -----BEGIN PUBLIC KEY-----
+                MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAusKdAM7YaV98I5jxtsFu
+                2mXD9qwXfVYwXBlk+X5jPcfsZ1sl9bhOk35kcUDPauPkwnt7S9Buo5vfuUYRU+vN
+                4OccRJiOUjcWMvkn86H011CbSb6HwJLK+PLfE2TVDvww3mZrCvpXHI0PCXmewLGL
+                AK229jm3B/i7jgYHROkjXw5qSmEJYGV4vNeFdvUyYC1Inon3KovM5GA4l7B+c+0T
+                M9tBf7xHwjMCqJ4rNdQhUf5ObGv90tOmByWBvzWeiUaws/L+AtMJ/a+skcMJsU4M
+                dY/1HBj3z3nlXNn7dGUWu+TjZKok4aKikM2vb4qN1QjxQyLGLygKQ1zgqr4buBR3
+                +cpJwMxohLltlFE2ON9Y8o31w0YkhLsniao7mS3spzlv7RVxRiv5RGfdVHNn+H7Y
+                zp8Bkl4rRtxx/HqpyBvo28olEw3bcVCSlYIUKXedVmDKPBMRGnvG1cZu6qKNmiP+
+                SXZm9+Z2xrmSS+q8lq/v6bjWUksdwVEJesRM0XSC4SdjHcA/E/0yTPtF1JDs7pnc
+                wcmijEDoU41oxyDIr7mAhFdfbRBo0DQVf0ao6RhcJHgHhhR1e5tHdekrfIl+adTz
+                xsjK8iu49MZJsjbW+nOpXimSqrvnQDnkt+7olK98/kkM58PpDRvuUnvSULcIvwt+
+                cB4bisUzF/Ntrnq0SvbS0X8CAwEAAQ==
+                -----END PUBLIC KEY-----
+            map: null
+            id: 6
+            uuid: C4B43493-4FE2-4976-B527-2E68E86A52E3
+            date: '2017-02-08 20:30:40'
+            is_encrypted: false
+        default:
+            description: |
+                There is a configuration problem accessing the requested information.
+                Please check the connections and try again... or call (858) 534-4591.
+            id: 7
+            uuid: DF7A5600-4120-4A73-AED5-CF69AFFDBE0F
+            date: '2017-02-08 20:30:40'
+            is_encrypted: false
+    public:
+        hashids:
+            description: |
+                The following data represents a pseudorandom string (CSPRNG) to prime Hashids configuration at
+                object instantiation. The Hashids software component is used to encode/decode integers and
+                arrays on multiple projects (e.g., such as initialization vectors). Use this string to generate
+                keys for public and external viewed website information. Reminder: the Hashids library is not
+                intended to be used to perform cryptographic methods or to encode sensitive data.
+            hash:
+                - THIS_IS_A_SAMPLE_ONLY_sd6AhQ7zwqDmNjAhnQDL74nQccjgDhDVwddE8t45tpWBeVT276wFskA5y5EYbhyzVgHjmygyMnkmJc
+                - Fb2RNdzEtWrRxLXRxnzCg63thrVKw6HLnAMm73pd8t6tMvGnY5B59nfuJKgxdjcDuHcp3UF7YXPyuwcksfq75kdfggY44PEgz2Tv
+                - nGzaJPEuRTvrWw3TdyA2fQe9jwMZ5UHbWtQjcB3UPcuY2pQX8QJjES2hAA8cUjTqqRCNrRuAqYCPSTCuPEkB2hcF4ZQVUPySFjQ2
+                - HtV2ae87nExCDB2Tnv8yDGeXxy9erCpnf8PDk2NHshKkXvvyHrxxMekbpmELP5FHy6zradcYKNwy34jRru8fwqEVYL8QCf4UwUHU
+            map: null
+            id: 8
+            uuid: F5FEC325-13EB-472A-B77D-532C6780B220
+            date: '2017-02-08 20:30:40'
+            is_encrypted: false
+        primary_hash:
+            description: |
+                The following data represents a pseudorandom string (CSPRNG) to build keys for encryption/decryption
+                purposes. This information should be stored in a safe location outside of the active webserver
+                root area.  Primarily, this data is accessed by the UCSDMath Encryption and ConfigurationVault
+                components to protect information using the OpenSSL encryption and decryption API's.
+            data:
+                - THIS_IS_A_SAMPLE_ONLY_FsgKBr8bvsjf88k9LsMrNqDhSxx32YA2qC8dLtErDDKNU5Br7hJ2TDU9rZTDLjgpjq2YEMnbmhujAm
+                - YA62Un3yWb3hmuTC74Lq8bxsCnkHbGMwgT3Y5zsfYV6MYxK6EnwQdV2fatrF3byJSP9QbCVvpnQhe3dAn8X4dZU8KYbwjn3Wt5bp
+                - aaZWzwywQdZYp6Mh5DaRv4czPfd8n3Zun6SNfEHyEnyr74qe9B6hasfWgvbageEHQZFYaSqS45FxnBYT4qe6t687vh7MEpaHCyfm
+                - AEPjtAvcCMNcHUtdfUEnwHRGjQsc5CLCbcZrNruLF4Z8pSHwuHttjv3ZXn2MKZbHmd4QpeqgGjpCSgABja3zR6UWebJUxsMuHb3A
+                - XzL35mGx4xNgwVLdPSBS9ac9Z7whZcebfxy5TXcSMRkavxCkpvUjTFNN5jerR2P4WBKTmutPgemMyREQHUR22UgFKMBeT6Ta6vwK
+                - w5jXTGnVk95x2p5JqJCWAqCLmVn9pYaDAayYGMDQD8XbTswdJ6PKX9xweYdFmcTGGD4pGC5UMzdgXejxCJPzdJEaHDtnmKR7QFt9
+                - 23HmuhE7hNBFEnNbfAXNDwR45r2Wy9NpzA94VBYeKKbMmUtgPGAz2AtEzmw7gEUbWLMLDJPmr39SEmXF4BLBFds2A5y9kwQeZdeD
+                - nmpDQFSKXgGuzrHNtGTxmx8DyZynE2SpDNuprkaxLxUZ9T46XnqzAXpBPXePFpP86seTXXeBUfcbcxy5udd8QSnHwZWs965msxbJ
+                - VQjZmskbAZnqympFpggGEjRM3QugaSVu4JmQ32Y9rmWWeqTZbrcF9N2265acVX9AbBTRUHYu5MkWFfKVPd7Hzu3EksnuQvbkRUKS
+                - FWXLfU7tCZgM5HBbnPqPfqYdUZmkApec4Kpy6vURDJXczJgqz2xj3XKXttdjvQDGutATbQa6uBGrHkujYejX7h3TyFAN3j8vpXFm
+                - L5YV8crD28S99RmWeFQyXEkMF69x5tYExU6cdZ4Tp8qDSzeMXu2refVHcpEMU3dyncFCtRCyKBpmcG5UjEnNNQgaBruRPszh4dRW
+                - zZuqr56TjstZ9q3W3nyFzWeEykZRmHSNcpaPAZQ3nuMGk9vfH9r7JrQepCVJxuKhbXrFu9JdEDRepDpWhC8YTuGqnJap3BdSE6F5
+                - NHZH9TAcdZhBvsGd3MF3KFZUPB9GnK4n8D9PWysyqDUh9AeTP9eBESfGX3qxXgz2YXmjgvJEAdSTzhZqr7ABzZLctu9b7AsuE5jP
+                - 8Z5Upn698hxX6S43U8R7xemq5vSqFggMpfN6UwzuTJkEfevYUsK8RRBd2JVC9QZsVH7A8Hj5hsFAXWdxhnRVcNZfWKxMaG4f2C4k
+                - RYshNDryfdZLraRWrpPfj6mJJ9RSxndbrcEUqRPE8EksrZWLpPnPkdVDtSGD2rxCgaewgbeN6CuMTHswVpL5JajuxQFCy4dBchZP
+                - pg29ExkW992wUmT7WwVkv9VSNQzCxNBXuCt8rSJRzU8SvmwqjhVppWMnPt6yXaypfDWPuCgb2MKQMunruqWGfGzxnCDTVD6Fucta
+                - ZjhMckAU73vDXPmPu4XKbhym6DTAWtZ4yKJ9GRUYPvb9sBrFxJqNdsRMqvtbpxbjUnKPnhnxcsZfaz9Eu7Ca4xaD6vMvaTv6d4Zm
+                - nEYEQgXzdAgg7AXefwBbh4RnBE8zpp4TCwpPPmwg6LMn4Y6jZy3DUPNS3N4Fjy2LrKCXV3UGMjdLhkvanDDf9fvpqDUZa2TfmdJZ
+                - WQNqFCQKdLBe9Aa5MHuJPnb2ZS2Mgr3w8uNSkKKUWxa9tVxG8JBxZ54b4rTB383HLADVhC3A9wxn3wBgyf76duKfM4VfqDLtU4jQ
+                - NsFwfJAkTkm5Cvwspp6XBcyqe3KZNrZZEk2bTbdJc9wahUgUQgLEdYzmfjVJQd9HbSFTuTzM7DCDJzkhmsUyM9QqbEqcYC5G2sGz
+            map: null
+            id: 9
+            uuid: 6A6F9734-D6E7-471B-BC5C-3D2B242DE8A0
+            date: '2017-02-08 20:30:40'
+            is_encrypted: false
+        core_seed_hash:
+            description: |
+                The following data represents a pseudorandom string (CSPRNG) to provide information for generating
+                cryptographic keys for use with the UCSDMath Encryption and ConfigurationVault Component.
+                This information should be stored in a safe location outside of the active webserver root area.
+            data:
+                - THIS_IS_A_SAMPLE_ONLY_egCV93SA7xekU3PeLsJhFkRD7nrPVQWUxftWxaEg69CsWMjbk23ra9qZtn8b4248j5qW7kBv7uujRV
+                - CH5v8KGrmDAHK5Apqzq76tnPePUYExfDt3bEbQbuYe3NPnQQMDeszhTkW7VuRTahzCbxrvXFDEnf4a6b4kwwx4JFnvkQLhb7TN3u
+                - 4fg4e274UNL7H4UNutsnHpRr4DKG9nCWUjbSKBLMEx8EDhRRHLnV7euH2cjMfyjKt2ynYNaQhqwxPh4U5W5ZmufxU8A9YyFacMHr
+                - 738ZP8nTDSLBxnyj6dnRmUaGNCYdMKFG3vYHDKMDezTwyEVyFwRTzyW8N2UmSew59n82DZerqCr2XbQkvVJBkrdcta5DyQ4J4dFk
+                - 2hWgypxyXk3yFP9NEZ4vsTGKPEabtQXGGhhY6dMcCAft5GdShtg4krDzdfMtWWJ9eTeqVDbv4hjcjJyzeFAZzADfKLrHzVNP8cbD
+                - EwPCeaeEGAECmdsBWjBtGEayyE37gczubVKVVPhGvbAUb3BJSUpAJApJsPgzHzaF2XpUwkYEcgSwfML3sYg3AQYg7cM4tS3UZbm6
+                - A3janPM6pY69dakf3gNmMYyFNS6J8CgwmGUuZXB2ePEAeHC3jPM6e7EqcdMAZXm2HaG4WjP4evssrAerRZtR3bTe852M4wwgEqPj
+                - dkHSkTzJvjDpTVUddmcyZhU7s5EkYxfMc3HuTZUnG5s3HUkVzjgCLSdxBmWsS3qAuY5BSaD8PFb6BpEaBzk36PqMVMfNArfh2t3D
+                - jmfSSVEyFbvppxCCkBNJELMGgLq7J72Q7QRKxVDxra7VKNADYKPk2nYu9LENecMtx58wzp5uFakEYCLMsX8F33SApd9TJw6vtdcJ
+                - VV4U4QYcLYLX8thgf7gujxAJagt8bDCcQNwLU8H5ZSSk2xa5PKYsZfRmxF55d2pbSxPf77tG3eqqmB8MTfktAhgQZWb3jRYacg3G
+            map: null
+            id: 10
+            uuid: 9925D498-02C4-44E3-9433-9C2157654B07
+            date: '2017-02-08 20:30:40'
+            is_encrypted: false
+        initialization_vector:
+            description: |
+                The following data represents a pseudorandom string (CSPRNG) to provide information for generating
+                cryptographic initialization vectors for use with the OpenSSL encryption and decryption methods.
+                This information should be stored in a safe location outside of the active webserver root area.
+                For more secure encryption/decryption purposes, repeat use of initialization vectors should be
+                avoided. However, this could be provided for less secure project uses.
+                A map is included below to construct iv byte strings with padding for all bytes below or equal to 1024.
+                To decode the map, use Hashids with a hash length of five (5) to provide the integer size for
+                string length and padding [length, padding].
+            data:
+                - THIS_IS_A_SAMPLE_ONLY_gDE3SsTRvTFwmDNLxpKy6xwsn7qeScydC3brf4sMZk7JT6nKVG8wNRWhMQ3XmqyK8YbGv4eMp4tTue
+                - tjmzUNg7Gsqn6xmqrY6FTSHDXDUjTgpPFZjwCwE674HWhFZ8xxsNUhMN7afbrJL6QXrWTBgCxZfGq6aJJMAKk8bhmX2vLvcXHfHc
+                - fx2WuWwWyCGzaR7znUbSEY9HBUpg8aZ7R4VQBdptEcEydRK7txSSFezCWAEsnE8gDmYbH5FYeQHGm6NbVuPzWxxRArPEUfXtk4RS
+                - YjBXsbJEUZyc85SDXThmGk9XT52qHc2rsp5724wuELbeetSrGzwrJSehLrSqTq2kYtcNvDnqF8fpgUePA63MvE5SwJFLr7U3hebc
+                - tkPNfvEunfuzvXT3ZHcw6yqNWrFdyyXzSjDxAXxsExrYyJbpJTjEvfkn3NcLzXf53YMUYM6AWtHxtSEDCq4a6Nw2UuC6vPzHzTpS
+            map:
+                - THIS_IS_A_SAMPLE_ONLY_LipRn8HXWE2FzWE0svWE1hVRZ6UrRZkcLRZLCAJK3uaJKzf7JKOIMWaNHyWaKt2Wa4FVJo7hLJo1T1
+                - JoXUDRjlCdRjvS2Rj9u6RbPIvRbKiaRb1HoWm8FrWmEs3WmdhlJ7mUpJ7acL7NMC8v9NuXv9jfAv9mIgn24ULn2Lcpn28CXEZ2hz
+                - EZ0TvEZ1UVZZ6CrZZkSLZZLuAKB3IaKBzi7KBOHMaGNFyaGKs2aG4hVox7ULox1c1oxXCDj3ltdj3vF2j39s6bkPHvbkKtabk1Fo
+                - mz8hrmzET3mzdUl7NmHp7NatL78Mu8vNNhXvNjTAvNmUgnD4hLnDLTpnD8UXEe2UzEe0cv78OC8vNXFXvNAsAvNohgnDyFLnDbsp
+                - nDmhXEentzEexFvEepsVZdpUrZd8cLZd3CAKDQHaKDbt7KDZFMavpuyavYf2av1IVolduLolNf1oleIDjEDfdjEmI2j6BF6bg3Sv
+                - bgguabgdfomx3urmxnf3mxXIl7vAFp7vPsL7vOh8vjXhXvjATAvjoUgnxyCLnxbSpnxmuXEanczEaxCvEapSVZzpHrZz8tLZz3FA
+                - K7QFaK7bs7K7ZhMagpiyagYH2ag1tVogdsLogNh1ogeTDj6Dhdj6mT2jLBF6bd3HvbdgtabddFomw3irmwnH3mwXtl7jAFp7jPsL
+                - 7jOh8vmXsXvmAhAvmoTgnzyCLnzbSpnzmuXEknizEkxHv7jwF8vmDtXvm1FAvmPsgnzNULnzncpnzYCXEkrfzEkXIvEkAiVZ9ocr
+                - Z9mCLZ9jSAKgGhaKg0T7K2yIMaBvFyaBgs2aByhVoMaCLoMnS1oM2uDj2NCdj2eS2j2du6bv6uvbvZfabv2Uom7yurm7bf3m7mIl
+                - 72ZUp724cL72wC8vaDFXva1sAvaPhgn5NFLn5nspn5YhXEKrczEKXCvEKASVZ2oHrZ2mtLZ2jFAK2GhaK20T7KXyUMaevHyaegt2
+                - aeyFVoaaILoani1oa2HDjMNcdjMeC2jMdS6bn6CvbnZSabn2uom3yTrm3bU3m3mcl7DZUp7D4cL7DwC8vMDSXvM1uAvMPfgn4NIL
+                - n4nipn4YHXE5rfzE5XIv7DKU8vMGcXvMkCAvMKSgn4duLn43fpnL6uXEGehzEGaTvEGkUVZXgHrZXXtLZX7FAKa9TaKa6U7KaAcM
+                - a39Cya3rS2a30uVonAHLonbt1onmFDjwxHdjwpt2jw4F6bzoIvbzwiabzeHomneHrmnDt3mnGFl7ldup7lEfL7lKI8v2GuXv2kfA
+                - v2KIgnLduLnL3fpn86CXEgeSzEgauvEgkfVZ7gUrZ7XcLZ77CAK59CaK56S7K5AuMaD9hyaDrT2aD0UVo2AILo2bi1o2mHDjgxtd
+                - jgpF2jg4s6bVoIvbVwiabVeHomXeCrmXDS3mXGul7edTp7eEUL7eKc8vvGHXvvktAvvKFgn8dCLn83SpnG6TXE6eIzE6aiv7pjH8
+                - vgMtXvg2FAvgvsgnGwtLnGgFpnGAsXE6YuzE6MfvE6vIVZGOSrZGMuLZGAfAKoNcaKoxC7KopSMaloUyalZc2alECVoG9ULoG8c1
+                - oGKCDjYbudjYof2jY1I6bybcvby5Caby7SomjlUrmjBc3mNLHl7A8Fp7AvsL7Ajh8v5MHXv52tAv5vFgnwwtLnwgFpnwAsXE2Yuz
+                - E2MfvE2vIVZBOIrZBMiLZBAHAK9NIaK9xi7K9pHMakoFyakZs2akEhVoL9ULoL8c1oLKCDjNbIdjNoi2jN1H6bNbFvbN5sabN7ho
+                - mNlUrmNBc3mgLCl7P8Ip7PviL7PjH8vVMuXvV2fAvVvIgngwhLnggTpngAUXE0YuzE0Mfv7PzI8vVyCXvVbSAvVOugngXFLngpsp
+                - ng7hXE0jCzE09SvE0VuVZrQCrZrbSLZrVuAK6VuaK6jf7K61IMajPUyaj7c2ajOCVowEHLowDt1oYkTDjdECdjd6S2jdLu6bBnIv
+                - bBziabBVHomYNurmYgf3mYYIl7OLhp7OGTL7OzU8vLyUXvLbcAvLOCgnAXCLnApSpnA7uXE1jczE19CvE1VSVZ0QCrZ0bSLZ0VuA
+                - KAVUaKAjc7KA1CMaMPTyaM7U2aMOcVoYEHLoYDt1oVkUDjVECdjV6S2jVLu6b8nuvb8zfab8VIomANIrmAgi3mAYHl7QLfp7QGIL
+                - 7Qzi8vwyCXvwbSAvwOugnVXHLnVptpnV7FXEzjhzEz9Tv7QXf8vw6iXvwZHAvwxtgnVPuLnVjfpnVQIXEzDUzEzmcvEzdCVZ5ySr
+                - Z5nuLZ6KHAKYDUaKY7c7KYgCMa9eFya93s2a9DhVooLcLoowC1ooYSDjjjCdjjZS2jjXu6b6Yhvb6lTab6mUom9rsrm9ph3m94Tl
+                - 7L6Ip7L5iL7LXH8vX6CXvXZSAvXxugn9PtLn9jFpn9QsXEYDSzEYmuvEYdfVZ6yFrZ6nsLZkKuAKnDCaKn7S7KnguMarehyar3T2
+                - arDUVoZLhLoZwT1oZYUDjZjCdjZZS2jZXu6bZYIvbZliabZmHomZrFrmZps3mZ4hl7G6fp7G5IL7GXi8vA6hXvAZTAvAxUgnZPHL
+                - nZjtpnZQFXEMDfzEMmIv7G1f8vAYFXvA0sAvo8Fgn0DILn0xipn0zHXEv5CzEvGSvEvguVZLBCrZLrSLZL0uAKlYUaKlnc7KllCM
+                - a02Cya08S2a0AuVo04ILo0pi1o05HDjXAhdjXrT2jX0U6b2MIvb2piab2DHom0Purm0Vf3m0QIl7zVFp7zbsL7z1h8voYFXvo0sA
+                - v48IgnKDULnKxcpnKzCXE35hzE3GTvE3gUVZxBFrZxrsLZx0hAKdYIaKdni7KdlHMax2uyax8f2axAIVoj4ULojpc1oj5CDjaAsd
+                - jarh2ja0U6bAMivbApHabADUomKPurmKVf3mKQIl7nVCp7nbSL7n1u8v4YFXv40sAvy8FgnyDhLnyxTpnyzUXEw5UzEwGcv7BeH8
+                - vy5IXvyViAvyLHgny9FLnyZspny0hXEwwhzEw7TvEwOUVZODFrZOesLZO4hAK3PCaK3kS7K34uMa25Hya2bt2a2zFVoAPuLoAyf1
+                - oAQIDjyzIdjy8i2jynH6bYQfvbYaIablXFomb6hrmbxT3mbwUl73Dhp73lTL73eU8vb5IXvbViAvbLHgnb9FLnbZspnb0hXE7wcz
+                - E77CvE7OSVZMDsrZMehLZM4TAKzPHaKzkt7Kz4FMa85hya8bT2a8zUVobPCLobyS1obQuDjGzHdjG8t2jGnF6blQUvblacabmXHo
+                - mm6Frmmxs3mmwhl7kDCp7klSL7keu8vO5iXvOVHAvOLtgnm9HLnmZtpnm0FXEOwczEO7Cv7kkC8vOrfXvOpIAvOnignmoILnm1ip
+                - nmrHXEOQTzEOyUvEOlcVZAPurZAEfLZA1IAKOeiaKOmH7KOwtMaAmhyaA6T2aLQhVoOlcLoOgC1oO6SDjOMfdjOwI2jOgi6bONtv
+                - bOLFabOBsomO9TrmOZU3mO0cl7rBCp7r3SL7rku8v7rsXv7phAv7nTgnOoCLnO1SpnOruXEbQCzEbySvEbluVZNPHrZNEtLZN1FA
+                - KreHaKrmt7KrwFMaLmhyaL6T2aNQuVo4lILo4gi1o46HDjxMUdjxwc2jxgC6b9Ntvb9LFab9Bsomr9UrmrZc3mr0Cl7ZBCp7Z3SL
+                - 7Zku8vrrHXvrptAvrnFgnXohLnX1TpnXrUXEnQHzEnytv7ZoF8vrzIXvr3iAvrQHgnXlFLnXespnXEhXEnEIzEn8ivExoFVZedur
+                - ZezfLZe9IAKxXCaKxaS7Kx5uMaKkfyaKjI2aKMiVopouLopZf1op0IDjpyHdjpGt2jpQF6b09hvb00Tab04UompoCrmp1S3mpaul
+                - 74YCp74ySL74ou8vpzFXvp3sAvpQhgnplULnpecpnpECXExEFzEx8svEpoIVZ4durZ4zfLZ49IAKpXhaKpaT7Kp5UMa4khya4jT2
+                - a4MUVo5oFLo5Zs1o50hDj4yIdj4Gi2j4QH6b49Fvb40sab44hom4oUrm41c3m4aCl7wYcp7wyCL7woS8vnzCXvn3SAvnQugn7liL
+                - n7eHpn7EtXEpEIzEp8iv77MU8veNHXvejtAvemFgnk4HLnkLtpnk8FXEN2uzEN0fvEN1IVZl6IrZlkiLZlLHAKK3haKKzT7KKOUM
+                - awNtyawKF2aw4sVoz7ULoz1c1ozXCDj5lSdj5vu2j59f6bGPTvbGKUabG1Uomv8IrmvEi3mvdHl77mUp77acL76MF8vDNCXvDjSA
+                - vDmugno4hLnoLTpno8UXEj2FzEj0svEj1hVZp6FrZpksLZpLhAKP3UaKPzc7KPOCMaoNUyaoKc2ao4CVo77cLo71C1o7XSDjAlud
+                - jAvf2jA9I6boPhvboKTabo1Uomo8CrmoES3modul76mFp76asL75MH8v1NUXv1jcAv1mCgn14uLn1Lfpn18IXE92czE90Cv75OI8
+                - v1XhXv1ATAv1oUgn1yCLn1bSpn1muXE9nTzE9xUvE9pcVZ8pFrZ88sLZ83hAKkQTaKkbU7KkZcMaZpFyaZYs2aZ1hVo1dcLo1NC1
+                - o1eSDjrDIdjrmi2j0Bu6be3HvbegtabedFoma3urmanf3maXIl7XAFp7XPsL7XOh8vPXuXvPAfAvPoIgnryhLnrbTpnrmUXEVnHz
+                - EVxtvEVpFVZ3pIrZ38iLZ33HAK4QUaK4bc7K4ZCMaEpFyaEYs2aE1hVoXdFLoXNs1oXehDj0Dhdj0mT2jKBc6bE3HvbEgtabEdFo
+                - m23urm2nf3m2XIl7xACp7xPSL7xOu8vBXHXvBAtAvBoFgnayfLnabIpnamiXELnIzELxiv7xwC8vBDIXvB1iAvBPHgnaNSLnanup
+                - naYfXELruzELXfvELAIVZvoCrZvmSLZvjuAKLGhaKL0T7KQyFMa5vHya5gt2a5yFVo9acLo9nC1o92SDjlNIdjlei2jldH6bM6sv
+                - bMZhabM2Tomeysrmebh3memTl7YZip7Y4HL7Ywt8v6DHXv61tAv6PFgnNNFLnNnspnNYhXEQrCzEQXSvEQAuVZQoIrZQmiLZQjHA
+                - KQGFaKQ0s7KbyIMabvHy
+            map: null
+            id: 11
+            uuid: 7F234C1D-A74C-4B4A-9DE6-9A24CEFD1AD5
+            date: '2017-02-08 20:30:40'
+            is_encrypted: false
+        private_key_4096:
+            description: |
+                The following data represents a private key string to decipher encrypted messages within web applications.
+                Primarily, UCSDMath Framework applications should use the PHP OpenSSL API's.
+            data: |
+                -----BEGIN RSA PRIVATE KEY-----
+                Proc-Type: 4,ENCRYPTED
+                DEK-Info: DES-EDE3-CBC,6ECDDFA35F99D602
+
+                wSFdoFvooUWnalghuuvsiMK10qCY1dXXmjX8McakttECIHKlWQxHVb7bj13DhI4g
+                WyEb1c+bIdl2/wdQ1Ri9d9aHYagBqwpcQZurYQLnesHtzFMBL63HasHMjH9rymA3
+                4ThEOd9atoXfW0tvg1xrvrfRtR2GdN8L1ffVt6i6iNtOYqhXTzOUg6yVaofSdtlH
+                bzx1LF36T6b+OniSkMHYYjHjXvi+gKSxjuq/Bh5vGW3N8gDSvFG/cP03O+yqxbT+
+                8NtJuWdhw+Ll1o4aIfkjJREb+eTfVFDFTzMD/dBGGv6CJYTxAMbZzgeTfJCkSH2p
+                q2vbbjxNXc+gGjY82eh5VQHizaPNyNkbctU3BXu/ATRtMLfo1facY1DNnd2glx55
+                4Hj7GOEWPEBhmGIRWdNKgAmBQdTl9x1BPRief84RWYRhb4G4p/U75Fe3vriK8IBR
+                uiFfcxSpCIYbThjJLq+wAk8Tp9wnG4x0mUeIU5Qt92Yq6Cf9U7JEdHrCymmMPEoD
+                Ow2NtewOzVP0HEJiwQ5+BGTzZ+0Rh6y9eF+QT9nFpa9VFi5iaL+nZSpn1+fdUnNK
+                leDPj94+bQ9ZzkGB+IZ+bNQ05CGvlrAQcQPZuKCUyhOM4beyZ7sWDt3iHQKG+i0h
+                h86iO5CYwlEazxcJZriJpGCmQOXwDz0HxwVkjHIFsXcCslfT9GsOIJuu0ejeqZ8V
+                8QQLCD3z7VHvU45Gr9izzlBC9DAkzXmxwr/T2O4VBX0Vmw1nbT6riZPqRi8WyXgC
+                VvVCmySfqC+JuueSVmwyj9ZhK9J0TljPun+cNUA9EULK5i+HTgsf2pFFvowbjygY
+                HyMx2lV+L4NgNOJNlueQNLvA2nRwUkbv32lMqPEq3ia7pkm4WhyCcVHf1iNDo0UG
+                MOFVtLFKkdAP95WNw1WPu+uZT9nNCyp6mdYjL8OgvUEo9J/+H4NwHgZYxu8nAUAi
+                RfzXRNPTVgYdlRN5Mv5qBnb83rat2e6P1hut4Qau0v43sJRXFU+yTCRx9B25C52S
+                xdqu9dHJGevns8y7sW5DSOPn1bBFaKXcNW8TCgY64iyWS0oOIhk8XUoL7G/HKq00
+                KtSbLOiEwd8nSF1jiTJ7ORILSMA0b+a0MzDWXlEsmPg3tFZ5szHWbSPLP8m3MfnM
+                iUF2H73bUg5z1DEGxs6isq4zSQTiYUYH/mhCguVlbvNsqUcx7BmIMG8/isV4U5Vw
+                VurfnJELYojay7sphrrlugiM6uE/ZO0933/E91/ScoXql+7vrrpL2plf+7oOGv/x
+                3GUqLm0GJHMWs3P/6w03a2ui5CPkZcSSqROIpvOigOgIzVNNCKr1heV1pa4nxor7
+                QAjXr7oe8LpWdpcPFP6N4hudylYmTo+k7EOZuq0bRuBpFDMiP3JVYnV8p1Ceyw7W
+                SjTUU762vavDBCxGww+VfN16VIZxvSMZt/VzWwaUc5fw59pESGhrcTNURN9c9hEy
+                ByHqKXrbXv24PiR6EycNtNmhAsmKss7fVkiaMu9KizhZQSMbSRoHIHBN2yCSaDqe
+                tWolNd0pqN5iR+rV3tPG5OOuKUXavnbwu8l5Zw68GeusjsKIWSz1dhs1uYUVzX0o
+                XTd8K2itgd0/JshJ1onNuuGIeK0MU1QMXzHremj5wWmpQMrCFoxuGlssTukQPguG
+                I89qoxmo9d9gbS92hE1FNoosmcv2gD9q5g+d4CHNJ63mG+mSTtMr8+iaHMBZavti
+                Le64YJ3uMbgRI4MT4fD/42RP+zT6gwcQkn+JA8VuUvfd16MrKBxsVrpsap53i/+2
+                pN32Ynks4wGDAIBbfFPY2ptq4vbJuW5JJhdTaX0b4XbFre8CDukGypcPJ5bo1DVr
+                1oGL3c+nLJBMhxIpeSIIQFyGmiQH3A5cDY57rOhoA9xdbVoV+i/DCtZkOueL6nbU
+                qCR5LNWUTOqIpzMSk/v1M+xbqXlRTBYRZTP8OK1g2+aU6a2g6sM6pBPhu9xkwlyt
+                13Qv2e6YVMKTGpYyK3oSM/phLSqEyOL/8VMgH9JUcC3vYbjYmszGxudTPB+fk5zB
+                Z7kQ/mfeU5I79cMdYtB8rdcnGj/iTywRNeAQk6OemMXBb1nLZo8ZoL88imYFtfZ+
+                9VWIKTUCQ/M4Qst7D15HBzw0IcFjVj6xldlZaSvBzaeb0uZN/iBcRXe6e0lSE2Kn
+                9YMYCYDJEEEaoM9GApxam/bVgVGpohvq7drvkdL5lFiMm4yygk+vFg3XxbSQqfGM
+                DqYCFKDNNjB4h1TiGc8MjcAfcbgAoqHLq0B6tI4IwrRlgS0bqIZ8yS/5s2oUe3dB
+                HELIT5JX7K3kWXV7XhTwOtjzydquKsNkF1U4cYDyhugoSY/jPt3YWTNkqNvTmTqD
+                3B9a0TV0glDR53tMKRIw+2+1xC1EP0i2kBMVYugnkiUmyMbHLHk2qlMqM48fJqyr
+                HLqbCyAxTqnVipxfZZTMHstscf8DQn0+Hca3b55dOlUOF5wIFMO42rOtAaQgoLZY
+                E+0m0Sdj9j72FEsOwXKO2SFCc+wcBfJhfVYfxwalA9lmUfhT51UyuYuuYBaeZTtU
+                DIG0aVmZiq8GxuMFbiKe9ILfTXsG6YWc2+nYg7STNZ66Q599DBHqWVfVfDdiZON9
+                tjSdihg9EAYKg3+7TsOQvnO9fK+q9X3iMttLTCfU0iudzdBjJgIf/89+xIDGbPbC
+                nwf7DuApVcjTIxEeMgu/8hW/fUoGDl52v+0ACdrIrARqtU1/Aw0xyyIXvy7Rfe8s
+                b/eOUyZKJqWI5n5oTgoFuc2fKgf1LGoxBluYLf18fvf/KJHQh/TdPze1FHS39L1w
+                CgAjZ4xFJ9IhRgsurIPmOP0fcT5nhkzWYMtIDAfzGVFtAtDOXsAtUhcWLOjhJ+pv
+                gByGnpTGXGTCREVH/Gw5arbcNt5plAyPih9M0Fuqsdylf47xekYcZYK/oLXcglay
+                2gH+Oa0nOMZNdw3vaiTYNmQ5ejBBDihj6lhFG1DEFMPHZ2pt0xlJVxSRH39amVH0
+                lKnQSQEaQQZFtanwCwu8yi8hjpYcKToAJzSlHvr7gPsD3vtbQ6q55f7dIJNYZxgb
+                dO6kP9HmujkqJO9m5v97jw37/gIgwlOr9xZgxZ9SuzyFnO5l3UBPeBWu028UjLAD
+                -----END RSA PRIVATE KEY-----
+            map: null
+            id: 12
+            uuid: BC129815-9FB7-449C-ADD4-E475CED42DD1
+            date: '2017-02-08 20:30:40'
+            is_encrypted: false
+        public_key_4096:
+            description: |
+                The following data represents a public key string to encrypt messages within web applications.
+                Primarily, UCSDMath Framework applications should use the PHP OpenSSL API's.
+            data: |
+                -----BEGIN PUBLIC KEY-----
+                MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAoNxtEDEw1hwL8r/HdHob
+                LXkaF02KlwH7jRDFVfpjemdY0eZ5bjfRNuPl00/7Z4NvvZYUJ/0zzQWhffL0QSj2
+                e+NJB6/tTL8oke+HeULEcV930dXFjuGNqIz7BmTa46aeRfOedQ+EJ/GCiTU5F+rx
+                Jpk4VQH5uIPX/PAbfQDxl9aOochw2ncxnduIDAYiREcKD20F261n/imHnrbTdptj
+                JKD/krBh4evkCu9MMHJCEd/EwroImE5YBZzSQFDUK+LhBqwcOtl8HHtA/iYjUGe9
+                hn558qllhPUYxXy5aweTDVW2QiWN9QJZzRa75TniYVQHDNQdXb2xsJzul1jp3Rr0
+                iyniLdzgn4f/OO5fymsNpTtG4PjYWVLywUWIchaMZaLh7nE6Dbw9q9Ow0ds0EULU
+                FJacXRzHmO94b3vYpnoG6fbtbB7HwnZ8lQoeSnOcvgyrlCX8xsPCfzdWWiaMyRs6
+                b8UM6aP9EyrFqHnGsyKPGL9H1sVXCW7WFDtdOAM0LY0SJu85MLgD57kj/5xTyZhn
+                sdU7To9ze8CAcgq1J3Tuve5VRKrflvezbmWwkqGV6fhmJgYkiPxgDTPQmwDElWZI
+                T3aZZ2gVX8GyGj/26vvHwfCJPxCuCAQKEWpvwUw5V7l3Fdlo4U+9Hwkyp2h2ecqy
+                18hMch3YF2W0H7hidSXp5aECAwEAAQ==
+                -----END PUBLIC KEY-----
+            map: null
+            id: 13
+            uuid: 8A3A0C53-5A3A-4278-AAFD-E392605C4EF9
+            date: '2017-02-08 20:30:40'
+            is_encrypted: false
+        default:
+            description: |
+                There is a configuration problem accessing the requested information.
+                Please check the connections and try again... or call (858) 534-4591.
+            id: 14
+            uuid: C3102D25-CA48-45CB-8D99-39B95233DC1A
+            date: '2017-02-08 20:30:40'
+            is_encrypted: false
