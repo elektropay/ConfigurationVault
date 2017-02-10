@@ -83,6 +83,22 @@ trait VaultServiceMethods
     //--------------------------------------------------------------------------
 
     /**
+     * Hashids encode.
+     *
+     * @param int|string|array $numerical The numerical integer or array to encoded
+     *
+     * @return string The encoded hashid
+     *
+     * @api
+     */
+    public function hashidsEncode($numerical = null): string
+    {
+        return $this->hashids->encode($numerical);
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
      * Unset a storageRegister element.
      *
      * @param string $key    The element name
@@ -106,76 +122,112 @@ trait VaultServiceMethods
     //--------------------------------------------------------------------------
 
     /**
-     * Set the list of available digest methods in the current version of PHP's OpenSSL.
+     * Set the location of the Account Home Directory.
      *
-     * @param bool $aliases The option to include digest aliases in results
+     * The Account Home Directory is defined as the location where the unix user account
+     * exists (e.g., '/home/jdeere').  This is a location that exist outside or one level above
+     * the document root directory (i.e., above public_html).
+     *
+     * @param string $directoryPath The absolute path to the Account Home Directory (i.e., not document root)
      *
      * @return ConfigurationVaultInterface The current instance
+     *
+     * @throws IOException on invalid directory path
+     *
+     * @api
      */
-    protected function setAvailableOpenSslDigests(bool $aliases = false): ConfigurationVaultInterface
+    public function setAccountHomeDirectory(string $directoryPath = null): ConfigurationVaultInterface
     {
-        return $this->setProperty('availableOpenSslDigests', openssl_get_md_methods($aliases));
+        if ($directoryPath !== null && !is_dir($directoryPath)) {
+            throw new IOException(sprintf('The directory path %s does not exist. Please check the input parameter on method: %s.', $directoryPath, __METHOD__), 0, null, $directoryPath);
+        }
+
+        return $this->setProperty('accountHomeDirectory', $directoryPath === null ? realpath(sprintf('%s/../', $_SERVER['DOCUMENT_ROOT'])) : realpath($directoryPath));
     }
 
     //--------------------------------------------------------------------------
 
     /**
-     * Set the list of available cipher methods in the current version of PHP's OpenSSL.
+     * Set the default specific section of the settings file.
      *
-     * @param bool $aliases The option to include cipher aliases in results
+     * @param string $vaultRequestedSection The requested section of the vault/settings file (e.g., 'webadmin', 'webuser', 'wwwdyn', etc.)
      *
      * @return ConfigurationVaultInterface The current instance
+     *
+     * @api
      */
-    protected function setAvailableOpenSslCipherMethods(bool $aliases = false): ConfigurationVaultInterface
+    public function setVaultRequestedSection(string $vaultRequestedSection = null): ConfigurationVaultInterface
     {
-        return $this->setProperty('availableOpenSslCipherMethods', openssl_get_cipher_methods($aliases));
+        return $this->setProperty('vaultRequestedSection', '' === trim((string)$vaultRequestedSection) ? null : trim($vaultRequestedSection));
     }
 
     //--------------------------------------------------------------------------
 
     /**
-     * Set the core seed hash as an array
+     * Return as PHP Traversable Instance.
      *
-     * @return ConfigurationVaultInterface The current instance
+     * {@see https://webmozart.io/blog/2012/10/07/give-the-traversable-interface-some-love/}
+     *
+     * @param mixed $files The string, array, object.
+     *
+     * @return \Traversable
      */
-    protected function setCoreSeedHashArray(): ConfigurationVaultInterface
+    protected function toIterator($files): \Traversable
     {
-        /* type: encryption, default_environment: private */
-        [$release, $environment] = [ $this->encryptionSettingsRawData['type'], $this->encryptionSettingsRawData['default_environment']];
-        [$hash, $uuid, $date] = [
-            join($this->encryptionSettingsRawData[$release][$environment]['core_seed_hash']['data']),
-            trim($this->encryptionSettingsRawData[$release][$environment]['core_seed_hash']['uuid']),
-            trim($this->encryptionSettingsRawData[$release][$environment]['core_seed_hash']['date'])
-        ];
-        [, $time] = explode(' ', $date);
-        [$hours, $minutes, $seconds] = array_map('intval', explode(':', $time));
+        if (!$files instanceof \Traversable) {
+            $files = new \ArrayObject(is_array($files) ? $files : array($files));
+        }
 
-        return $this->setProperty('coreSeedHashArray', $hash, 'hash')->setProperty('coreSeedHashArray', $hours, 'hours')
-            ->setProperty('coreSeedHashArray', $minutes, 'minutes')->setProperty('coreSeedHashArray', $seconds, 'seconds')->setProperty('coreSeedHashArray', $uuid, 'uuid');
+        return $files;
     }
 
     //--------------------------------------------------------------------------
 
     /**
-     * Set the initialization vector as an array
+     * Render the Ambit string.
+     *
+     * @param string $payload The string being encrypted
+     *
+     * @return string Returns the Ambit
+     */
+    protected function renderAmbit(string $payload): array
+    {
+        [$dataSize, $ivSalt, $keySalt] = [$this->stringSize($payload), $this->getRandomInt(), $this->getRandomInt()];
+
+        return ['hash' => $this->hashids->encode([$dataSize, $ivSalt, $keySalt]), 'dataSize' => $dataSize, 'ivSalt' => $ivSalt, 'keySalt' => $keySalt];
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Set the initialization vector (iv) Byte Size (as determined by the cipher method used in OpenSSL).
      *
      * @return ConfigurationVaultInterface The current instance
      */
-    protected function setInitializationVectorArray(): ConfigurationVaultInterface
+    protected function setIvByteSize(): ConfigurationVaultInterface
     {
-        /* type: encryption, default_environment: private */
-        [$release, $environment] = [ $this->encryptionSettingsRawData['type'], $this->encryptionSettingsRawData['default_environment']];
-        [$hash, $uuid, $date, $map] = [
-            join($this->encryptionSettingsRawData[$release][$environment]['initialization_vector']['data']),
-            trim($this->encryptionSettingsRawData[$release][$environment]['initialization_vector']['uuid']),
-            trim($this->encryptionSettingsRawData[$release][$environment]['initialization_vector']['date']),
-            join($this->encryptionSettingsRawData[$release][$environment]['initialization_vector']['map'])
-        ];
-        [, $time] = explode(' ', $date);
-        [$hours, $minutes, $seconds] = array_map('intval', explode(':', $time));
+        $ivByteSize = openssl_cipher_iv_length($this->cipherMethod);
 
-        return $this->setProperty('initializationVectorArray', $hash, 'hash')->setProperty('initializationVectorArray', $map, 'map')->setProperty('initializationVectorArray', $hours, 'hours')
-            ->setProperty('initializationVectorArray', $minutes, 'minutes')->setProperty('initializationVectorArray', $seconds, 'seconds')->setProperty('initializationVectorArray', $uuid, 'uuid');
+        if (!$ivByteSize) {
+            throw new \Exception(sprintf(
+                'Byte size was not found or invalid cipher method was requested. Check available cipher methods for your current OpenSSL version: %s',
+                $this->openSslVersion
+            ));
+        }
+
+        return $this->setProperty('ivByteSize', $ivByteSize);
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Set OpenSSL version number.
+     *
+     * @return ConfigurationVaultInterface The current instance
+     */
+    protected function setOpenSslVersion(): ConfigurationVaultInterface
+    {
+        return $this->setProperty('openSslVersion', \OPENSSL_VERSION_TEXT);
     }
 
     //--------------------------------------------------------------------------
@@ -204,33 +256,24 @@ trait VaultServiceMethods
     //--------------------------------------------------------------------------
 
     /**
-     * Render the Ambit string.
+     * Set the core seed hash as an array
      *
-     * @param string $payload The string being encrypted
-     *
-     * @return string Returns the Ambit
+     * @return ConfigurationVaultInterface The current instance
      */
-    protected function renderAmbit(string $payload): array
+    protected function setCoreSeedHashArray(): ConfigurationVaultInterface
     {
-        [$dataSize, $ivSalt, $keySalt] = [$this->stringSize($payload), $this->getRandomInt(), $this->getRandomInt()];
+        /* type: encryption, default_environment: private */
+        [$release, $environment] = [ $this->encryptionSettingsRawData['type'], $this->encryptionSettingsRawData['default_environment']];
+        [$hash, $uuid, $date] = [
+            join($this->encryptionSettingsRawData[$release][$environment]['core_seed_hash']['data']),
+            trim($this->encryptionSettingsRawData[$release][$environment]['core_seed_hash']['uuid']),
+            trim($this->encryptionSettingsRawData[$release][$environment]['core_seed_hash']['date'])
+        ];
+        [, $time] = explode(' ', $date);
+        [$hours, $minutes, $seconds] = array_map('intval', explode(':', $time));
 
-        return ['hash' => $this->hashids->encode([$dataSize, $ivSalt, $keySalt]), 'dataSize' => $dataSize, 'ivSalt' => $ivSalt, 'keySalt' => $keySalt];
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Hashids encode.
-     *
-     * @param int|string|array $numerical The numerical integer or array to encoded
-     *
-     * @return string The encoded hashid
-     *
-     * @api
-     */
-    public function hashidsEncode($numerical = null): string
-    {
-        return $this->hashids->encode($numerical);
+        return $this->setProperty('coreSeedHashArray', $hash, 'hash')->setProperty('coreSeedHashArray', $hours, 'hours')
+            ->setProperty('coreSeedHashArray', $minutes, 'minutes')->setProperty('coreSeedHashArray', $seconds, 'seconds')->setProperty('coreSeedHashArray', $uuid, 'uuid');
     }
 
     //--------------------------------------------------------------------------
@@ -253,97 +296,25 @@ trait VaultServiceMethods
     //--------------------------------------------------------------------------
 
     /**
-     * Return as PHP Traversable Instance.
-     *
-     * {@see https://webmozart.io/blog/2012/10/07/give-the-traversable-interface-some-love/}
-     *
-     * @param mixed $files The string, array, object.
-     *
-     * @return \Traversable
-     */
-    protected function toIterator($files): \Traversable
-    {
-        if (!$files instanceof \Traversable) {
-            $files = new \ArrayObject(is_array($files) ? $files : array($files));
-        }
-
-        return $files;
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Set the Encryption Key Byte Size (as determined by the cipher method used in OpenSSL).
-     *
-     * @param int $size The size in bytes for the key
+     * Set the initialization vector as an array
      *
      * @return ConfigurationVaultInterface The current instance
      */
-    protected function setKeyByteSize(int $size = self::DEFAULT_ENCRYPTION_KEY_BYTE_SIZE): ConfigurationVaultInterface
+    protected function setInitializationVectorArray(): ConfigurationVaultInterface
     {
-        if (!$size) {
-            throw new \Exception(sprintf(
-                'Byte size was not found or invalid cipher method was requested. Check available cipher methods for your current OpenSSL version: %s',
-                $this->openSslVersion
-            ));
-        }
+        /* type: encryption, default_environment: private */
+        [$release, $environment] = [ $this->encryptionSettingsRawData['type'], $this->encryptionSettingsRawData['default_environment']];
+        [$hash, $uuid, $date, $map] = [
+            join($this->encryptionSettingsRawData[$release][$environment]['initialization_vector']['data']),
+            trim($this->encryptionSettingsRawData[$release][$environment]['initialization_vector']['uuid']),
+            trim($this->encryptionSettingsRawData[$release][$environment]['initialization_vector']['date']),
+            join($this->encryptionSettingsRawData[$release][$environment]['initialization_vector']['map'])
+        ];
+        [, $time] = explode(' ', $date);
+        [$hours, $minutes, $seconds] = array_map('intval', explode(':', $time));
 
-        return $this->setProperty('keyByteSize', $size);
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Set the initialization vector (iv) Byte Size (as determined by the cipher method used in OpenSSL).
-     *
-     * @return ConfigurationVaultInterface The current instance
-     */
-    protected function setIvByteSize(): ConfigurationVaultInterface
-    {
-        $ivByteSize = openssl_cipher_iv_length($this->cipherMethod);
-
-        if (!$ivByteSize) {
-            throw new \Exception(sprintf(
-                'Byte size was not found or invalid cipher method was requested. Check available cipher methods for your current OpenSSL version: %s',
-                $this->openSslVersion
-            ));
-        }
-
-        return $this->setProperty('ivByteSize', $ivByteSize);
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Set any required vault file arguments.
-     *
-     * @param array $arguments The specific list of arguments to set
-     * @param array $vaultData The raw dataset from the vault file (YAML)
-     *
-     * @return ConfigurationVaultInterface The current instance
-     */
-    protected function setVaultDataArguments(array $arguments, array $vaultData): ConfigurationVaultInterface
-    {
-        foreach ($arguments as $argument) {
-            true === $this->isVaultRecordEncrypted() ? $this->set($argument, $this->decrypt($vaultData[$argument])) : $this->set($argument, $vaultData[$argument]);
-        }
-        $this->unsetRegister(self::VAULTED);
-
-        /* Informational: non-encrypted properties of the record */
-        return $this->set('id', $this->getProperty('vaultId'))->set('uuid', $this->getProperty('vaultUuid'))
-            ->set('date', $this->getProperty('vaultDate'))->set('is_encrypted', $this->getProperty('vaultIsEncrypted'));
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Set OpenSSL version number.
-     *
-     * @return ConfigurationVaultInterface The current instance
-     */
-    protected function setOpenSslVersion(): ConfigurationVaultInterface
-    {
-        return $this->setProperty('openSslVersion', \OPENSSL_VERSION_TEXT);
+        return $this->setProperty('initializationVectorArray', $hash, 'hash')->setProperty('initializationVectorArray', $map, 'map')->setProperty('initializationVectorArray', $hours, 'hours')
+            ->setProperty('initializationVectorArray', $minutes, 'minutes')->setProperty('initializationVectorArray', $seconds, 'seconds')->setProperty('initializationVectorArray', $uuid, 'uuid');
     }
 
     //--------------------------------------------------------------------------
@@ -384,43 +355,72 @@ trait VaultServiceMethods
     //--------------------------------------------------------------------------
 
     /**
-     * Set the default specific section of the settings file.
+     * Set the list of available digest methods in the current version of PHP's OpenSSL.
      *
-     * @param string $vaultRequestedSection The requested section of the vault/settings file (e.g., 'webadmin', 'webuser', 'wwwdyn', etc.)
+     * @param bool $aliases The option to include digest aliases in results
      *
      * @return ConfigurationVaultInterface The current instance
-     *
-     * @api
      */
-    public function setVaultRequestedSection(string $vaultRequestedSection = null): ConfigurationVaultInterface
+    protected function setAvailableOpenSslDigests(bool $aliases = false): ConfigurationVaultInterface
     {
-        return $this->setProperty('vaultRequestedSection', '' === trim((string)$vaultRequestedSection) ? null : trim($vaultRequestedSection));
+        return $this->setProperty('availableOpenSslDigests', openssl_get_md_methods($aliases));
     }
 
     //--------------------------------------------------------------------------
 
     /**
-     * Set the location of the Account Home Directory.
+     * Set the list of available cipher methods in the current version of PHP's OpenSSL.
      *
-     * The Account Home Directory is defined as the location where the unix user account
-     * exists (e.g., '/home/jdeere').  This is a location that exist outside or one level above
-     * the document root directory (i.e., above public_html).
-     *
-     * @param string $directoryPath The absolute path to the Account Home Directory (i.e., not document root)
+     * @param bool $aliases The option to include cipher aliases in results
      *
      * @return ConfigurationVaultInterface The current instance
-     *
-     * @throws IOException on invalid directory path
-     *
-     * @api
      */
-    public function setAccountHomeDirectory(string $directoryPath = null): ConfigurationVaultInterface
+    protected function setAvailableOpenSslCipherMethods(bool $aliases = false): ConfigurationVaultInterface
     {
-        if ($directoryPath !== null && !is_dir($directoryPath)) {
-            throw new IOException(sprintf('The directory path %s does not exist. Please check the input parameter on method: %s.', $directoryPath, __METHOD__), 0, null, $directoryPath);
+        return $this->setProperty('availableOpenSslCipherMethods', openssl_get_cipher_methods($aliases));
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Set any required vault file arguments.
+     *
+     * @param array $arguments The specific list of arguments to set
+     * @param array $vaultData The raw dataset from the vault file (YAML)
+     *
+     * @return ConfigurationVaultInterface The current instance
+     */
+    protected function setVaultDataArguments(array $arguments, array $vaultData): ConfigurationVaultInterface
+    {
+        foreach ($arguments as $argument) {
+            true === $this->isVaultRecordEncrypted() ? $this->set($argument, $this->decrypt($vaultData[$argument])) : $this->set($argument, $vaultData[$argument]);
+        }
+        $this->unsetRegister(self::VAULTED);
+
+        /* Informational: non-encrypted properties of the record */
+        return $this->set('id', $this->getProperty('vaultId'))->set('uuid', $this->getProperty('vaultUuid'))
+            ->set('date', $this->getProperty('vaultDate'))->set('is_encrypted', $this->getProperty('vaultIsEncrypted'));
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Set the Encryption Key Byte Size (as determined by the cipher method used in OpenSSL).
+     *
+     * @param int $size The size in bytes for the key
+     *
+     * @return ConfigurationVaultInterface The current instance
+     */
+    protected function setKeyByteSize(int $size = self::DEFAULT_ENCRYPTION_KEY_BYTE_SIZE): ConfigurationVaultInterface
+    {
+        if (!$size) {
+            throw new \Exception(sprintf(
+                'Byte size was not found or invalid cipher method was requested. Check available cipher methods for your current OpenSSL version: %s',
+                $this->openSslVersion
+            ));
         }
 
-        return $this->setProperty('accountHomeDirectory', $directoryPath === null ? realpath(sprintf('%s/../', $_SERVER['DOCUMENT_ROOT'])) : realpath($directoryPath));
+        return $this->setProperty('keyByteSize', $size);
     }
 
     //--------------------------------------------------------------------------

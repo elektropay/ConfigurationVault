@@ -630,6 +630,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      * (-) int stringSize(string $payload);
      * (-) bool isReadable(string $filename);
      * (-) string resizeKeyToMap(string $hash, array $specificMapSize);
+     * (-) string randomToken(int $length = 32, string $chars = self::PASSWORD_TOKENS);
      */
     use VaultStandardOperations;
 

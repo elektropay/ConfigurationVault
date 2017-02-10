@@ -42,6 +42,7 @@ use UCSDMath\Configuration\ConfigurationVault\Exception\VaultException;
  * (-) int stringSize(string $payload);
  * (-) bool isReadable(string $filename);
  * (-) string resizeKeyToMap(string $hash, array $specificMapSize);
+ * (-) string randomToken(int $length = 32, string $chars = self::PASSWORD_TOKENS);
  *
  * VaultStandardOperations provides a common set of implementations where needed. The VaultStandardOperations
  * trait and the VaultStandardOperationsInterface should be paired together.
@@ -61,6 +62,206 @@ trait VaultStandardOperations
      */
     abstract protected function toIterator($files): \Traversable;
     abstract public function getProperty(string $name, string $key = null);
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Check the existance of files or directories.
+     *
+     * @param string|array|\Traversable $files The filename, array of files, or \Traversable.
+     *
+     * @return bool
+     *
+     * @api
+     */
+    public function exists($files): bool
+    {
+        foreach ($this->toIterator($files) as $file) {
+            if (strlen($file) > 258) {
+                throw new IOException('Could not check if file exist because path length exceeds 258 characters.', 0, null, $file);
+            }
+            if (!file_exists($file)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Return a unique id (CSPRNG Requires PHP v7.x).
+     *
+     * @param int $length The byte length
+     *
+     * @return string The ASCII string containing the hexadecimal of the input string
+     *
+     * @api
+     */
+    public function getUniqueId(int $length = 16): string
+    {
+        if (!is_callable('random_bytes')) {
+            throw new VaultException('There is no suitable CSPRNG installed on your system');
+        }
+
+        /* Create string of cryptographic random bytes */
+        return bin2hex(random_bytes($length));
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Reverse a string.
+     *
+     * @param string $payload The string to be reversed
+     *
+     * @return string The reversed string.
+     *
+     * @api
+     */
+    public function reverseString(string $payload): string
+    {
+        return strrev($payload);
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Convert numbers to string.
+     *
+     * Converts the zero-padded decimal number (3-digit) back to it's
+     * character equivalent created by stringToNumber(string $payload)
+     *
+     * @param string $payload The data to decode
+     *
+     * @return string The string conversion
+     *
+     * @api
+     */
+    public function numberToString(string $payload): string
+    {
+        return join(array_map('chr', str_split($payload, 3)));
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Convert string to number.
+     *
+     * Converts every byte into its decimal number equivalent, zero-padding
+     * it to a fixed length of 3 digits so it can be unambiguously converted back.
+     *
+     * @param string $payload The data to encode
+     *
+     * @return string The data as a string of numbers
+     *
+     * @api
+     */
+    public function stringToNumber(string $payload): string
+    {
+        return join(array_map(
+            function ($n) {
+                return sprintf('%03d', $n);
+            },
+            unpack('C*', $payload)
+        ));
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Repeat a string.
+     *
+     * @param string $str    The string to be repeated
+     * @param int    $number The number of time the string should be repeated
+     *
+     * @return string The repeated string.
+     *
+     * @api
+     */
+    public function repeatString(string $str, int $number): string
+    {
+        return str_repeat($str, $number);
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Return a SHA-512 hash (CSPRNG Requires PHP v7.x).
+     *
+     * @param string $data    The string to translate
+     * @param bool   $isUpper The option to modify case [upper, lower]
+     *
+     * @return string The hash string (128-characters)
+     *
+     * @api
+     */
+    public function getSha512(string $data = null, bool $isUpper = true): string
+    {
+        if (!is_callable('random_bytes')) {
+            throw new VaultException('There is no suitable CSPRNG installed on your system');
+        }
+        $data = null === $data ? $this->getUniqueId() : $data;
+
+        return true === $isUpper ? strtoupper(hash('sha512', $data)) : hash('sha512', $data);
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Generates cryptographically secure pseudo-random integers (CSPRNG Requires PHP v7.x).
+     *
+     * @param int $min The lowest value to be returned, which must be PHP_INT_MIN or higher
+     * @param int $max The highest value to be returned, which must be less than or equal to PHP_INT_MAX.
+     *
+     * @return int A cryptographically secure random integer in a range min-to-max
+     *
+     * @throws VaultException When an invalid max value is provided
+     *
+     * @api
+     */
+    public function getRandomInt(int $min = self::MIN_RANDOM_INT, int $max = self::MAX_RANDOM_INT): int
+    {
+        if (!is_callable('random_bytes')) {
+            throw new VaultException('There is no suitable CSPRNG installed on your system');
+        }
+
+        if ($max < $min) {
+            throw new VaultException(sprintf('Maximum integer must not be less than minimum: Max is: %s, Min is: %s. (%s)', $max, $min, __METHOD__));
+        }
+
+        return random_int($min, $max);
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Decrypt a messages.
+     *
+     * Defaults to using Advanced Encryption Standard (AES), 256 bits
+     * and any valid mode you may want to use.  Please reference the
+     * defined DEFAULT_CIPHER_METHOD to see what is currently favored.
+     *
+     * @param string $payload       The data payload to decrypt (includes iv)
+     * @param string $encryptionKey The encryption key
+     * @param string $method        The cipher method used (e.g.,'AES-256-CTR','AES-256-GCM','AES-256-CCM', etc.)
+     *
+     * @return string The decrypted data
+     *
+     * @api
+     */
+    public function decryptMessage(string $payload, string $encryptionKey, string $method = 'aes-256-cbc'): string
+    {
+        /* Remove the base64 encoding from our key */
+        $encryptionKey = base64_decode($encryptionKey);
+        /* To decrypt, split the encrypted data from our IV - our unique separator used was "|" */
+        [$encrypted_data, $iv] = explode('|', base64_decode($payload), 2);
+        $decryptedMessage = openssl_decrypt($encrypted_data, $method, $encryptionKey, 0, $iv);
+        unset($payload, $method, $encryptionKey, $iv, $encrypted_data);
+
+        return $decryptedMessage;
+    }
 
     //--------------------------------------------------------------------------
 
@@ -96,62 +297,6 @@ trait VaultStandardOperations
     //--------------------------------------------------------------------------
 
     /**
-     * Decrypt a messages.
-     *
-     * Defaults to using Advanced Encryption Standard (AES), 256 bits
-     * and any valid mode you may want to use.  Please reference the
-     * defined DEFAULT_CIPHER_METHOD to see what is currently favored.
-     *
-     * @param string $payload       The data payload to decrypt (includes iv)
-     * @param string $encryptionKey The encryption key
-     * @param string $method        The cipher method used (e.g.,'AES-256-CTR','AES-256-GCM','AES-256-CCM', etc.)
-     *
-     * @return string The decrypted data
-     *
-     * @api
-     */
-    public function decryptMessage(string $payload, string $encryptionKey, string $method = 'aes-256-cbc'): string
-    {
-        /* Remove the base64 encoding from our key */
-        $encryptionKey = base64_decode($encryptionKey);
-        /* To decrypt, split the encrypted data from our IV - our unique separator used was "|" */
-        [$encrypted_data, $iv] = explode('|', base64_decode($payload), 2);
-        $decryptedMessage = openssl_decrypt($encrypted_data, $method, $encryptionKey, 0, $iv);
-        unset($payload, $method, $encryptionKey, $iv, $encrypted_data);
-
-        return $decryptedMessage;
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Generates cryptographically secure pseudo-random integers (CSPRNG Requires PHP v7.x).
-     *
-     * @param int $min The lowest value to be returned, which must be PHP_INT_MIN or higher
-     * @param int $max The highest value to be returned, which must be less than or equal to PHP_INT_MAX.
-     *
-     * @return int A cryptographically secure random integer in a range min-to-max
-     *
-     * @throws VaultException When an invalid max value is provided
-     *
-     * @api
-     */
-    public function getRandomInt(int $min = self::MIN_RANDOM_INT, int $max = self::MAX_RANDOM_INT): int
-    {
-        if (!is_callable('random_bytes')) {
-            throw new VaultException('There is no suitable CSPRNG installed on your system');
-        }
-
-        if ($max < $min) {
-            throw new VaultException(sprintf('Maximum integer must not be less than minimum: Max is: %s, Min is: %s. (%s)', $max, $min, __METHOD__));
-        }
-
-        return random_int($min, $max);
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
      * Returns bool status of property $vaultIsEncrypted.
      *
      * @return bool
@@ -164,168 +309,15 @@ trait VaultStandardOperations
     //--------------------------------------------------------------------------
 
     /**
-     * Get a random token string (CSPRNG Requires PHP v7.x).
+     * Provides the length of a string.
      *
-     * @param int $length The length of the token
-     * @param string $chars The string characters to use for the token
+     * @param string $payload The string being checked for length
      *
-     * @return string The random token string
+     * @return int Returns the number of characters
      */
-    protected function randomToken(int $length = 32, string $chars = self::PASSWORD_TOKENS): string
+    protected function stringSize(string $payload): int
     {
-        if (!is_callable('random_bytes')) {
-            throw new VaultException('There is no suitable CSPRNG installed on your system');
-        }
-        [$bytes, $count, $result] = [random_bytes($length), strlen($chars), null];
-        foreach (str_split($bytes) as $byte) {
-            $result .= $chars[ord($byte) % $count];
-        }
-
-        return $result;
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Return a unique id (CSPRNG Requires PHP v7.x).
-     *
-     * @param int $length The byte length
-     *
-     * @return string The ASCII string containing the hexadecimal of the input string
-     *
-     * @api
-     */
-    public function getUniqueId(int $length = 16): string
-    {
-        if (!is_callable('random_bytes')) {
-            throw new VaultException('There is no suitable CSPRNG installed on your system');
-        }
-
-        /* Create string of cryptographic random bytes */
-        return bin2hex(random_bytes($length));
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Return a SHA-512 hash (CSPRNG Requires PHP v7.x).
-     *
-     * @param string $data    The string to translate
-     * @param bool   $isUpper The option to modify case [upper, lower]
-     *
-     * @return string The hash string (128-characters)
-     *
-     * @api
-     */
-    public function getSha512(string $data = null, bool $isUpper = true): string
-    {
-        if (!is_callable('random_bytes')) {
-            throw new VaultException('There is no suitable CSPRNG installed on your system');
-        }
-        $data = null === $data ? $this->getUniqueId() : $data;
-
-        return true === $isUpper ? strtoupper(hash('sha512', $data)) : hash('sha512', $data);
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Convert numbers to string.
-     *
-     * Converts the zero-padded decimal number (3-digit) back to it's
-     * character equivalent created by stringToNumber(string $payload)
-     *
-     * @param string $payload The data to decode
-     *
-     * @return string The string conversion
-     *
-     * @api
-     */
-    public function numberToString(string $payload): string
-    {
-        return join(array_map('chr', str_split($payload, 3)));
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Reverse a string.
-     *
-     * @param string $payload The string to be reversed
-     *
-     * @return string The reversed string.
-     *
-     * @api
-     */
-    public function reverseString(string $payload): string
-    {
-        return strrev($payload);
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Repeat a string.
-     *
-     * @param string $str    The string to be repeated
-     * @param int    $number The number of time the string should be repeated
-     *
-     * @return string The repeated string.
-     *
-     * @api
-     */
-    public function repeatString(string $str, int $number): string
-    {
-        return str_repeat($str, $number);
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Convert string to number.
-     *
-     * Converts every byte into its decimal number equivalent, zero-padding
-     * it to a fixed length of 3 digits so it can be unambiguously converted back.
-     *
-     * @param string $payload The data to encode
-     *
-     * @return string The data as a string of numbers
-     *
-     * @api
-     */
-    public function stringToNumber(string $payload): string
-    {
-        return join(array_map(
-            function ($n) {
-                return sprintf('%03d', $n);
-            },
-            unpack('C*', $payload)
-        ));
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Check the existance of files or directories.
-     *
-     * @param string|array|\Traversable $files The filename, array of files, or \Traversable.
-     *
-     * @return bool
-     *
-     * @api
-     */
-    public function exists($files): bool
-    {
-        foreach ($this->toIterator($files) as $file) {
-            if (strlen($file) > 258) {
-                throw new IOException('Could not check if file exist because path length exceeds 258 characters.', 0, null, $file);
-            }
-            if (!file_exists($file)) {
-                return false;
-            }
-        }
-
-        return true;
+        return mb_strlen($payload, self::CHARSET);
     }
 
     //--------------------------------------------------------------------------
@@ -368,15 +360,24 @@ trait VaultStandardOperations
     //--------------------------------------------------------------------------
 
     /**
-     * Provides the length of a string.
+     * Get a random token string (CSPRNG Requires PHP v7.x).
      *
-     * @param string $payload The string being checked for length
+     * @param int $length The length of the token
+     * @param string $chars The string characters to use for the token
      *
-     * @return int Returns the number of characters
+     * @return string The random token string
      */
-    protected function stringSize(string $payload): int
+    protected function randomToken(int $length = 32, string $chars = self::PASSWORD_TOKENS): string
     {
-        return mb_strlen($payload, self::CHARSET);
+        if (!is_callable('random_bytes')) {
+            throw new VaultException('There is no suitable CSPRNG installed on your system');
+        }
+        [$bytes, $count, $result] = [random_bytes($length), strlen($chars), null];
+        foreach (str_split($bytes) as $byte) {
+            $result .= $chars[ord($byte) % $count];
+        }
+
+        return $result;
     }
 
     //--------------------------------------------------------------------------
