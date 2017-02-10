@@ -28,6 +28,25 @@ use UCSDMath\Configuration\ConfigurationVault\ConfigurationVaultInterface;
  *
  * Method list: (+) @api, (-) protected or private visibility.
  *
+ * (+) string hashidsEncode($numerical = null);
+ * (+) ConfigurationVaultInterface unsetRegister(string $key, string $subkey = null);
+ * (+) ConfigurationVaultInterface setAccountHomeDirectory(string $directoryPath = null;
+ * (+) ConfigurationVaultInterface setVaultRequestedSection(string $vaultRequestedSection = null);
+ * (-) Traversable toIterator($files);
+ * (-) array renderAmbit(string $payload);
+ * (-) ConfigurationVaultInterface setIvByteSize();
+ * (-) ConfigurationVaultInterface setOpenSslVersion();
+ * (-) ConfigurationVaultInterface setPrimaryHashArray();
+ * (-) ConfigurationVaultInterface setCoreSeedHashArray();
+ * (-) ConfigurationVaultInterface setRsaPublicPrivateKeys();
+ * (-) ConfigurationVaultInterface setInitializationVectorArray();
+ * (-) ConfigurationVaultInterface setVaultEnvironmentTypeSettings();
+ * (-) ConfigurationVaultInterface setVaultRecordEncrypted($value = true);
+ * (-) ConfigurationVaultInterface setAvailableOpenSslDigests(bool $aliases = false);
+ * (-) ConfigurationVaultInterface setAvailableOpenSslCipherMethods(bool $aliases = false);
+ * (-) ConfigurationVaultInterface setVaultDataArguments(array $arguments, array $vaultData);
+ * (-) ConfigurationVaultInterface setKeyByteSize(int $size = self::DEFAULT_ENCRYPTION_KEY_BYTE_SIZE);
+ *
  * VaultServiceMethods provides a common set of implementations where needed. The VaultServiceMethods
  * trait and the VaultServiceMethodsInterface should be paired together.
  *

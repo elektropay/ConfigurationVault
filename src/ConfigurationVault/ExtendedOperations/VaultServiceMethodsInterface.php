@@ -18,6 +18,11 @@ namespace UCSDMath\Configuration\ConfigurationVault\ExtendedOperations;
  *
  * Method list: (+) @api.
  *
+ * (+) string hashidsEncode($numerical = null);
+ * (+) ConfigurationVaultInterface unsetRegister(string $key, string $subkey = null);
+ * (+) ConfigurationVaultInterface setAccountHomeDirectory(string $directoryPath = null;
+ * (+) ConfigurationVaultInterface setVaultRequestedSection(string $vaultRequestedSection = null);
+ *
  * @author Daryl Eisner <deisner@ucsd.edu>
  *
  * @api

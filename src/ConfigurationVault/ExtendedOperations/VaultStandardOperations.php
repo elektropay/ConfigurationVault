@@ -28,6 +28,21 @@ use UCSDMath\Configuration\ConfigurationVault\Exception\VaultException;
  *
  * Method list: (+) @api, (-) protected or private visibility.
  *
+ * (+) bool exists($files);
+ * (+) string getUniqueId(int $length = 16);
+ * (+) string reverseString(string $payload);
+ * (+) string numberToString(string $payload);
+ * (+) string stringToNumber(string $payload);
+ * (+) string repeatString(string $str, int $number);
+ * (+) string getSha512(string $data = null, bool $isUpper = true);
+ * (+) int getRandomInt(int $min = self::MIN_RANDOM_INT, int $max = self::MAX_RANDOM_INT);
+ * (+) string decryptMessage(string $payload, string $encryptionKey, string $method = 'aes-256-cbc');
+ * (+) string encryptMessage(string $payload, string $encryptionKey, string $method = 'aes-256-cbc');
+ * (-) bool isVaultRecordEncrypted();
+ * (-) int stringSize(string $payload);
+ * (-) bool isReadable(string $filename);
+ * (-) string resizeKeyToMap(string $hash, array $specificMapSize);
+ *
  * VaultStandardOperations provides a common set of implementations where needed. The VaultStandardOperations
  * trait and the VaultStandardOperationsInterface should be paired together.
  *

@@ -61,57 +61,19 @@ use UCSDMath\Configuration\ConfigurationVault\ExtendedOperations\VaultServiceMet
  *
  * (+) ConfigurationVaultInterface __construct(FilesystemInterface $filesystem, YamlInterface $yaml);
  * (+) void __destruct();
- * (+) bool exists($files);
  * (+) string decrypt(string $payload);
  * (+) string encrypt(string $payload);
- * (+) string getUniqueId(int $length = 16);
- * (+) string getRandomHex(int $length = 32);
- * (+) string reverseString(string $payload);
- * (+) string numberToString(string $payload);
- * (+) string stringToNumber(string $payload);
- * (+) string hashidsEncode($numerical = null);
- * (+) string repeatString(string $str, int $number);
  * (+) ConfigurationVaultInterface loadVaultSettingsFile();
- * (+) string getSha512(string $data = null, bool $isUpper = true);
- * (+) ConfigurationVaultInterface setEncryptionKey(string $encoded = null);
  * (+) ConfigurationVaultInterface setVaultFile(string $vaultFileDesignator);
  * (+) ConfigurationVaultInterface setHashidsProjectKey(string $optional = null);
- * (+) ConfigurationVaultInterface setInitializationVector(string $encoded = null);
- * (+) ConfigurationVaultInterface setOpenSslOption(int $option = \OPENSSL_RAW_DATA);
- * (+) ConfigurationVaultInterface unsetRegister(string $key, string $subkey = null);
- * (+) ConfigurationVaultInterface setAccountHomeDirectory(string $directoryPath = null);
- * (+) int getRandomInt(int $min = self::MIN_RANDOM_INT, int $max = self::MAX_RANDOM_INT);
  * (+) ConfigurationVaultInterface setEncryptionSettingsFileName(string $vaultFile = null);
  * (+) ConfigurationVaultInterface setVaultSettingsDirectory(string $directoryPath = null);
- * (+) ConfigurationVaultInterface setCipherMethod(string $method = self::DEFAULT_CIPHER_METHOD);
- * (+) ConfigurationVaultInterface setVaultRequestedSection(string $vaultRequestedSection = null);
- * (+) string decryptMessage(string $payload, string $encryptionKey, string $method = 'aes-256-cbc');
- * (+) string encryptMessage(string $payload, string $encryptionKey, string $method = 'aes-256-cbc');
- * (+) array hashidsDecode(string $id = null, int $starting = 0, int $minLength = self::DEFAULT_MIN_HASHIDS_LENGTH);
  * (+) ConfigurationVaultInterface openVaultFile(string $vaultFileDesignator, string $vaultRequestedSection = null);
+ * (+) ?array hashidsDecode(string $id = null, int $starting = 0, int $minLength = self::DEFAULT_MIN_HASHIDS_LENGTH);
  * (+) ConfigurationVaultInterface loadHashids(string $projectKey = null, int $minLength = self::DEFAULT_MIN_HASHIDS_LENGTH);
- * (+) ConfigurationVaultInterface setRecordProperties(string $vaultReleaseType, string $vaultEnvironment, string $vaultSection);
- * (-) bool isVaultRecordEncrypted()
- * (-) int stringSize(string $payload)
- * (-) Traversable toIterator($files)
- * (-) bool isReadable(string $filename)
- * (-) array renderAmbit(string $payload)
- * (-) ConfigurationVaultInterface setIvByteSize()
- * (-) ConfigurationVaultInterface setOpenSslVersion()
- * (-) ConfigurationVaultInterface setPrimaryHashArray()
- * (-) ConfigurationVaultInterface setCoreSeedHashArray()
- * (-) ConfigurationVaultInterface setRsaPublicPrivateKeys()
- * (-) ConfigurationVaultInterface setInitializationVectorArray()
- * (-) ConfigurationVaultInterface loadEncryptionSettingsRawData()
- * (-) string resizeKeyToMap(string $hash, array $specificMapSize)
- * (-) ConfigurationVaultInterface setVaultEnvironmentTypeSettings()
- * (-) ConfigurationVaultInterface setVaultRecordEncrypted($value = true)
- * (-) string randomToken(int $length = 32, string $chars = self::PASSWORD_TOKENS)
- * (-) ConfigurationVaultInterface setAvailableOpenSslDigests(bool $aliases = false)
- * (-) ConfigurationVaultInterface setAvailableOpenSslCipherMethods(bool $aliases = false)
- * (-) ConfigurationVaultInterface setVaultDataArguments(array $arguments, array $vaultData)
- * (-) ConfigurationVaultInterface setKeyByteSize(int $size = self::DEFAULT_ENCRYPTION_KEY_BYTE_SIZE)
- * (-) ConfigurationVaultInterface setByteSizeMap(string $keyType = 'ivByteSize', int $cipherMethodByteSize = null)
+ * (+) ConfigurationVaultInterface setRecordProperties(string $vaultReleaseType, string $vaultEnvironment, string $vaultSection = null);
+ * (-) ConfigurationVaultInterface loadEncryptionSettingsRawData();
+ * (-) ConfigurationVaultInterface setByteSizeMap(string $keyType = 'ivByteSize', int $cipherMethodByteSize = null);
  *
  * @author Daryl Eisner <deisner@ucsd.edu>
  */
@@ -153,16 +115,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      * @var    int                         $keyByteSize                   The size in bytes for the encryption key (please size the cipher method used)
      * @var    array                       $keyByteSizeMap                The map that defines a base64 encoded format for $keyByteSize with padding
      * @var    array                       $defaultByteSizeMapTypes       The defined array of values used to whitelist options
-     *
-     * @var    string                      VAULTED[payload]               The data being processed
-     * @var    string                      VAULTED[method]                The cipher method used by OpenSSL to encrypt/decrypt a payload (e.g.,'AES-256-CTR','AES-256-GCM','AES-256-CCM', etc.)
-     * @var    string                      VAULTED[key]                   The properly sized encryption key used to encrypt/decrypt the payload (the key size is based on the cipher method/mode used)
-     * @var    int                         VAULTED[option]                The bitwise disjunction used in OpenSSL (Default: 0, \OPENSSL_RAW_DATA: 1, \OPENSSL_ZERO_PADDING: 2)
-     * @var    string                      VAULTED[iv]                    The fixed-size pseudorandom input primitive used in the encryption scheme (Raw binary: based on the method/mode used, AES-256-CTR)
-     * @var    string                      VAULTED[dataSize]              The size of the data string within the payload
-     * @var    string                      VAULTED[ivSalt]                The random number added in each IV
-     * @var    string                      VAULTED[keySalt]               The salt used to create the encryption key
-     *
      * @var    string                      $vaultFile                     The absolute path to the configuration settings file to access and open
      * @var    string                      $vaultRequestedSection         The requested section of the vault/settings file (e.g., 'webadmin', 'webuser', 'wwwdyn', etc.)
      * @var    array                       $resultDataSet                 The raw data from the specific vault file requested
@@ -179,6 +131,14 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      * @static ConfigurationVaultInterface $instance                      The static instance ConfigurationVaultInterface
      * @static int                         $objectCount                   The static count of ConfigurationVaultInterface
      * @var    array                       $storageRegister               The stored set of data structures used by this class
+     * @var    string                        VAULTED[payload]             The data being processed
+     * @var    string                        VAULTED[method]              The cipher method used by OpenSSL to encrypt/decrypt a payload (e.g.,'AES-256-CTR','AES-256-GCM','AES-256-CCM', etc.)
+     * @var    string                        VAULTED[key]                 The properly sized encryption key used to encrypt/decrypt the payload (the key size is based on the cipher method/mode used)
+     * @var    int                           VAULTED[option]              The bitwise disjunction used in OpenSSL (Default: 0, \OPENSSL_RAW_DATA: 1, \OPENSSL_ZERO_PADDING: 2)
+     * @var    string                        VAULTED[iv]                  The fixed-size pseudorandom input primitive used in the encryption scheme (Raw binary: based on the method/mode used, AES-256-CTR)
+     * @var    string                        VAULTED[dataSize]            The size of the data string within the payload
+     * @var    string                        VAULTED[ivSalt]              The random number added in each IV
+     * @var    string                        VAULTED[keySalt]             The salt used to create the encryption key
      */
     protected $yaml                          = null;
     protected $filesystem                    = null;
@@ -367,7 +327,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      *
      * @api
      */
-    public function hashidsDecode(string $id = null, int $starting = 0, int $minLength = self::DEFAULT_MIN_HASHIDS_LENGTH)
+    public function hashidsDecode(string $id = null, int $starting = 0, int $minLength = self::DEFAULT_MIN_HASHIDS_LENGTH): ?array
     {
         return $id === null
             ? null
@@ -628,6 +588,24 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      *
      * Method list: (+) @api, (-) protected or private visibility.
      *
+     * (+) string hashidsEncode($numerical = null);
+     * (+) ConfigurationVaultInterface unsetRegister(string $key, string $subkey = null);
+     * (+) ConfigurationVaultInterface setAccountHomeDirectory(string $directoryPath = null;
+     * (+) ConfigurationVaultInterface setVaultRequestedSection(string $vaultRequestedSection = null);
+     * (-) Traversable toIterator($files);
+     * (-) array renderAmbit(string $payload);
+     * (-) ConfigurationVaultInterface setIvByteSize();
+     * (-) ConfigurationVaultInterface setOpenSslVersion();
+     * (-) ConfigurationVaultInterface setPrimaryHashArray();
+     * (-) ConfigurationVaultInterface setCoreSeedHashArray();
+     * (-) ConfigurationVaultInterface setRsaPublicPrivateKeys();
+     * (-) ConfigurationVaultInterface setInitializationVectorArray();
+     * (-) ConfigurationVaultInterface setVaultEnvironmentTypeSettings();
+     * (-) ConfigurationVaultInterface setVaultRecordEncrypted($value = true);
+     * (-) ConfigurationVaultInterface setAvailableOpenSslDigests(bool $aliases = false);
+     * (-) ConfigurationVaultInterface setAvailableOpenSslCipherMethods(bool $aliases = false);
+     * (-) ConfigurationVaultInterface setVaultDataArguments(array $arguments, array $vaultData);
+     * (-) ConfigurationVaultInterface setKeyByteSize(int $size = self::DEFAULT_ENCRYPTION_KEY_BYTE_SIZE);
      */
     use VaultServiceMethods;
 
@@ -638,6 +616,20 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      *
      * Method list: (+) @api, (-) protected or private visibility.
      *
+     * (+) bool exists($files);
+     * (+) string getUniqueId(int $length = 16);
+     * (+) string reverseString(string $payload);
+     * (+) string numberToString(string $payload);
+     * (+) string stringToNumber(string $payload);
+     * (+) string repeatString(string $str, int $number);
+     * (+) string getSha512(string $data = null, bool $isUpper = true);
+     * (+) int getRandomInt(int $min = self::MIN_RANDOM_INT, int $max = self::MAX_RANDOM_INT);
+     * (+) string decryptMessage(string $payload, string $encryptionKey, string $method = 'aes-256-cbc');
+     * (+) string encryptMessage(string $payload, string $encryptionKey, string $method = 'aes-256-cbc');
+     * (-) bool isVaultRecordEncrypted();
+     * (-) int stringSize(string $payload);
+     * (-) bool isReadable(string $filename);
+     * (-) string resizeKeyToMap(string $hash, array $specificMapSize);
      */
     use VaultStandardOperations;
 
