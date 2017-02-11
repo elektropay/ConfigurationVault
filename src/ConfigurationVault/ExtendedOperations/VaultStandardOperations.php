@@ -41,7 +41,7 @@ use UCSDMath\Configuration\ConfigurationVault\Exception\VaultException;
  * (-) bool isVaultRecordEncrypted();
  * (-) int stringSize(string $payload);
  * (-) bool isReadable(string $filename);
- * (-) string resizeKeyToMap(string $hash, array $specificMapSize);
+ * (-) string resizeKeyToMap(string $hash, iterable $specificMapSize);
  * (-) string randomToken(int $length = 32, string $chars = self::PASSWORD_TOKENS);
  *
  * VaultStandardOperations provides a common set of implementations where needed. The VaultStandardOperations
@@ -68,7 +68,7 @@ trait VaultStandardOperations
     /**
      * Check the existance of files or directories.
      *
-     * @param string|array|\Traversable $files The filename, array of files, or \Traversable.
+     * @param string|iterable|\Traversable $files The filename, array of files, or \Traversable.
      *
      * @return bool
      *
@@ -345,14 +345,14 @@ trait VaultStandardOperations
     /**
      * Resize the IV Key.
      *
-     * @param array  $specificMapSize The map size parameters
+     * @param iterable  $specificMapSize The map size parameters
      * @param string $hash            The hash to size
      *
      * @return string The hash sized correctly
      *
      * @api
      */
-    protected function resizeKeyToMap(string $hash, array $specificMapSize): string
+    protected function resizeKeyToMap(string $hash, iterable $specificMapSize): string
     {
         return sprintf('%s%s', mb_substr($hash, 0, $specificMapSize[0], self::CHARSET), $this->repeatString('=', $specificMapSize[1]));
     }

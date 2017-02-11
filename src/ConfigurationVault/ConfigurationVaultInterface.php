@@ -26,7 +26,7 @@ namespace UCSDMath\Configuration\ConfigurationVault;
  * (+) ConfigurationVaultInterface setEncryptionSettingsFileName(string $vaultFile = null);
  * (+) ConfigurationVaultInterface setVaultSettingsDirectory(string $directoryPath = null);
  * (+) ConfigurationVaultInterface openVaultFile(string $vaultFileDesignator, string $vaultRequestedSection = null);
- * (+) ?array hashidsDecode(string $id = null, int $starting = 0, int $minLength = self::DEFAULT_MIN_HASHIDS_LENGTH);
+ * (+) ?iterable hashidsDecode(string $id = null, int $starting = 0, int $minLength = self::DEFAULT_MIN_HASHIDS_LENGTH);
  * (+) ConfigurationVaultInterface loadHashids(string $projectKey = null, int $minLength = self::DEFAULT_MIN_HASHIDS_LENGTH);
  * (+) ConfigurationVaultInterface setRecordProperties(string $vaultReleaseType, string $vaultEnvironment, string $vaultSection = null);
  *
@@ -212,11 +212,11 @@ interface ConfigurationVaultInterface
      * @param int    $starting  The option to define a starting point in the hash
      * @param int    $minLength The option to define a minimum padding length of the ids
      *
-     * @return array|null The decoded id
+     * @return iterable|null The decoded id
      *
      * @api
      */
-    public function hashidsDecode(string $id = null, int $starting = 0, int $minLength = self::DEFAULT_MIN_HASHIDS_LENGTH): ?array;
+    public function hashidsDecode(string $id = null, int $starting = 0, int $minLength = self::DEFAULT_MIN_HASHIDS_LENGTH): ?iterable;
 
     //--------------------------------------------------------------------------
 

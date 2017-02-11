@@ -69,7 +69,7 @@ use UCSDMath\Configuration\ConfigurationVault\ExtendedOperations\VaultServiceMet
  * (+) ConfigurationVaultInterface setEncryptionSettingsFileName(string $vaultFile = null);
  * (+) ConfigurationVaultInterface setVaultSettingsDirectory(string $directoryPath = null);
  * (+) ConfigurationVaultInterface openVaultFile(string $vaultFileDesignator, string $vaultRequestedSection = null);
- * (+) ?array hashidsDecode(string $id = null, int $starting = 0, int $minLength = self::DEFAULT_MIN_HASHIDS_LENGTH);
+ * (+) ?iterable hashidsDecode(string $id = null, int $starting = 0, int $minLength = self::DEFAULT_MIN_HASHIDS_LENGTH);
  * (+) ConfigurationVaultInterface loadHashids(string $projectKey = null, int $minLength = self::DEFAULT_MIN_HASHIDS_LENGTH);
  * (+) ConfigurationVaultInterface setRecordProperties(string $vaultReleaseType, string $vaultEnvironment, string $vaultSection = null);
  * (-) ConfigurationVaultInterface loadEncryptionSettingsRawData();
@@ -323,11 +323,11 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      * @param int    $starting  The option to define a starting point in the hash
      * @param int    $minLength The option to define a minimum padding length of the ids
      *
-     * @return array|null The decoded id
+     * @return iterable|null The decoded id
      *
      * @api
      */
-    public function hashidsDecode(string $id = null, int $starting = 0, int $minLength = self::DEFAULT_MIN_HASHIDS_LENGTH): ?array
+    public function hashidsDecode(string $id = null, int $starting = 0, int $minLength = self::DEFAULT_MIN_HASHIDS_LENGTH): ?iterable
     {
         return $id === null
             ? null
@@ -593,7 +593,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      * (+) ConfigurationVaultInterface setAccountHomeDirectory(string $directoryPath = null;
      * (+) ConfigurationVaultInterface setVaultRequestedSection(string $vaultRequestedSection = null);
      * (-) Traversable toIterator($files);
-     * (-) array renderAmbit(string $payload);
+     * (-) iterable renderAmbit(string $payload);
      * (-) ConfigurationVaultInterface setIvByteSize();
      * (-) ConfigurationVaultInterface setOpenSslVersion();
      * (-) ConfigurationVaultInterface setPrimaryHashArray();
@@ -604,7 +604,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      * (-) ConfigurationVaultInterface setVaultRecordEncrypted($value = true);
      * (-) ConfigurationVaultInterface setAvailableOpenSslDigests(bool $aliases = false);
      * (-) ConfigurationVaultInterface setAvailableOpenSslCipherMethods(bool $aliases = false);
-     * (-) ConfigurationVaultInterface setVaultDataArguments(array $arguments, array $vaultData);
+     * (-) ConfigurationVaultInterface setVaultDataArguments(iterable $arguments, iterable $vaultData);
      * (-) ConfigurationVaultInterface setKeyByteSize(int $size = self::DEFAULT_ENCRYPTION_KEY_BYTE_SIZE);
      */
     use VaultServiceMethods;
@@ -629,7 +629,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      * (-) bool isVaultRecordEncrypted();
      * (-) int stringSize(string $payload);
      * (-) bool isReadable(string $filename);
-     * (-) string resizeKeyToMap(string $hash, array $specificMapSize);
+     * (-) string resizeKeyToMap(string $hash, iterable $specificMapSize);
      * (-) string randomToken(int $length = 32, string $chars = self::PASSWORD_TOKENS);
      */
     use VaultStandardOperations;
@@ -641,27 +641,27 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      *
      * Method list: (+) @api, (-) protected or private visibility.
      *
-     * (+) array all();
+     * (+) iterable all();
      * (+) object init();
      * (+) string version();
      * (+) bool isString($str);
      * (+) bool has(string $key);
      * (+) string getClassName();
      * (+) int getInstanceCount();
-     * (+) array getClassInterfaces();
+     * (+) iterable getClassInterfaces();
      * (+) mixed getConst(string $key);
      * (+) bool isValidUuid(string $uuid);
      * (+) bool isValidEmail(string $email);
      * (+) bool isValidSHA512(string $hash);
-     * (+) bool isStringKey(string $str, array $keys);
      * (+) bool doesFunctionExist(string $functionName);
+     * (+) bool isStringKey(string $str, iterable $keys);
      * (+) mixed get(string $key, string $subkey = null);
-     * (+) mixed __call(string $callback, array $parameters);
      * (+) mixed getProperty(string $name, string $key = null);
+     * (+) mixed __call(string $callback, iterable $parameters);
      * (+) object set(string $key, $value, string $subkey = null);
      * (+) object setProperty(string $name, $value, string $key = null);
-     * (-) Exception throwExceptionError(array $error);
-     * (-) InvalidArgumentException throwInvalidArgumentExceptionError(array $error);
+     * (-) Exception throwExceptionError(iterable $error);
+     * (-) InvalidArgumentException throwInvalidArgumentExceptionError(iterable $error);
      */
     use ServiceFunctions;
 

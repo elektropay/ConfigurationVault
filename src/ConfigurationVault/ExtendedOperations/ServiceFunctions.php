@@ -24,27 +24,27 @@ use UCSDMath\Configuration\ConfigurationVault\ConfigurationVaultInterface;
  *
  * Method list: (+) @api, (-) protected or private visibility.
  *
- * (+) array all();
+ * (+) iterable all();
  * (+) object init();
  * (+) string version();
  * (+) bool isString($str);
  * (+) bool has(string $key);
  * (+) string getClassName();
  * (+) int getInstanceCount();
- * (+) array getClassInterfaces();
+ * (+) iterable getClassInterfaces();
  * (+) mixed getConst(string $key);
  * (+) bool isValidUuid(string $uuid);
  * (+) bool isValidEmail(string $email);
  * (+) bool isValidSHA512(string $hash);
- * (+) bool isStringKey(string $str, array $keys);
  * (+) bool doesFunctionExist(string $functionName);
+ * (+) bool isStringKey(string $str, iterable $keys);
  * (+) mixed get(string $key, string $subkey = null);
- * (+) mixed __call(string $callback, array $parameters);
  * (+) mixed getProperty(string $name, string $key = null);
+ * (+) mixed __call(string $callback, iterable $parameters);
  * (+) object set(string $key, $value, string $subkey = null);
  * (+) object setProperty(string $name, $value, string $key = null);
- * (-) Exception throwExceptionError(array $error);
- * (-) InvalidArgumentException throwInvalidArgumentExceptionError(array $error);
+ * (-) Exception throwExceptionError(iterable $error);
+ * (-) InvalidArgumentException throwInvalidArgumentExceptionError(iterable $error);
  *
  * ServiceFunctions provides a common set of implementations where needed. The ServiceFunctions
  * trait and the ServiceFunctionsInterface should be paired together.
@@ -68,11 +68,11 @@ trait ServiceFunctions
     /**
      * Return the storageRegister array.
      *
-     * @return array
+     * @return iterable
      *
      * @api
      */
-    public function all(): array
+    public function all(): iterable
     {
         return $this->getProperty('storageRegister');
     }
@@ -184,11 +184,11 @@ trait ServiceFunctions
     /**
      * Return class interfaces.
      *
-     * @return array
+     * @return iterable
      *
      * @api
      */
-    public function getClassInterfaces(): array
+    public function getClassInterfaces(): iterable
     {
         return class_implements($this);
     }
@@ -267,12 +267,12 @@ trait ServiceFunctions
     /**
      * Basic string and array keys validation.
      *
-     * @param string $str  The input parameter
-     * @param array  $keys The associative array parameter
+     * @param string   $str  The input parameter
+     * @param iterable $keys The associative array parameter
      *
      * @return bool
      */
-    public function isStringKey(string $str, array $keys): bool
+    public function isStringKey(string $str, iterable $keys): bool
     {
         return $this->isString($str) && array_key_exists($str, $keys);
     }
@@ -316,14 +316,14 @@ trait ServiceFunctions
      * Forward to any callable, including anonymous functions
      * (or any instances of \Closure).
      *
-     * @param string $callback   The named callable to be called.
-     * @param array  $parameters The parameters to be passed to the callback, as an indexed array.
+     * @param string   $callback   The named callable to be called.
+     * @param iterable $parameters The parameters to be passed to the callback, as an indexed array.
      *
      * @return mixed the return value of the callback, or false on error.
      *
      * @api
      */
-    public function __call(string $callback, array $parameters)
+    public function __call(string $callback, iterable $parameters)
     {
         return call_user_func_array($this->$callback, $parameters);
     }
@@ -394,11 +394,11 @@ trait ServiceFunctions
     /**
      * Throw Exception Error.
      *
-     * @param array $error The array data representation for the exception.
+     * @param iterable $error The array data representation for the exception.
      *
      * @return \Exception
      */
-    protected function throwExceptionError(array $error): \Exception
+    protected function throwExceptionError(iterable $error): \Exception
     {
         throw new \Exception(sprintf(
             'Method in: %s. Class in: %s. Message: %s. Reference: %s.',
@@ -414,11 +414,11 @@ trait ServiceFunctions
     /**
      * Exception thrown if an argument is not of the expected type.
      *
-     * @param array $error The array data representation for the argument exception.
+     * @param iterable $error The array data representation for the argument exception.
      *
      * @return \InvalidArgumentException
      */
-    protected function throwInvalidArgumentExceptionError(array $error): \InvalidArgumentException
+    protected function throwInvalidArgumentExceptionError(iterable $error): \InvalidArgumentException
     {
         throw new \InvalidArgumentException(sprintf(
             'Provide valid: %s. See Method: %s. See Class: %s. See Reference: [%s]',

@@ -33,7 +33,7 @@ use UCSDMath\Configuration\ConfigurationVault\ConfigurationVaultInterface;
  * (+) ConfigurationVaultInterface setAccountHomeDirectory(string $directoryPath = null;
  * (+) ConfigurationVaultInterface setVaultRequestedSection(string $vaultRequestedSection = null);
  * (-) Traversable toIterator($files);
- * (-) array renderAmbit(string $payload);
+ * (-) iterable renderAmbit(string $payload);
  * (-) ConfigurationVaultInterface setIvByteSize();
  * (-) ConfigurationVaultInterface setOpenSslVersion();
  * (-) ConfigurationVaultInterface setPrimaryHashArray();
@@ -44,7 +44,7 @@ use UCSDMath\Configuration\ConfigurationVault\ConfigurationVaultInterface;
  * (-) ConfigurationVaultInterface setVaultRecordEncrypted($value = true);
  * (-) ConfigurationVaultInterface setAvailableOpenSslDigests(bool $aliases = false);
  * (-) ConfigurationVaultInterface setAvailableOpenSslCipherMethods(bool $aliases = false);
- * (-) ConfigurationVaultInterface setVaultDataArguments(array $arguments, array $vaultData);
+ * (-) ConfigurationVaultInterface setVaultDataArguments(iterable $arguments, iterable $vaultData);
  * (-) ConfigurationVaultInterface setKeyByteSize(int $size = self::DEFAULT_ENCRYPTION_KEY_BYTE_SIZE);
  *
  * VaultServiceMethods provides a common set of implementations where needed. The VaultServiceMethods
@@ -85,7 +85,7 @@ trait VaultServiceMethods
     /**
      * Hashids encode.
      *
-     * @param int|string|array $numerical The numerical integer or array to encoded
+     * @param int|string|iterable $numerical The numerical integer or array to encoded
      *
      * @return string The encoded hashid
      *
@@ -190,7 +190,7 @@ trait VaultServiceMethods
      *
      * @return string Returns the Ambit
      */
-    protected function renderAmbit(string $payload): array
+    protected function renderAmbit(string $payload): iterable
     {
         [$dataSize, $ivSalt, $keySalt] = [$this->stringSize($payload), $this->getRandomInt(), $this->getRandomInt()];
 
@@ -385,12 +385,12 @@ trait VaultServiceMethods
     /**
      * Set any required vault file arguments.
      *
-     * @param array $arguments The specific list of arguments to set
-     * @param array $vaultData The raw dataset from the vault file (YAML)
+     * @param iterable $arguments The specific list of arguments to set
+     * @param iterable $vaultData The raw dataset from the vault file (YAML)
      *
      * @return ConfigurationVaultInterface The current instance
      */
-    protected function setVaultDataArguments(array $arguments, array $vaultData): ConfigurationVaultInterface
+    protected function setVaultDataArguments(iterable $arguments, iterable $vaultData): ConfigurationVaultInterface
     {
         foreach ($arguments as $argument) {
             true === $this->isVaultRecordEncrypted() ? $this->set($argument, $this->decrypt($vaultData[$argument])) : $this->set($argument, $vaultData[$argument]);
