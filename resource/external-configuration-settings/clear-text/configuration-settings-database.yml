@@ -47,16 +47,19 @@ database:
         localhost:
             database_driver:      [6, 4021863287226561, 2989991112137682]|mysqli
             database_host:        [8, 3717021546540125, 1427664113850711]|localhost
+            database_name:        [8, 6347913636300862, 4286616212393198]|production_database
             database_username:    [8, 2419668466785649, 5788696661556414]|root
             database_password:    [41,2004450194887071, 8116490281044452]|GBjA5ZUSVzWzM5Rc6uvtJfRv7ZqpUFNyC2zrtumaT
-            database_name:        [8, 6347913636300862, 4286616212393198]|production_database
             database_port:        [4, 1396403429280140, 9708839126326927]|3306
             database_socket:      [25,4118490322737971, 6861716514003229]|/var/lib/mysql/mysql.sock
+            database_charset:     [7, 1941425238327654, 8591532613145237]|utf8mb4
+            database_collation:   [22,2931155160124901,  799445695555243]|utf8mb4_unicode_520_ci
+            database_prefix:      [4, 1396403429280140, 9708839126326927]|null 
+            database_engine:      [6, 6159195435878937, 2224004524220535]|InnoDB
+            database_strict_mode: [5, 2419668466785649, 5788696661556414]|false
+            database_options:     [4, 8110366060637152, 8039222733194268]|Viper Squadron 1
             database_error_log:   [25,8739744827254741, 3881320860058418]|/var/log/mysql/mysql_error.log
             database_general_log: [33,6159195435878937, 2224004524220535]|/var/log/mysql/mysqld.log
-            database_options:     [4, 8110366060637152, 8039222733194268]|Viper Squadron 1
-            database_collation:   [22,2931155160124901,  799445695555243]|utf8mb4_unicode_520_ci
-            database_charset:     [7, 1941425238327654, 8591532613145237]|utf8mb4
             is_secure_connection: [5,  251518017962344, 1885416406712093]|false
             id: 1
             uuid: AD4A1339-E103-4093-9DA0-75A2DCDB57D0
@@ -65,16 +68,19 @@ database:
         Maverick:
             database_driver:      [6, 4021863287226561, 2989991112137682]|mysqli
             database_host:        [8, 3717021546540125, 1427664113850711]|database.tomcat.org
+            database_name:        [8, 6347913636300862, 4286616212393198]|production_database
             database_username:    [8, 2419668466785649, 5788696661556414]|maverick
             database_password:    [41,2004450194887071, 8116490281044452]|AgSQjrkuFKW52tQepBKCjKWHa9G2aX3WbMG7VjeCX
-            database_name:        [8, 6347913636300862, 4286616212393198]|production_database
             database_port:        [4, 1396403429280140, 9708839126326927]|3306
             database_socket:      [25,4118490322737971, 6861716514003229]|/var/lib/mysql/mysql.sock
+            database_charset:     [7, 1941425238327654, 8591532613145237]|utf8mb4
+            database_collation:   [22,2931155160124901,  799445695555243]|utf8mb4_unicode_520_ci
+            database_prefix:      [4, 1396403429280140, 9708839126326927]|null 
+            database_engine:      [6, 6159195435878937, 2224004524220535]|InnoDB
+            database_strict_mode: [5, 2419668466785649, 5788696661556414]|false
+            database_options:     [4, 8110366060637152, 8039222733194268]|Viper Squadron 2
             database_error_log:   [25,8739744827254741, 3881320860058418]|/var/log/mysql/mysql_error.log
             database_general_log: [33,6159195435878937, 2224004524220535]|/var/log/mysql/mysqld.log
-            database_options:     [4, 8110366060637152, 8039222733194268]|Viper Squadron 2
-            database_collation:   [22,2931155160124901,  799445695555243]|utf8mb4_unicode_520_ci
-            database_charset:     [7, 1941425238327654, 8591532613145237]|utf8mb4
             is_secure_connection: [5,  251518017962344, 1885416406712093]|false
             id: 2
             uuid: FA843444-45D4-416C-A1C2-FCB5BDA47B39
@@ -83,16 +89,19 @@ database:
         Goose:
             database_driver:      [6, 4021863287226561, 2989991112137682]|mysqli
             database_host:        [8, 3717021546540125, 1427664113850711]|database.tomcat.org
+            database_name:        [8, 6347913636300862, 4286616212393198]|production_database
             database_username:    [8, 2419668466785649, 5788696661556414]|goose
             database_password:    [41,2004450194887071, 8116490281044452]|SrY26TxqDjfZt7v3cfWQ83xrM7hjFEJNxZZv8Zh5C
-            database_name:        [8, 6347913636300862, 4286616212393198]|production_database
             database_port:        [4, 1396403429280140, 9708839126326927]|3306
             database_socket:      [25,4118490322737971, 6861716514003229]|/var/lib/mysql/mysql.sock
+            database_charset:     [7, 1941425238327654, 8591532613145237]|utf8mb4
+            database_collation:   [22,2931155160124901,  799445695555243]|utf8mb4_unicode_520_ci
+            database_prefix:      [4, 1396403429280140, 9708839126326927]|null 
+            database_engine:      [6, 6159195435878937, 2224004524220535]|InnoDB
+            database_strict_mode: [5, 2419668466785649, 5788696661556414]|false
+            database_options:     [4, 8110366060637152, 8039222733194268]|Viper Squadron 3 - Production
             database_error_log:   [25,8739744827254741, 3881320860058418]|/var/log/mysql/mysql_error.log
             database_general_log: [33,6159195435878937, 2224004524220535]|/var/log/mysql/mysqld.log
-            database_options:     [4, 8110366060637152, 8039222733194268]|Viper Squadron 3 - Production
-            database_collation:   [22,2931155160124901,  799445695555243]|utf8mb4_unicode_520_ci
-            database_charset:     [7, 1941425238327654, 8591532613145237]|utf8mb4
             is_secure_connection: [5,  251518017962344, 1885416406712093]|false
             id: 3
             uuid: CDD935FF-FFCE-43AB-96B0-AADF2A7850C4
@@ -101,16 +110,19 @@ database:
         Hollywood:
             database_driver:      [6, 4021863287226561, 2989991112137682]|mysqli
             database_host:        [8, 3717021546540125, 1427664113850711]|127.0.0.1
+            database_name:        [8, 6347913636300862, 4286616212393198]|wordpress_database
             database_username:    [8, 2419668466785649, 5788696661556414]|hollywood
             database_password:    [41,2004450194887071, 8116490281044452]|WPUgafPS3VP7KMvBMdRGH5vph2FzewBrmPNbN8BQW
-            database_name:        [8, 6347913636300862, 4286616212393198]|wordpress_database
             database_port:        [4, 1396403429280140, 9708839126326927]|3306
             database_socket:      [25,4118490322737971, 6861716514003229]|/var/lib/mysql/mysql.sock
+            database_charset:     [7, 1941425238327654, 8591532613145237]|utf8mb4
+            database_collation:   [22,2931155160124901,  799445695555243]|utf8mb4_unicode_520_ci
+            database_prefix:      [4, 1396403429280140, 9708839126326927]|null 
+            database_engine:      [6, 6159195435878937, 2224004524220535]|InnoDB
+            database_strict_mode: [5, 2419668466785649, 5788696661556414]|false
+            database_options:     [4, 8110366060637152, 8039222733194268]|Viper Squadron 4 - Production
             database_error_log:   [25,8739744827254741, 3881320860058418]|/var/log/mysql/mysql_error.log
             database_general_log: [33,6159195435878937, 2224004524220535]|/var/log/mysql/mysqld.log
-            database_options:     [4, 8110366060637152, 8039222733194268]|Viper Squadron 4 - Production
-            database_collation:   [22,2931155160124901,  799445695555243]|utf8mb4_unicode_520_ci
-            database_charset:     [7, 1941425238327654, 8591532613145237]|utf8mb4
             is_secure_connection: [5,  251518017962344, 1885416406712093]|false
             id: 4
             uuid: FDCD8A97-D9EE-41CD-AE29-6A9EE1587EF1
@@ -120,16 +132,19 @@ database:
         Maverick:
             database_driver:      [6, 4021863287226561, 2989991112137682]|mysqli
             database_host:        [8, 3717021546540125, 1427664113850711]|database.tomcat.org
+            database_name:        [8, 6347913636300862, 4286616212393198]|development_database
             database_username:    [8, 2419668466785649, 5788696661556414]|maverick
             database_password:    [41,2004450194887071, 8116490281044452]|EZ6Q8Gt9V6f6BZUHa5TH2WZLn8ru3Pj9Jap7F4MUW
-            database_name:        [8, 6347913636300862, 4286616212393198]|development_database
             database_port:        [4, 1396403429280140, 9708839126326927]|3306
             database_socket:      [25,4118490322737971, 6861716514003229]|/var/lib/mysql/mysql.sock
+            database_charset:     [7, 1941425238327654, 8591532613145237]|utf8mb4
+            database_collation:   [22,2931155160124901,  799445695555243]|utf8mb4_unicode_520_ci
+            database_prefix:      [4, 1396403429280140, 9708839126326927]|null 
+            database_engine:      [6, 6159195435878937, 2224004524220535]|InnoDB
+            database_strict_mode: [5, 2419668466785649, 5788696661556414]|false
+            database_options:     [4, 8110366060637152, 8039222733194268]|Viper Squadron 1 - Development
             database_error_log:   [25,8739744827254741, 3881320860058418]|/var/log/mysql/mysql_error.log
             database_general_log: [33,6159195435878937, 2224004524220535]|/var/log/mysql/mysqld.log
-            database_options:     [4, 8110366060637152, 8039222733194268]|Viper Squadron 1 - Development
-            database_collation:   [22,2931155160124901,  799445695555243]|utf8mb4_unicode_520_ci
-            database_charset:     [7, 1941425238327654, 8591532613145237]|utf8mb4
             is_secure_connection: [5,  251518017962344, 1885416406712093]|false
             id: 5
             uuid: D4350A05-16D8-4F6B-AC7D-637282F50A56
@@ -138,16 +153,19 @@ database:
         Goose:
             database_driver:      [6, 4021863287226561, 2989991112137682]|mysqli
             database_host:        [8, 3717021546540125, 1427664113850711]|database.tomcat.org
+            database_name:        [8, 6347913636300862, 4286616212393198]|development_database
             database_username:    [8, 2419668466785649, 5788696661556414]|goose
             database_password:    [41,2004450194887071, 8116490281044452]|QjZ4G8b8neKBdn9ReTRgRFmakpqCynFVLAZ78wdTM
-            database_name:        [8, 6347913636300862, 4286616212393198]|development_database
             database_port:        [4, 1396403429280140, 9708839126326927]|3306
             database_socket:      [25,4118490322737971, 6861716514003229]|/var/lib/mysql/mysql.sock
+            database_charset:     [7, 1941425238327654, 8591532613145237]|utf8mb4
+            database_collation:   [22,2931155160124901,  799445695555243]|utf8mb4_unicode_520_ci
+            database_prefix:      [4, 1396403429280140, 9708839126326927]|null 
+            database_engine:      [6, 6159195435878937, 2224004524220535]|InnoDB
+            database_strict_mode: [5, 2419668466785649, 5788696661556414]|false
+            database_options:     [4, 8110366060637152, 8039222733194268]|Viper Squadron 2 - Development
             database_error_log:   [25,8739744827254741, 3881320860058418]|/var/log/mysql/mysql_error.log
             database_general_log: [33,6159195435878937, 2224004524220535]|/var/log/mysql/mysqld.log
-            database_options:     [4, 8110366060637152, 8039222733194268]|Viper Squadron 2 - Development
-            database_collation:   [22,2931155160124901,  799445695555243]|utf8mb4_unicode_520_ci
-            database_charset:     [7, 1941425238327654, 8591532613145237]|utf8mb4
             is_secure_connection: [5,  251518017962344, 1885416406712093]|false
             id: 6
             uuid: FCEEB133-7591-4D03-9B83-4638419134D3
@@ -156,16 +174,19 @@ database:
         Hollywood:
             database_driver:      [6, 4021863287226561, 2989991112137682]|mysqli
             database_host:        [8, 3717021546540125, 1427664113850711]|127.0.0.1
+            database_name:        [8, 6347913636300862, 4286616212393198]|wordpress_database
             database_username:    [8, 2419668466785649, 5788696661556414]|hollywood
             database_password:    [41,2004450194887071, 8116490281044452]|TZ59tM2m8Df9KtukvNVSqfPAZxv8HMmPeHbz9ReaM
-            database_name:        [8, 6347913636300862, 4286616212393198]|wordpress_database
             database_port:        [4, 1396403429280140, 9708839126326927]|3306
             database_socket:      [25,4118490322737971, 6861716514003229]|/var/lib/mysql/mysql.sock
+            database_charset:     [7, 1941425238327654, 8591532613145237]|utf8mb4
+            database_collation:   [22,2931155160124901,  799445695555243]|utf8mb4_unicode_520_ci
+            database_prefix:      [4, 1396403429280140, 9708839126326927]|null 
+            database_engine:      [6, 6159195435878937, 2224004524220535]|InnoDB
+            database_strict_mode: [5, 2419668466785649, 5788696661556414]|false
+            database_options:     [4, 8110366060637152, 8039222733194268]|Viper Squadron 3 - Development
             database_error_log:   [25,8739744827254741, 3881320860058418]|/var/log/mysql/mysql_error.log
             database_general_log: [33,6159195435878937, 2224004524220535]|/var/log/mysql/mysqld.log
-            database_options:     [4, 8110366060637152, 8039222733194268]|Viper Squadron 3 - Development
-            database_collation:   [22,2931155160124901,  799445695555243]|utf8mb4_unicode_520_ci
-            database_charset:     [7, 1941425238327654, 8591532613145237]|utf8mb4
             is_secure_connection: [5,  251518017962344, 1885416406712093]|false
             id: 7
             uuid: C89CF6F2-991F-40C8-BD02-76FDFEA62D0F

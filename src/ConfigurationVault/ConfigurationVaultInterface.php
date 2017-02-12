@@ -71,6 +71,10 @@ interface ConfigurationVaultInterface
     public const XTS_CIPHER_METHOD                = 'AES-256-XTS';
     public const CCM_CIPHER_METHOD                = 'AES-256-CCM';
     public const CBC_CIPHER_METHOD                = 'AES-256-CBC';
+    public const DEFAULT_IP_ADDRESS               = '127.0.0.1';
+    public const DEFAULT_MYSQL_PORT               = 3306;
+    public const DEFAULT_MYSQL_HOST               = 'localhost';
+    public const DEFAULT_MYSQL_USERNAME           = 'root';
     public const DEFAULT_MIN_HASHIDS_LENGTH       = 30;
     public const DEFAULT_MIN_HASHIDS_MAP_STEPS    = 5;
     public const DEFAULT_ENCRYPTION_KEY_BYTE_SIZE = 32;
