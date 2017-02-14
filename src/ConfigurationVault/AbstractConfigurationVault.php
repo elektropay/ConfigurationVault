@@ -63,6 +63,7 @@ use UCSDMath\Configuration\ConfigurationVault\ExtendedOperations\VaultServiceMet
  * (+) void __destruct();
  * (+) string decrypt(string $payload);
  * (+) string encrypt(string $payload);
+ * (+) ConfigurationVaultInterface reset();
  * (+) ConfigurationVaultInterface loadVaultSettingsFile();
  * (+) ConfigurationVaultInterface setVaultFile(string $vaultFileDesignator);
  * (+) ConfigurationVaultInterface setHashidsProjectKey(string $optional = null);
@@ -86,7 +87,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      *
      * @api
      */
-    public const VERSION = '1.14.0';
+    public const VERSION = '1.15.0';
 
     //--------------------------------------------------------------------------
 
@@ -281,6 +282,49 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
             $ambit['hash'],
             base64_encode(openssl_encrypt($payload, $this->get(self::VAULTED, 'method'), $this->get(self::VAULTED, 'key'), $this->get(self::VAULTED, 'option'), $this->get(self::VAULTED, 'iv')))
         );
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Reset to default settings.
+     *
+     *
+     *    - vaultId: reset the configuration settings id for the record in process
+     *    - vaultUuid: reset the configuration settings uuid for the record in process
+     *    - vaultDate: reset the configuration settings date for the record in process
+     *    - vaultFile: reset the configuration-settings file to open. (e.g., 'Database', 'Account', 'SMTP', etc.)
+     *    - resultDataSet: reset the raw data from the specific vault file requested
+     *    - storageRegister: restart storage register
+     *    - vaultSection: reset the specific section of the vault/settings file to be processed (e.g., 'webadmin', 'webuser', 'wwwdyn', etc.)
+     *    - vaultIsEncrypted: reset the configuration settings is_encrypted for the record in process
+     *    - vaultEnvironments: reset the list of provided categories found in the configuration setting file
+     *    - vaultReleaseType: reset the release collection type (e.g., 'database', 'account', 'smtp')
+     *    - vaultEnvironment: reset the current environment defined and used for a vault file (e.g.,'development','staging','production')
+     *    - vaultDefaultSection: reset the default section found in the configuration setting file
+     *    - vaultRequestedSection: reset the requested section of the vault file (e.g., 'webadmin', 'webuser', 'wwwdyn', etc.)
+     *    - loadHashids(): set to default Hashids Project Key
+     *    - setCipherMethod(): set to default cipher method: AES-256-CTR
+     *    - setIvByteSize(): set to default IV byte size for AES-256-CTR
+     *    - setByteSizeMap('ivByteSize'): a map to ensure correct size for $ivByteSize
+     *    - setKeyByteSize(): set to default encryption key byte size for AES-256-CTR
+     *    - setByteSizeMap('keyByteSize'):a map to ensure correct size for $keyByteSize
+     *    - setOpenSslOption(): set the bitwise disjunction \OPENSSL_RAW_DATA
+     *
+     * @return ConfigurationVaultInterface The current instance
+     *
+     * @api
+     */
+    public function reset(): ConfigurationVaultInterface
+    {
+        return $this->setProperty('vaultId', null)->setProperty('vaultUuid', null)
+            ->setProperty('vaultDate', null)->setProperty('vaultFile', null)
+            ->setProperty('resultDataSet', [])->setProperty('storageRegister', [])
+            ->setProperty('vaultSection', null)->setProperty('vaultIsEncrypted', null)
+            ->setProperty('vaultEnvironments', [])->setProperty('vaultReleaseType', null)
+            ->setProperty('vaultEnvironment', null)->setProperty('vaultDefaultSection', null)
+            ->setProperty('vaultRequestedSection', null)->loadHashids()->setCipherMethod()->setIvByteSize()
+            ->setByteSizeMap('ivByteSize')->setKeyByteSize()->setByteSizeMap('keyByteSize')->setOpenSslOption();
     }
 
     //--------------------------------------------------------------------------
@@ -484,7 +528,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     public function openVaultFile(string $vaultFileDesignator, string $vaultRequestedSection = null): ConfigurationVaultInterface
     {
         /* Extract the raw YAML file into array and store in $this->resultDataSet */
-        $this->setVaultFile($vaultFileDesignator)->setVaultRequestedSection($vaultRequestedSection)->loadVaultSettingsFile()->setVaultEnvironmentTypeSettings();
+        $this->reset()->setVaultFile($vaultFileDesignator)->setVaultRequestedSection($vaultRequestedSection)->loadVaultSettingsFile()->setVaultEnvironmentTypeSettings();
         null === $this->getProperty('vaultRequestedSection')
             ? $this->setRecordProperties($this->vaultReleaseType, $this->vaultEnvironment)->setVaultRecordEncrypted(false)
             : $this->setRecordProperties($this->vaultReleaseType, $this->vaultEnvironment, $this->vaultSection)->setVaultRecordEncrypted($this->getProperty('resultDataSet')['is_encrypted']);
@@ -623,6 +667,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      * (+) string stringToNumber(string $payload);
      * (+) string repeatString(string $str, int $number);
      * (+) string getSha512(string $data = null, bool $isUpper = true);
+     * (+) string randomToken(int $length = 32, string $chars = self::PASSWORD_TOKENS);
      * (+) int getRandomInt(int $min = self::MIN_RANDOM_INT, int $max = self::MAX_RANDOM_INT);
      * (+) string decryptMessage(string $payload, string $encryptionKey, string $method = 'aes-256-cbc');
      * (+) string encryptMessage(string $payload, string $encryptionKey, string $method = 'aes-256-cbc');
@@ -630,7 +675,6 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      * (-) int stringSize(string $payload);
      * (-) bool isReadable(string $filename);
      * (-) string resizeKeyToMap(string $hash, iterable $specificMapSize);
-     * (-) string randomToken(int $length = 32, string $chars = self::PASSWORD_TOKENS);
      */
     use VaultStandardOperations;
 

@@ -12,10 +12,10 @@
 #
 #  @file    .external-configuration-settings/configuration-settings-smtp.yml
 #  @author  Daryl Eisner <deisner@ucsd.edu>
-#  @version 1.14.0
+#  @version 1.15.0
 #  @date    2017-02-12
 #  @note    This file provides configuration settings, usernames, passwords for
-#           various SMTP Mail Transmission Services used by the UCSDMath Framework v.1.14.0
+#           various SMTP Mail Transmission Services used by the UCSDMath Framework v.1.15.0
 #           components.
 #
 #           This file should be placed in a secure location by:

@@ -366,8 +366,10 @@ trait VaultStandardOperations
      * @param string $chars The string characters to use for the token
      *
      * @return string The random token string
+     *
+     * @api
      */
-    protected function randomToken(int $length = 32, string $chars = self::PASSWORD_TOKENS): string
+    public function randomToken(int $length = 32, string $chars = self::PASSWORD_TOKENS): string
     {
         if (!is_callable('random_bytes')) {
             throw new VaultException('There is no suitable CSPRNG installed on your system');
