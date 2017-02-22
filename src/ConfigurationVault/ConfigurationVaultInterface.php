@@ -220,7 +220,7 @@ interface ConfigurationVaultInterface
      *
      * @api
      */
-    public function hashidsDecode(string $id = null, int $starting = 0, int $minLength = self::DEFAULT_MIN_HASHIDS_LENGTH): ?iterable;
+    public function hashidsDecode(string $id = null, int $starting = 0, int $minLength = self::DEFAULT_MIN_HASHIDS_LENGTH);
 
     //--------------------------------------------------------------------------
 

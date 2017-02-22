@@ -64,6 +64,7 @@ use UCSDMath\Configuration\ConfigurationVault\ExtendedOperations\VaultServiceMet
  * (+) string decrypt(string $payload);
  * (+) string encrypt(string $payload);
  * (+) ConfigurationVaultInterface reset();
+ * (+) ConfigurationVaultInterface clear();
  * (+) string getUuid(bool $isUpper = true);
  * (+) ConfigurationVaultInterface loadVaultSettingsFile();
  * (+) ConfigurationVaultInterface setVaultFile(string $vaultFileDesignator);
@@ -331,6 +332,20 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
     //--------------------------------------------------------------------------
 
     /**
+     * This is an alias for $this->reset().
+     *
+     * @return ConfigurationVaultInterface The current instance
+     *
+     * @api
+     */
+    public function clear(): ConfigurationVaultInterface
+    {
+        return $this->reset();
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
      * Return a unique v4 UUID (requires: ^PHP7).
      *
      * Generate random block of data and change the individual byte positions.
@@ -405,7 +420,7 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      *
      * @api
      */
-    public function hashidsDecode(string $id = null, int $starting = 0, int $minLength = self::DEFAULT_MIN_HASHIDS_LENGTH): ?iterable
+    public function hashidsDecode(string $id = null, int $starting = 0, int $minLength = self::DEFAULT_MIN_HASHIDS_LENGTH)
     {
         return $id === null
             ? null
