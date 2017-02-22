@@ -80,7 +80,7 @@ use UCSDMath\Configuration\ConfigurationVault\ExtendedOperations\VaultServiceMet
  *
  * @author Daryl Eisner <deisner@ucsd.edu>
  */
-abstract class AbstractConfigurationVault implements ConfigurationVaultInterface, ServiceFunctionsInterface
+abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
 {
     /**
      * Constants.
