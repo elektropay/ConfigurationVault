@@ -18,23 +18,23 @@ namespace UCSDMath\Configuration\ConfigurationVault\ExtendedOperations;
  *
  * Method list: (+) @api.
  *
- * (+) iterable all();
+ * (+) array all();
  * (+) object init();
  * (+) string version();
  * (+) bool isString($str);
  * (+) bool has(string $key);
  * (+) string getClassName();
  * (+) int getInstanceCount();
- * (+) iterable getClassInterfaces();
+ * (+) array getClassInterfaces();
  * (+) mixed getConst(string $key);
  * (+) bool isValidUuid(string $uuid);
  * (+) bool isValidEmail(string $email);
  * (+) bool isValidSHA512(string $hash);
  * (+) bool doesFunctionExist(string $functionName);
- * (+) bool isStringKey(string $str, iterable $keys);
+ * (+) bool isStringKey(string $str, array $keys);
  * (+) mixed get(string $key, string $subkey = null);
  * (+) mixed getProperty(string $name, string $key = null);
- * (+) mixed __call(string $callback, iterable $parameters);
+ * (+) mixed __call(string $callback, array $parameters);
  * (+) object set(string $key, $value, string $subkey = null);
  * (+) object setProperty(string $name, $value, string $key = null);
  *
@@ -53,11 +53,11 @@ interface ServiceFunctionsInterface
     /**
      * Return the storageRegister array.
      *
-     * @return iterable
+     * @return array
      *
      * @api
      */
-    public function all(): iterable;
+    public function all(): array;
 
     //--------------------------------------------------------------------------
 
@@ -136,11 +136,11 @@ interface ServiceFunctionsInterface
     /**
      * Return class interfaces.
      *
-     * @return iterable
+     * @return array
      *
      * @api
      */
-    public function getClassInterfaces(): iterable;
+    public function getClassInterfaces(): array;
 
     //--------------------------------------------------------------------------
 
@@ -196,11 +196,11 @@ interface ServiceFunctionsInterface
      * Basic string and array keys validation.
      *
      * @param string   $str  The input parameter
-     * @param iterable $keys The associative array parameter
+     * @param array $keys The associative array parameter
      *
      * @return bool
      */
-    public function isStringKey(string $str, iterable $keys): bool;
+    public function isStringKey(string $str, array $keys): bool;
 
     //--------------------------------------------------------------------------
 
@@ -234,13 +234,13 @@ interface ServiceFunctionsInterface
      * (or any instances of \Closure).
      *
      * @param string   $callback   The named callable to be called.
-     * @param iterable $parameters The parameters to be passed to the callback, as an indexed array.
+     * @param array $parameters The parameters to be passed to the callback, as an indexed array.
      *
      * @return mixed the return value of the callback, or false on error.
      *
      * @api
      */
-    public function __call(string $callback, iterable $parameters);
+    public function __call(string $callback, array $parameters);
 
     //--------------------------------------------------------------------------
 
