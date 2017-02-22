@@ -32,7 +32,6 @@ use UCSDMath\Configuration\ConfigurationVault\ConfigurationVaultInterface;
  * (+) ConfigurationVaultInterface unsetRegister(string $key, string $subkey = null);
  * (+) ConfigurationVaultInterface setAccountHomeDirectory(string $directoryPath = null;
  * (+) ConfigurationVaultInterface setVaultRequestedSection(string $vaultRequestedSection = null);
- * (-) Traversable toIterator($files);
  * (-) array renderAmbit(string $payload);
  * (-) ConfigurationVaultInterface setIvByteSize();
  * (-) ConfigurationVaultInterface setOpenSslVersion();
@@ -159,26 +158,6 @@ trait VaultServiceMethods
     public function setVaultRequestedSection(string $vaultRequestedSection = null): ConfigurationVaultInterface
     {
         return $this->setProperty('vaultRequestedSection', '' === trim((string)$vaultRequestedSection) ? null : trim($vaultRequestedSection));
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Return as PHP Traversable Instance.
-     *
-     * {@see https://webmozart.io/blog/2012/10/07/give-the-traversable-interface-some-love/}
-     *
-     * @param mixed $files The string, array, object.
-     *
-     * @return \Traversable
-     */
-    protected function toIterator($files)
-    {
-        if (!$files instanceof \Traversable) {
-            $files = new \ArrayObject(is_array($files) ? $files : array($files));
-        }
-
-        return $files;
     }
 
     //--------------------------------------------------------------------------

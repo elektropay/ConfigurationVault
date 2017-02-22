@@ -690,7 +690,6 @@ abstract class AbstractConfigurationVault implements
      * (+) ConfigurationVaultInterface unsetRegister(string $key, string $subkey = null);
      * (+) ConfigurationVaultInterface setAccountHomeDirectory(string $directoryPath = null;
      * (+) ConfigurationVaultInterface setVaultRequestedSection(string $vaultRequestedSection = null);
-     * (-) Traversable toIterator($files);
      * (-) array renderAmbit(string $payload);
      * (-) ConfigurationVaultInterface setIvByteSize();
      * (-) ConfigurationVaultInterface setOpenSslVersion();
@@ -725,12 +724,13 @@ abstract class AbstractConfigurationVault implements
      * (+) int getRandomInt(int $min = self::MIN_RANDOM_INT, int $max = self::MAX_RANDOM_INT);
      * (+) string decryptMessage(string $payload, string $encryptionKey, string $method = 'aes-256-cbc');
      * (+) string encryptMessage(string $payload, string $encryptionKey, string $method = 'aes-256-cbc');
+     * (-) Traversable toIterator($files);
      * (-) bool isVaultRecordEncrypted();
      * (-) int stringSize(string $payload);
      * (-) bool isReadable(string $filename);
      * (-) string resizeKeyToMap(string $hash, array $specificMapSize);
      */
-    use VaultStandardOperations;
+    //use VaultStandardOperations;
 
     //--------------------------------------------------------------------------
 

@@ -39,6 +39,7 @@ use UCSDMath\Configuration\ConfigurationVault\Exception\VaultException;
  * (+) string decryptMessage(string $payload, string $encryptionKey, string $method = 'aes-256-cbc');
  * (+) string encryptMessage(string $payload, string $encryptionKey, string $method = 'aes-256-cbc');
  * (-) bool isVaultRecordEncrypted();
+ * (-) Traversable toIterator($files);
  * (-) int stringSize(string $payload);
  * (-) bool isReadable(string $filename);
  * (-) string resizeKeyToMap(string $hash, array $specificMapSize);
@@ -60,7 +61,6 @@ trait VaultStandardOperations
     /**
      * Abstract Method Requirements.
      */
-    abstract protected function toIterator($files);
     abstract public function getProperty(string $name, string $key = null);
 
     //--------------------------------------------------------------------------
@@ -304,6 +304,26 @@ trait VaultStandardOperations
     protected function isVaultRecordEncrypted(): bool
     {
         return $this->getProperty('vaultIsEncrypted');
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Return as PHP Traversable Instance.
+     *
+     * {@see https://webmozart.io/blog/2012/10/07/give-the-traversable-interface-some-love/}
+     *
+     * @param mixed $files The string, array, object.
+     *
+     * @return \Traversable
+     */
+    protected function toIterator($files)
+    {
+        if (!$files instanceof \Traversable) {
+            $files = new \ArrayObject(is_array($files) ? $files : array($files));
+        }
+
+        return $files;
     }
 
     //--------------------------------------------------------------------------
