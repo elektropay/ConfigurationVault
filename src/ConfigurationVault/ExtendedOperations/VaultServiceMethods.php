@@ -172,7 +172,7 @@ trait VaultServiceMethods
      *
      * @return \Traversable
      */
-    protected function toIterator($files): \Traversable
+    protected function toIterator($files)
     {
         if (!$files instanceof \Traversable) {
             $files = new \ArrayObject(is_array($files) ? $files : array($files));

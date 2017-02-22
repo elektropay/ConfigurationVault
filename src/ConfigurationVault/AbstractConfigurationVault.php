@@ -80,7 +80,11 @@ use UCSDMath\Configuration\ConfigurationVault\ExtendedOperations\VaultServiceMet
  *
  * @author Daryl Eisner <deisner@ucsd.edu>
  */
-abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
+abstract class AbstractConfigurationVault implements
+    ConfigurationVaultInterface,
+    ServiceFunctionsInterface,
+    VaultStandardOperationsInterface,
+    VaultServiceMethodsInterface
 {
     /**
      * Constants.
@@ -319,7 +323,8 @@ abstract class AbstractConfigurationVault implements ConfigurationVaultInterface
      */
     public function reset(): ConfigurationVaultInterface
     {
-        return $this->setProperty('vaultId', null)->setProperty('vaultUuid', null)
+        return $this
+            ->setProperty('vaultId', null)->setProperty('vaultUuid', null)
             ->setProperty('vaultDate', null)->setProperty('vaultFile', null)
             ->setProperty('resultDataSet', [])->setProperty('storageRegister', [])
             ->setProperty('vaultSection', null)->setProperty('vaultIsEncrypted', null)
