@@ -730,7 +730,7 @@ abstract class AbstractConfigurationVault implements
      * (-) bool isReadable(string $filename);
      * (-) string resizeKeyToMap(string $hash, array $specificMapSize);
      */
-    //use VaultStandardOperations;
+    use VaultStandardOperations;
 
     //--------------------------------------------------------------------------
 
