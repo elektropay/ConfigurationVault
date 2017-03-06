@@ -52,6 +52,7 @@ database:
             database_password:    [41,2004450194887071, 8116490281044452]|GBjA5ZUSVzWzM5Rc6uvtJfRv7ZqpUFNyC2zrtumaT
             database_port:        [4, 1396403429280140, 9708839126326927]|3306
             database_socket:      [25,4118490322737971, 6861716514003229]|/var/lib/mysql/mysql.sock
+            database_protocol:    [3, 1396403429280140, 3881320860058418]|SOCKET  // Connection protocol to use ('TCP','SOCKET','PIPE','MEMORY')
             database_charset:     [7, 1941425238327654, 8591532613145237]|utf8mb4
             database_collation:   [22,2931155160124901,  799445695555243]|utf8mb4_unicode_520_ci
             database_prefix:      [4, 1396403429280140, 9708839126326927]|null 
@@ -73,6 +74,7 @@ database:
             database_password:    [41,2004450194887071, 8116490281044452]|AgSQjrkuFKW52tQepBKCjKWHa9G2aX3WbMG7VjeCX
             database_port:        [4, 1396403429280140, 9708839126326927]|3306
             database_socket:      [25,4118490322737971, 6861716514003229]|/var/lib/mysql/mysql.sock
+            database_protocol:    [3, 1396403429280140, 3881320860058418]|TCP    // Connection protocol to use ('TCP','SOCKET','PIPE','MEMORY')
             database_charset:     [7, 1941425238327654, 8591532613145237]|utf8mb4
             database_collation:   [22,2931155160124901,  799445695555243]|utf8mb4_unicode_520_ci
             database_prefix:      [4, 1396403429280140, 9708839126326927]|null 
@@ -94,6 +96,7 @@ database:
             database_password:    [41,2004450194887071, 8116490281044452]|SrY26TxqDjfZt7v3cfWQ83xrM7hjFEJNxZZv8Zh5C
             database_port:        [4, 1396403429280140, 9708839126326927]|3306
             database_socket:      [25,4118490322737971, 6861716514003229]|/var/lib/mysql/mysql.sock
+            database_protocol:    [3, 1396403429280140, 3881320860058418]|TCP    // Connection protocol to use ('TCP','SOCKET','PIPE','MEMORY')
             database_charset:     [7, 1941425238327654, 8591532613145237]|utf8mb4
             database_collation:   [22,2931155160124901,  799445695555243]|utf8mb4_unicode_520_ci
             database_prefix:      [4, 1396403429280140, 9708839126326927]|null 
@@ -115,6 +118,7 @@ database:
             database_password:    [41,2004450194887071, 8116490281044452]|WPUgafPS3VP7KMvBMdRGH5vph2FzewBrmPNbN8BQW
             database_port:        [4, 1396403429280140, 9708839126326927]|3306
             database_socket:      [25,4118490322737971, 6861716514003229]|/var/lib/mysql/mysql.sock
+            database_protocol:    [3, 1396403429280140, 3881320860058418]|TCP    // Connection protocol to use ('TCP','SOCKET','PIPE','MEMORY')
             database_charset:     [7, 1941425238327654, 8591532613145237]|utf8mb4
             database_collation:   [22,2931155160124901,  799445695555243]|utf8mb4_unicode_520_ci
             database_prefix:      [4, 1396403429280140, 9708839126326927]|null 
@@ -137,6 +141,7 @@ database:
             database_password:    [41,2004450194887071, 8116490281044452]|EZ6Q8Gt9V6f6BZUHa5TH2WZLn8ru3Pj9Jap7F4MUW
             database_port:        [4, 1396403429280140, 9708839126326927]|3306
             database_socket:      [25,4118490322737971, 6861716514003229]|/var/lib/mysql/mysql.sock
+            database_protocol:    [3, 1396403429280140, 3881320860058418]|TCP    // Connection protocol to use ('TCP','SOCKET','PIPE','MEMORY')
             database_charset:     [7, 1941425238327654, 8591532613145237]|utf8mb4
             database_collation:   [22,2931155160124901,  799445695555243]|utf8mb4_unicode_520_ci
             database_prefix:      [4, 1396403429280140, 9708839126326927]|null 
@@ -158,6 +163,7 @@ database:
             database_password:    [41,2004450194887071, 8116490281044452]|QjZ4G8b8neKBdn9ReTRgRFmakpqCynFVLAZ78wdTM
             database_port:        [4, 1396403429280140, 9708839126326927]|3306
             database_socket:      [25,4118490322737971, 6861716514003229]|/var/lib/mysql/mysql.sock
+            database_protocol:    [3, 1396403429280140, 3881320860058418]|TCP    // Connection protocol to use ('TCP','SOCKET','PIPE','MEMORY')
             database_charset:     [7, 1941425238327654, 8591532613145237]|utf8mb4
             database_collation:   [22,2931155160124901,  799445695555243]|utf8mb4_unicode_520_ci
             database_prefix:      [4, 1396403429280140, 9708839126326927]|null 
@@ -179,6 +185,7 @@ database:
             database_password:    [41,2004450194887071, 8116490281044452]|TZ59tM2m8Df9KtukvNVSqfPAZxv8HMmPeHbz9ReaM
             database_port:        [4, 1396403429280140, 9708839126326927]|3306
             database_socket:      [25,4118490322737971, 6861716514003229]|/var/lib/mysql/mysql.sock
+            database_protocol:    [3, 1396403429280140, 3881320860058418]|TCP    // Connection protocol to use ('TCP','SOCKET','PIPE','MEMORY')
             database_charset:     [7, 1941425238327654, 8591532613145237]|utf8mb4
             database_collation:   [22,2931155160124901,  799445695555243]|utf8mb4_unicode_520_ci
             database_prefix:      [4, 1396403429280140, 9708839126326927]|null 
