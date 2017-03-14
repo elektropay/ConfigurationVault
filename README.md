@@ -2,7 +2,7 @@
 <table width="890">
   <tr>
     <td width="300"><img height="240" width="290" alt="UCSDMath - Mathlink" src="https://github.com/ucsdmath/ConfigurationVault/blob/master/resource/img/configuration-vault.png"></td>
-    <td><h3>A Development Project in PHP</h3><strong>UCSDMath</strong> provides a testing framework for general internal Intranet software applications for the UCSD, Department of Mathematics. This is used for development and testing only. [not for production]<br>
+    <td><h3>A Development Project in PHP</h3>UCSDMath provides a testing framework for general internal Intranet software applications for the UCSD, Department of Mathematics. This is used for development and testing only. [not for production]<br>
 
 <table width="550"><tr><td width="120"><b>Travis CI</b></td><td width="250"><b>SensioLabs</b></td><td width="180"><b>Dependencies</b></td></tr><tr>
 
