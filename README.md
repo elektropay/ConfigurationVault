@@ -25,7 +25,6 @@
         <a href="https://travis-ci.org/ucsdmath/ConfigurationVault">
         <img src="http://php7ready.timesplinter.ch/ucsdmath/ConfigurationVault/badge.svg"></a>
 </td></tr></table>
-
 </td></tr></table>
 <table width="890"><tr>
     <td width="116" align="center"><b>Scrutinizer</b></td>
