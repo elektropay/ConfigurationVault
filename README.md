@@ -8,14 +8,13 @@
     <td width="120"><b>Travis CI</b></td>
     <td width="250"><b>SensioLabs</b></td>
     <td width="180"><b>Dependencies</b></td>
-</tr><tr>
-
+</tr>
+<tr>
     <td width="120" align="center">
         <a href="https://travis-ci.org/ucsdmath/ConfigurationVault"><img src="https://travis-ci.org/ucsdmath/ConfigurationVault.svg?branch=master" style="float: left; margin: 0px 0px 10px 10px;"></a><br>
         <a href="https://www.codacy.com/app/ucsdmath-project/ConfigurationVault"><img src="https://api.codacy.com/project/badge/Grade/3d6afd20add84d1ea3d5b206ddf4dea6"></a><br>
         <a href="https://scrutinizer-ci.com/g/ucsdmath/ConfigurationVault/?branch=master"><img src="https://img.shields.io/scrutinizer/g/ucsdmath/ConfigurationVault.svg"></a>
     </td>
-
     <td width="250" align="center">
         <a href="https://insight.sensiolabs.com/projects/3c0c312e-c234-4844-86d3-46ca9fc5e856"><img src="https://insight.sensiolabs.com/projects/3c0c312e-c234-4844-86d3-46ca9fc5e856/big.png" style="float: right; margin: 0px 0px 10px 10px;" width="212" height="51"></a><br>
         <a href="https://travis-ci.org/ucsdmath/ConfigurationVault"><img src="https://img.shields.io/badge/PHP-%207.1%20Tested%20-33cc33.svg"></a>
@@ -24,10 +23,10 @@
         <a href="https://www.versioneye.com/user/projects/577fb9ab5bb139003969da5b"><img src="https://www.versioneye.com/user/projects/577fb9ab5bb139003969da5b/badge.png?style=flat" style="float:left;margin:0px 0px 10px 10px;"></a><br>
         <a href="https://codeclimate.com/github/ucsdmath/ConfigurationVault"><img src="https://codeclimate.com/github/ucsdmath/ConfigurationVault/badges/gpa.svg"></a><br>
         <a href="https://travis-ci.org/ucsdmath/ConfigurationVault"><img src="http://php7ready.timesplinter.ch/ucsdmath/ConfigurationVault/badge.svg"></a>
-</td>
+    </td>
 </tr></table>
-</td>
-</tr></table>
+
+</td></tr></table>
 
 <table width="890"><tr>
     <td width="116" align="center"><b>Scrutinizer</b></td>
