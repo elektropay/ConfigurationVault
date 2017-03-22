@@ -64,14 +64,11 @@ use UCSDMath\Configuration\ConfigurationVault\ExtendedOperations\VaultServiceMet
  * (+) string decrypt(string $payload);
  * (+) string encrypt(string $payload);
  * (+) ConfigurationVaultInterface reset();
- * (+) ConfigurationVaultInterface clear();
  * (+) string getUuid(bool $isUpper = true);
  * (+) ConfigurationVaultInterface loadVaultSettingsFile();
- * (+) ConfigurationVaultInterface setVaultFile(string $vaultFileDesignator);
  * (+) ConfigurationVaultInterface setHashidsProjectKey(string $optional = null);
  * (+) ConfigurationVaultInterface setEncryptionSettingsFileName(string $vaultFile = null);
  * (+) ConfigurationVaultInterface setVaultSettingsDirectory(string $directoryPath = null);
- * (+) ConfigurationVaultInterface openVaultFile(string $vaultFileDesignator, string $vaultRequestedSection = null);
  * (+) array hashidsDecode(string $id = null, int $starting = 0, int $minLength = self::DEFAULT_MIN_HASHIDS_LENGTH);
  * (+) ConfigurationVaultInterface loadHashids(string $projectKey = null, int $minLength = self::DEFAULT_MIN_HASHIDS_LENGTH);
  * (+) ConfigurationVaultInterface setRecordProperties(string $vaultReleaseType, string $vaultEnvironment, string $vaultSection = null);
@@ -334,20 +331,6 @@ abstract class AbstractConfigurationVault implements
     //--------------------------------------------------------------------------
 
     /**
-     * This is an alias for $this->reset().
-     *
-     * @return ConfigurationVaultInterface The current instance
-     *
-     * @api
-     */
-    public function clear(): ConfigurationVaultInterface
-    {
-        return $this->reset();
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
      * Return a unique v4 UUID (requires: ^PHP7).
      *
      * Generate random block of data and change the individual byte positions.
@@ -555,60 +538,6 @@ abstract class AbstractConfigurationVault implements
             'vaultSettingsDirectory',
             $directoryPath === null ? realpath(sprintf('%s/../%s', $_SERVER['DOCUMENT_ROOT'], static::VAULT_DIRECTORY_NAME)) : realpath($directoryPath)
         );
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Open a selected configuration file.
-     *
-     * @param string $vaultFileDesignator   The specific configuration to open. (e.g., 'Database', 'SMTP', 'Account', 'Administrator', etc.)
-     * @param string $vaultRequestedSection The requested section of the vault/settings file (e.g., 'webadmin', 'webuser', 'wwwdyn', etc.)
-     *
-     * @return ConfigurationVaultInterface The current instance
-     *
-     * @api
-     */
-    public function openVaultFile(string $vaultFileDesignator, string $vaultRequestedSection = null): ConfigurationVaultInterface
-    {
-        /* Extract the raw YAML file into array and store in $this->resultDataSet */
-        $this->reset()->setVaultFile($vaultFileDesignator)->setVaultRequestedSection($vaultRequestedSection)->loadVaultSettingsFile()->setVaultEnvironmentTypeSettings();
-        null === $this->getProperty('vaultRequestedSection')
-            ? $this->setRecordProperties($this->vaultReleaseType, $this->vaultEnvironment)->setVaultRecordEncrypted(false)
-            : $this->setRecordProperties($this->vaultReleaseType, $this->vaultEnvironment, $this->vaultSection)->setVaultRecordEncrypted($this->getProperty('resultDataSet')['is_encrypted']);
-
-        /* Removing the last four elements from the array */
-        return null === $this->getProperty('vaultRequestedSection')
-            ? $this->setVaultDataArguments(array_keys($this->getProperty('resultDataSet')), $this->getProperty('resultDataSet'))
-            : $this->setVaultDataArguments(array_slice(array_keys($this->getProperty('resultDataSet')), 0, count(array_keys($this->getProperty('resultDataSet'))) - 4), $this->getProperty('resultDataSet'));
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Set the vault filename to open.
-     *
-     * @param string $vaultFileDesignator The specific configuration to open. (e.g., 'Database', 'SMTP', 'Account', 'Administrator', 'Encryption')
-     *
-     * @return ConfigurationVaultInterface The current instance
-     *
-     * @throws VaultException When an invalid filename is created
-     */
-    public function setVaultFile(string $vaultFileDesignator): ConfigurationVaultInterface
-    {
-        $filename = false !== strpos($vaultFileDesignator, 'configuration-settings')
-            ? sprintf('%s/%s.yml', $this->getProperty('vaultSettingsDirectory'), strtolower(trim($vaultFileDesignator, '/ ')))
-            : sprintf('%s/%s%s.yml', $this->getProperty('vaultSettingsDirectory'), 'configuration-settings-', strtolower(trim($vaultFileDesignator, '/ ')));
-
-        if (!realpath($filename)) {
-            throw new VaultException(sprintf(
-                'The parameters provided (file name: %s) does not exist or is not a valid file path. Please provide a real filename. Method: %s.',
-                $filename,
-                __METHOD__
-            ));
-        }
-
-        return $this->setProperty('vaultFile', $filename);
     }
 
     //--------------------------------------------------------------------------

@@ -31,14 +31,16 @@ use UCSDMath\Configuration\ConfigurationVault\Exception\FileNotFoundException;
  * (+) void __destruct();
  * (+) array getRecords();
  * (+) bool isVaultFileReadable();
- * (+) ConfigurationVaultInterface reset();
+ * (+) ConfigurationVaultInterface clear();
  * (+) string getRandomHex(int $length = 32);
  * (+) ConfigurationVaultInterface setEncryptionKey(string $encoded = null);
  * (+) ConfigurationVaultInterface setVaultDefaultEnvironment(string $value);
+ * (+) ConfigurationVaultInterface setVaultFile(string $vaultFileDesignator);
  * (+) ConfigurationVaultInterface setInitializationVector(string $encoded = null);
  * (+) ConfigurationVaultInterface setOpenSslOption(int $option = \OPENSSL_RAW_DATA);
  * (+) ConfigurationVaultInterface setCipherMethod(string $method = self::DEFAULT_CIPHER_METHOD);
  * (+) ConfigurationVaultInterface validateEncryptionSettingsFileName($vaultFilePath = null, $vaultFile = null);
+ * (+) ConfigurationVaultInterface openVaultFile(string $vaultFileDesignator, string $vaultRequestedSection = null);
  *
  * @author Daryl Eisner <deisner@ucsd.edu>
  */
@@ -274,6 +276,74 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
         }
 
         return $this;
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Open a selected configuration file.
+     *
+     * @param string $vaultFileDesignator   The specific configuration to open. (e.g., 'Database', 'SMTP', 'Account', 'Administrator', etc.)
+     * @param string $vaultRequestedSection The requested section of the vault/settings file (e.g., 'webadmin', 'webuser', 'wwwdyn', etc.)
+     *
+     * @return ConfigurationVaultInterface The current instance
+     *
+     * @api
+     */
+    public function openVaultFile(string $vaultFileDesignator, string $vaultRequestedSection = null): ConfigurationVaultInterface
+    {
+        /* Extract the raw YAML file into array and store in $this->resultDataSet */
+        $this->reset()->setVaultFile($vaultFileDesignator)->setVaultRequestedSection($vaultRequestedSection)->loadVaultSettingsFile()->setVaultEnvironmentTypeSettings();
+        null === $this->getProperty('vaultRequestedSection')
+            ? $this->setRecordProperties($this->vaultReleaseType, $this->vaultEnvironment)->setVaultRecordEncrypted(false)
+            : $this->setRecordProperties($this->vaultReleaseType, $this->vaultEnvironment, $this->vaultSection)->setVaultRecordEncrypted($this->getProperty('resultDataSet')['is_encrypted']);
+
+        /* Removing the last four elements from the array */
+        return null === $this->getProperty('vaultRequestedSection')
+            ? $this->setVaultDataArguments(array_keys($this->getProperty('resultDataSet')), $this->getProperty('resultDataSet'))
+            : $this->setVaultDataArguments(array_slice(array_keys($this->getProperty('resultDataSet')), 0, count(array_keys($this->getProperty('resultDataSet'))) - 4), $this->getProperty('resultDataSet'));
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Set the vault filename to open.
+     *
+     * @param string $vaultFileDesignator The specific configuration to open. (e.g., 'Database', 'SMTP', 'Account', 'Administrator', 'Encryption')
+     *
+     * @return ConfigurationVaultInterface The current instance
+     *
+     * @throws VaultException When an invalid filename is created
+     */
+    public function setVaultFile(string $vaultFileDesignator): ConfigurationVaultInterface
+    {
+        $filename = false !== strpos($vaultFileDesignator, 'configuration-settings')
+            ? sprintf('%s/%s.yml', $this->getProperty('vaultSettingsDirectory'), strtolower(trim($vaultFileDesignator, '/ ')))
+            : sprintf('%s/%s%s.yml', $this->getProperty('vaultSettingsDirectory'), 'configuration-settings-', strtolower(trim($vaultFileDesignator, '/ ')));
+
+        if (!realpath($filename)) {
+            throw new VaultException(sprintf(
+                'The parameters provided (file name: %s) does not exist or is not a valid file path. Please provide a real filename. Method: %s.',
+                $filename,
+                __METHOD__
+            ));
+        }
+
+        return $this->setProperty('vaultFile', $filename);
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * This is an alias for $this->reset().
+     *
+     * @return ConfigurationVaultInterface The current instance
+     *
+     * @api
+     */
+    public function clear(): ConfigurationVaultInterface
+    {
+        return $this->reset();
     }
 
     //--------------------------------------------------------------------------
