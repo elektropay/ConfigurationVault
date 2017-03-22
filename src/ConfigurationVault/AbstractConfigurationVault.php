@@ -210,15 +210,12 @@ abstract class AbstractConfigurationVault implements
     public function __construct(FilesystemInterface $filesystem, YamlInterface $yaml)
     {
         $this->setProperty('yaml', $yaml)->setProperty('filesystem', $filesystem)
-            ->setAccountHomeDirectory() // location required
-            ->setVaultSettingsDirectory() // location required
-            ->setEncryptionSettingsFileName()
-            ->loadEncryptionSettingsRawData()
-            ->setHashidsProjectKey()->loadHashids()
-            ->setPrimaryHashArray()->setCoreSeedHashArray()->setInitializationVectorArray()->setRsaPublicPrivateKeys()
-            ->setAvailableOpenSslDigests()->setAvailableOpenSslCipherMethods()->setCipherMethod()
-            ->setIvByteSize()->setByteSizeMap('ivByteSize')
-            ->setKeyByteSize()->setByteSizeMap('keyByteSize')
+            ->setAccountHomeDirectory()->setVaultSettingsDirectory()
+            ->setEncryptionSettingsFileName()->loadEncryptionSettingsRawData()
+            ->setHashidsProjectKey()->loadHashids()->setPrimaryHashArray()->setCoreSeedHashArray()
+            ->setInitializationVectorArray()->setRsaPublicPrivateKeys()->setAvailableOpenSslDigests()
+            ->setAvailableOpenSslCipherMethods()->setCipherMethod()->setIvByteSize()
+            ->setByteSizeMap('ivByteSize')->setKeyByteSize()->setByteSizeMap('keyByteSize')
             ->setOpenSslOption()->setOpenSslVersion();
     }
 
@@ -551,19 +548,12 @@ abstract class AbstractConfigurationVault implements
     public function setVaultSettingsDirectory(string $directoryPath = null): ConfigurationVaultInterface
     {
         if ($directoryPath !== null && !is_dir($directoryPath)) {
-            throw new IOException(
-                sprintf('The directory path %s does not exist. Please check the input parameter on method: %s.', $directoryPath, __METHOD__),
-                0,
-                null,
-                $directoryPath
-            );
+            throw new IOException(sprintf('The directory path %s does not exist. Check parameter: %s.', $directoryPath, __METHOD__), 0, null, $directoryPath);
         }
 
         return $this->setProperty(
             'vaultSettingsDirectory',
-            $directoryPath === null
-                ? realpath(sprintf('%s/../%s', $_SERVER['DOCUMENT_ROOT'], static::VAULT_DIRECTORY_NAME))
-                : realpath($directoryPath)
+            $directoryPath === null ? realpath(sprintf('%s/../%s', $_SERVER['DOCUMENT_ROOT'], static::VAULT_DIRECTORY_NAME)) : realpath($directoryPath)
         );
     }
 
