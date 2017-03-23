@@ -24,27 +24,27 @@ use UCSDMath\Configuration\ConfigurationVault\ConfigurationVaultInterface;
  *
  * Method list: (+) @api, (-) protected or private visibility.
  *
- * (+) array all();
+ * (+) iterable all();
  * (+) object init();
  * (+) string version();
  * (+) bool isString($str);
  * (+) bool has(string $key);
  * (+) string getClassName();
  * (+) int getInstanceCount();
- * (+) array getClassInterfaces();
  * (+) mixed getConst(string $key);
+ * (+) iterable getClassInterfaces();
  * (+) bool isValidUuid(string $uuid);
  * (+) bool isValidEmail(string $email);
  * (+) bool isValidSHA512(string $hash);
  * (+) bool doesFunctionExist(string $functionName);
- * (+) bool isStringKey(string $str, array $keys);
+ * (+) bool isStringKey(string $str, iterable $keys);
  * (+) mixed get(string $key, string $subkey = null);
  * (+) mixed getProperty(string $name, string $key = null);
- * (+) mixed __call(string $callback, array $parameters);
+ * (+) mixed __call(string $callback, iterable $parameters);
  * (+) object set(string $key, $value, string $subkey = null);
  * (+) object setProperty(string $name, $value, string $key = null);
- * (-) Exception throwExceptionError(array $error);
- * (-) InvalidArgumentException throwInvalidArgumentExceptionError(array $error);
+ * (-) Exception throwExceptionError(iterable $error);
+ * (-) InvalidArgumentException throwInvalidArgumentExceptionError(iterable $error);
  *
  * ServiceFunctions provides a common set of implementations where needed. The ServiceFunctions
  * trait and the ServiceFunctionsInterface should be paired together.
