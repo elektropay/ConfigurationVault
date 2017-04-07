@@ -132,6 +132,11 @@ database:
             uuid: FDCD8A97-D9EE-41CD-AE29-6A9EE1587EF1
             date: '2017-02-08 10:20:30'
             is_encrypted: true
+        Viper: null
+        Merlin: null
+        Iceman: null
+        Cougar: null
+        Sundown: null
     development:
         Maverick:
             database_driver:      [6, 4021863287226561, 2989991112137682]|mysqli
@@ -199,4 +204,9 @@ database:
             uuid: C89CF6F2-991F-40C8-BD02-76FDFEA62D0F
             date: '2017-02-08 10:20:30'
             is_encrypted: true
+        Viper: null
+        Merlin: null
+        Iceman: null
+        Cougar: null
+        Sundown: null
     staging: null
