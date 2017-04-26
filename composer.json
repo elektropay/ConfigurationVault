@@ -16,7 +16,7 @@
         "php": ">=7.1",
         "twig/twig": "2.3.2",
         "hashids/hashids": "2.0.3",
-        "jenssegers/optimus": "0.2.2",
+        "jenssegers/optimus": "0.2.3",
         "ucsdmath/filesystem": "1.19.x-dev",
         "ucsdmath/serialization": "1.19.x-dev"
     },
