@@ -26,6 +26,8 @@ use UCSDMath\Configuration\ConfigurationVault\ExtendedOperations\VaultStandardOp
 use UCSDMath\Configuration\ConfigurationVault\ExtendedOperations\VaultStandardOperationsInterface;
 use UCSDMath\Configuration\ConfigurationVault\ExtendedOperations\VaultServiceMethods;
 use UCSDMath\Configuration\ConfigurationVault\ExtendedOperations\VaultServiceMethodsInterface;
+use UCSDMath\Configuration\ConfigurationVault\ExtendedOperations\ServiceSupportOperations;
+use UCSDMath\Configuration\ConfigurationVault\ExtendedOperations\ServiceSupportOperationsInterface;
 
 /**
  * AbstractConfigurationVault provides an abstract base class implementation of {@link ConfigurationVaultInterface}.
@@ -80,6 +82,7 @@ use UCSDMath\Configuration\ConfigurationVault\ExtendedOperations\VaultServiceMet
 abstract class AbstractConfigurationVault implements
     ConfigurationVaultInterface,
     ServiceFunctionsInterface,
+    ServiceSupportOperationsInterface,
     VaultStandardOperationsInterface,
     VaultServiceMethodsInterface
 {
@@ -326,39 +329,6 @@ abstract class AbstractConfigurationVault implements
             ->setProperty('vaultEnvironment', null)->setProperty('vaultDefaultSection', null)
             ->setProperty('vaultRequestedSection', null)->loadHashids()->setCipherMethod()->setIvByteSize()
             ->setByteSizeMap('ivByteSize')->setKeyByteSize()->setByteSizeMap('keyByteSize')->setOpenSslOption();
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Return a unique v4 UUID (requires: ^PHP7).
-     *
-     * Generate random block of data and change the individual byte positions.
-     * Decided not to use mt_rand() as a number generator (experienced collisions).
-     *
-     * According to RFC 4122 - Section 4.4, you need to change the following
-     *    1) time_hi_and_version (bits 4-7 of 7th octet),
-     *    2) clock_seq_hi_and_reserved (bit 6 & 7 of 9th octet)
-     *
-     * All of the other 122 bits should be sufficiently random.
-     * {@see http://tools.ietf.org/html/rfc4122#section-4.4}
-     *
-     * @param bool $isUpper The option to modify text case [upper, lower]
-     *
-     * @return string The random UUID
-     *
-     * @api
-     */
-    public function getUuid(bool $isUpper = true): string
-    {
-        $data = random_bytes(16);
-        assert(strlen($data) === 16);
-        $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
-        $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
-
-        return true === $isUpper
-            ? strtoupper(vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4)))
-            : vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
     }
 
     //--------------------------------------------------------------------------
@@ -650,6 +620,17 @@ abstract class AbstractConfigurationVault implements
      * (-) string resizeKeyToMap(string $hash, iterable $specificMapSize);
      */
     use VaultStandardOperations;
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Method implementations inserted:
+     *
+     * Method list: (+) @api, (-) protected or private visibility.
+     *
+     * (+) string getUuid(bool $isUpper = true);
+     */
+    use ServiceSupportOperations;
 
     //--------------------------------------------------------------------------
 
