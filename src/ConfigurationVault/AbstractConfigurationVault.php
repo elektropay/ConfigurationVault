@@ -15,7 +15,9 @@ namespace UCSDMath\Configuration\ConfigurationVault;
 
 use Hashids\Hashids;
 use Hashids\HashidsInterface;
+use UCSDMath\Filesystem\Filesystem;
 use UCSDMath\Filesystem\FilesystemInterface;
+use UCSDMath\Serialization\Yaml\Yaml;
 use UCSDMath\Serialization\Yaml\YamlInterface;
 use UCSDMath\Configuration\ConfigurationVault\Exception\IOException;
 use UCSDMath\Configuration\ConfigurationVault\Exception\VaultException;
@@ -61,7 +63,7 @@ use UCSDMath\Configuration\ConfigurationVault\ExtendedOperations\ServiceSupportO
  *
  * Method list: (+) @api, (-) protected or private visibility.
  *
- * (+) ConfigurationVaultInterface __construct(FilesystemInterface $filesystem, YamlInterface $yaml);
+ * (+) ConfigurationVaultInterface __construct(?FilesystemInterface $filesystem = null, ?YamlInterface $yaml = null);
  * (+) void __destruct();
  * (+) string decrypt(string $payload);
  * (+) string encrypt(string $payload);
@@ -207,16 +209,38 @@ abstract class AbstractConfigurationVault implements
      *
      * @api
      */
-    public function __construct(FilesystemInterface $filesystem, YamlInterface $yaml)
+    public function __construct(FilesystemInterface $filesystem = null, YamlInterface $yaml = null)
     {
-        $this->setProperty('yaml', $yaml)->setProperty('filesystem', $filesystem)
-            ->setAccountHomeDirectory()->setVaultSettingsDirectory()
-            ->setEncryptionSettingsFileName()->loadEncryptionSettingsRawData()
-            ->setHashidsProjectKey()->loadHashids()->setPrimaryHashArray()->setCoreSeedHashArray()
-            ->setInitializationVectorArray()->setRsaPublicPrivateKeys()->setAvailableOpenSslDigests()
-            ->setAvailableOpenSslCipherMethods()->setCipherMethod()->setIvByteSize()
-            ->setByteSizeMap('ivByteSize')->setKeyByteSize()->setByteSizeMap('keyByteSize')
-            ->setOpenSslOption()->setOpenSslVersion();
+        if (null === $filesystem) {
+            $filesystem = Filesystem::init();
+        }
+
+        if (null === $yaml) {
+            $yaml = Yaml::init();
+        }
+
+        $this
+            ->setProperty('yaml', $yaml)
+                ->setProperty('filesystem', $filesystem)
+                    ->setAccountHomeDirectory()
+                        ->setVaultSettingsDirectory()
+                            ->setEncryptionSettingsFileName()
+                                ->loadEncryptionSettingsRawData()
+                                    ->setHashidsProjectKey()
+                                        ->loadHashids()
+                                            ->setPrimaryHashArray()
+                                                ->setCoreSeedHashArray()
+                                                    ->setInitializationVectorArray()
+                                                        ->setRsaPublicPrivateKeys()
+                                                            ->setAvailableOpenSslDigests()
+                                                                ->setAvailableOpenSslCipherMethods()
+                                                                    ->setCipherMethod()
+                                                                        ->setIvByteSize()
+                                                                            ->setByteSizeMap('ivByteSize')
+                                                                                ->setKeyByteSize()
+                                                                                    ->setByteSizeMap('keyByteSize')
+                                                                                        ->setOpenSslOption()
+                                                                                            ->setOpenSslVersion();
     }
 
     //--------------------------------------------------------------------------
@@ -506,7 +530,11 @@ abstract class AbstractConfigurationVault implements
 
         return $this->setProperty(
             'vaultSettingsDirectory',
-            $directoryPath === null ? realpath(sprintf('%s/../%s', $_SERVER['DOCUMENT_ROOT'], static::VAULT_DIRECTORY_NAME)) : realpath($directoryPath)
+            $directoryPath === null ? 
+
+(realpath(sprintf('%s/../%s', $_SERVER['DOCUMENT_ROOT'], static::VAULT_DIRECTORY_NAME)) ? realpath(sprintf('%s/../%s', $_SERVER['DOCUMENT_ROOT'], static::VAULT_DIRECTORY_NAME)): null)
+
+ : (realpath($directoryPath) ? realpath($directoryPath) : null)
         );
     }
 

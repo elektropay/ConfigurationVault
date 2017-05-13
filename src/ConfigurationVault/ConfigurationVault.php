@@ -71,7 +71,7 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
      *
      * @api
      */
-    public function __construct(FilesystemInterface $filesystem, YamlInterface $yaml)
+    public function __construct(FilesystemInterface $filesystem = null, YamlInterface $yaml = null)
     {
         parent::__construct($filesystem, $yaml);
     }
