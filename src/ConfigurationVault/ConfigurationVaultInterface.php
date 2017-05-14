@@ -244,4 +244,6 @@ interface ConfigurationVaultInterface
      * @return ConfigurationVaultInterface The current instance
      */
     public function setRecordProperties(string $vaultReleaseType, string $vaultEnvironment, string $vaultSection = null): ConfigurationVaultInterface;
+
+    //--------------------------------------------------------------------------
 }
