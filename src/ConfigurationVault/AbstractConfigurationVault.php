@@ -530,11 +530,11 @@ abstract class AbstractConfigurationVault implements
 
         return $this->setProperty(
             'vaultSettingsDirectory',
-            $directoryPath === null ?
-
-(realpath(sprintf('%s/../%s', $_SERVER['DOCUMENT_ROOT'], static::VAULT_DIRECTORY_NAME)) ? realpath(sprintf('%s/../%s', $_SERVER['DOCUMENT_ROOT'], static::VAULT_DIRECTORY_NAME)): null)
-
- : (realpath($directoryPath) ? realpath($directoryPath) : null)
+            $directoryPath === null
+                ? (realpath(sprintf('%s/../%s', $_SERVER['DOCUMENT_ROOT'], static::VAULT_DIRECTORY_NAME))
+                    ? realpath(sprintf('%s/../%s', $_SERVER['DOCUMENT_ROOT'], static::VAULT_DIRECTORY_NAME))
+                    : null)
+                : (realpath($directoryPath) ? realpath($directoryPath) : null)
         );
     }
 
