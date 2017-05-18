@@ -161,8 +161,8 @@ trait VaultStandardOperations
     public function stringToNumber(string $payload): string
     {
         return join(array_map(
-            function ($n) {
-                return sprintf('%03d', $n);
+            function ($number) {
+                return sprintf('%03d', $number);
             },
             unpack('C*', $payload)
         ));
@@ -256,9 +256,9 @@ trait VaultStandardOperations
         /* Remove the base64 encoding from our key */
         $encryptionKey = base64_decode($encryptionKey);
         /* To decrypt, split the encrypted data from our IV - our unique separator used was "|" */
-        [$encrypted_data, $iv] = explode('|', base64_decode($payload), 2);
-        $decryptedMessage = openssl_decrypt($encrypted_data, $method, $encryptionKey, 0, $iv);
-        unset($payload, $method, $encryptionKey, $iv, $encrypted_data);
+        [$encrypted_data, $iVector] = explode('|', base64_decode($payload), 2);
+        $decryptedMessage = openssl_decrypt($encrypted_data, $method, $encryptionKey, 0, $iVector);
+        unset($payload, $method, $encryptionKey, $iVector, $encrypted_data);
 
         return $decryptedMessage;
     }
@@ -285,13 +285,13 @@ trait VaultStandardOperations
         /* Remove the base64 encoding from our key */
         $encryptionKey = base64_decode($encryptionKey);
         /* Generate an initialization vector */
-        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($method));
+        $iVector = openssl_random_pseudo_bytes(openssl_cipher_iv_length($method));
         /* Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector. */
-        $encrypted = openssl_encrypt($payload, $method, $encryptionKey, 0, $iv);
+        $encrypted = openssl_encrypt($payload, $method, $encryptionKey, 0, $iVector);
         unset($payload, $method, $encryptionKey);
 
-        /* The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (|) */
-        return base64_encode($encrypted . '|' . $iv);
+        /* The $iVector is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (|) */
+        return base64_encode($encrypted . '|' . $iVector);
     }
 
     //--------------------------------------------------------------------------
