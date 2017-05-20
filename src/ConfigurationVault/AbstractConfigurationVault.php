@@ -280,6 +280,7 @@ abstract class AbstractConfigurationVault implements
      */
     public function encrypt(string $payload): string
     {
+        $ambit = null;
         if (!is_callable('random_bytes')) {
             throw new VaultException('There is no suitable CSPRNG installed on your system');
         }
@@ -418,6 +419,7 @@ abstract class AbstractConfigurationVault implements
      */
     public function setHashidsProjectKey(string $optional = null): ConfigurationVaultInterface
     {
+        $release = $environment = $hash = $uuid = $date = $time = $hours = $minutes = $seconds = null;
         /* type: encryption, default_environment: private */
         [$release, $environment] = [ $this->encryptionSettingsRawData['type'], $this->encryptionSettingsRawData['default_environment']];
         [$hash, $uuid, $date] = [
