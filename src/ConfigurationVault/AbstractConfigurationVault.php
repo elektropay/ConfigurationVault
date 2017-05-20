@@ -214,33 +214,15 @@ abstract class AbstractConfigurationVault implements
         if (null === $filesystem) {
             $filesystem = Filesystem::init();
         }
-
         if (null === $yaml) {
             $yaml = Yaml::init();
         }
 
-        $this
-            ->setProperty('yaml', $yaml)
-                ->setProperty('filesystem', $filesystem)
-                    ->setAccountHomeDirectory()
-                        ->setVaultSettingsDirectory()
-                            ->setEncryptionSettingsFileName()
-                                ->loadEncryptionSettingsRawData()
-                                    ->setHashidsProjectKey()
-                                        ->loadHashids()
-                                            ->setPrimaryHashArray()
-                                                ->setCoreSeedHashArray()
-                                                    ->setInitializationVectorArray()
-                                                        ->setRsaPublicPrivateKeys()
-                                                            ->setAvailableOpenSslDigests()
-                                                                ->setAvailableOpenSslCipherMethods()
-                                                                    ->setCipherMethod()
-                                                                        ->setIvByteSize()
-                                                                            ->setByteSizeMap('ivByteSize')
-                                                                                ->setKeyByteSize()
-                                                                                    ->setByteSizeMap('keyByteSize')
-                                                                                        ->setOpenSslOption()
-                                                                                            ->setOpenSslVersion();
+        $this->setProperty('yaml', $yaml)->setProperty('filesystem', $filesystem)->setAccountHomeDirectory()
+            ->setVaultSettingsDirectory()->setEncryptionSettingsFileName()->loadEncryptionSettingsRawData()->setHashidsProjectKey()
+            ->loadHashids()->setPrimaryHashArray()->setCoreSeedHashArray()->setInitializationVectorArray()->setRsaPublicPrivateKeys()
+            ->setAvailableOpenSslDigests()->setAvailableOpenSslCipherMethods()->setCipherMethod()->setIvByteSize()
+            ->setByteSizeMap('ivByteSize')->setKeyByteSize()->setByteSizeMap('keyByteSize')->setOpenSslOption()->setOpenSslVersion();
     }
 
     //--------------------------------------------------------------------------
