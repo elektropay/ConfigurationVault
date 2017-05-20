@@ -512,13 +512,13 @@ abstract class AbstractConfigurationVault implements
             throw new IOException(sprintf('The directory path %s does not exist. Check parameter: %s.', $directoryPath, __METHOD__), 0, null, $directoryPath);
         }
 
-        [$directoryPath, $rootPath] = [$directoryPath, sprintf('%s/../%s', $_SERVER['DOCUMENT_ROOT'], static::VAULT_DIRECTORY_NAME)];
+        [$directoryPath, $rootPath] = [realpath((string)$directoryPath), realpath(sprintf('%s/../%s', $_SERVER['DOCUMENT_ROOT'], static::VAULT_DIRECTORY_NAME))];
 
         return $this->setProperty(
             'vaultSettingsDirectory',
-            $directoryPath === null
-                ? (realpath($rootPath) ? realpath($rootPath) : null)
-                : (realpath($directoryPath) ? realpath($directoryPath) : null)
+            $directoryPath === true
+                ? $directoryPath
+                : ($rootPath ? $rootPath : null)
         );
     }
 
