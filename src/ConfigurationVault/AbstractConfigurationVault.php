@@ -524,18 +524,15 @@ abstract class AbstractConfigurationVault implements
      */
     public function setVaultSettingsDirectory(string $directoryPath = null): ConfigurationVaultInterface
     {
+        $rootPath = null;
+
         if ($directoryPath !== null && !is_dir($directoryPath)) {
             throw new IOException(sprintf('The directory path %s does not exist. Check parameter: %s.', $directoryPath, __METHOD__), 0, null, $directoryPath);
         }
 
-        return $this->setProperty(
-            'vaultSettingsDirectory',
-            $directoryPath === null
-                ? (realpath(sprintf('%s/../%s', $_SERVER['DOCUMENT_ROOT'], static::VAULT_DIRECTORY_NAME))
-                    ? realpath(sprintf('%s/../%s', $_SERVER['DOCUMENT_ROOT'], static::VAULT_DIRECTORY_NAME))
-                    : null)
-                : (realpath($directoryPath) ? realpath($directoryPath) : null)
-        );
+        [$directoryPath, $rootPath] = [(string) realpath($directoryPath), realpath(sprintf('%s/../%s', $_SERVER['DOCUMENT_ROOT'], static::VAULT_DIRECTORY_NAME)];
+
+        return $this->setProperty('vaultSettingsDirectory', $directoryPath === false ? ($rootPath ? $rootPath : null) : ($directoryPath ? $directoryPath : null));
     }
 
     //--------------------------------------------------------------------------
