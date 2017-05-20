@@ -500,21 +500,37 @@ abstract class AbstractConfigurationVault implements
      *
      * @return ConfigurationVaultInterface The current instance
      *
-     * @throws IOException on invalid directory path
-     *
      * @api
      */
     public function setVaultSettingsDirectory(string $directoryPath = null): ConfigurationVaultInterface
     {
         $rootPath = null;
+        $this->validateDirectoryPath($directoryPath);
+        [$directoryPath, $rootPath] = [realpath((string)$directoryPath), realpath(sprintf('%s/../%s', $_SERVER['DOCUMENT_ROOT'], static::VAULT_DIRECTORY_NAME))];
 
+        return $this->setProperty('vaultSettingsDirectory', $directoryPath === true ? $directoryPath : ($rootPath ? $rootPath : null));
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Validate directory path.
+     *
+     * @param string $directoryPath The absolute path to the Vault Settings Directory (i.e., a hidden location)
+     *
+     * @return ConfigurationVaultInterface The current instance
+     *
+     * @throws IOException on invalid directory path
+     *
+     * @api
+     */
+    protected function validateDirectoryPath(string $directoryPath = null): ConfigurationVaultInterface
+    {
         if ($directoryPath !== null && !is_dir($directoryPath)) {
             throw new IOException(sprintf('The directory path %s does not exist. Check parameter: %s.', $directoryPath, __METHOD__), 0, null, $directoryPath);
         }
 
-        [$directoryPath, $rootPath] = [realpath((string)$directoryPath), realpath(sprintf('%s/../%s', $_SERVER['DOCUMENT_ROOT'], static::VAULT_DIRECTORY_NAME))];
-
-        return $this->setProperty('vaultSettingsDirectory', $directoryPath === true ? $directoryPath : ($rootPath ? $rootPath : null));
+        return $this;
     }
 
     //--------------------------------------------------------------------------
