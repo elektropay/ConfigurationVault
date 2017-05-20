@@ -253,8 +253,6 @@ trait VaultStandardOperations
      */
     public function decryptMessage(string $payload, string $encryptionKey, string $method = 'aes-256-cbc'): string
     {
-        $iVector = $encrypted_data = null;
-
         /* Remove the base64 encoding from our key */
         $encryptionKey = base64_decode($encryptionKey);
         /* To decrypt, split the encrypted data from our IV - our unique separator used was "|" */
