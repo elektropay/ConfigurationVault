@@ -171,6 +171,7 @@ trait VaultServiceMethods
      */
     protected function renderAmbit(string $payload): array
     {
+        $dataSize = $ivSalt = $keySalt = null;
         [$dataSize, $ivSalt, $keySalt] = [$this->stringSize($payload), $this->getRandomInt(), $this->getRandomInt()];
 
         return ['hash' => $this->hashids->encode([$dataSize, $ivSalt, $keySalt]), 'dataSize' => $dataSize, 'ivSalt' => $ivSalt, 'keySalt' => $keySalt];
@@ -219,6 +220,7 @@ trait VaultServiceMethods
     protected function setPrimaryHashArray(): ConfigurationVaultInterface
     {
         /* type: encryption, default_environment: private */
+        $release = $environment = $time = $hours = $minutes = $seconds = null;
         [$release, $environment] = [ $this->encryptionSettingsRawData['type'], $this->encryptionSettingsRawData['default_environment']];
         [$hash, $uuid, $date] = [
             join($this->encryptionSettingsRawData[$release][$environment]['primary_hash']['data']),
@@ -242,6 +244,7 @@ trait VaultServiceMethods
     protected function setCoreSeedHashArray(): ConfigurationVaultInterface
     {
         /* type: encryption, default_environment: private */
+        $release = $environment = $time = $hours = $minutes = $seconds = $hash = $uuid = $date = null;
         [$release, $environment] = [ $this->encryptionSettingsRawData['type'], $this->encryptionSettingsRawData['default_environment']];
         [$hash, $uuid, $date] = [
             join($this->encryptionSettingsRawData[$release][$environment]['core_seed_hash']['data']),
@@ -265,6 +268,7 @@ trait VaultServiceMethods
     protected function setRsaPublicPrivateKeys(): ConfigurationVaultInterface
     {
         /* type: encryption, default_environment: private */
+        $release = $environment = null;
         [$release, $environment] = [$this->encryptionSettingsRawData['type'], $this->encryptionSettingsRawData['default_environment']];
 
         return $this
@@ -282,6 +286,7 @@ trait VaultServiceMethods
     protected function setInitializationVectorArray(): ConfigurationVaultInterface
     {
         /* type: encryption, default_environment: private */
+        $release = $environment = $hash = $uuid = $date = $map = $time = $hours = $minutes = $seconds = null;
         [$release, $environment] = [ $this->encryptionSettingsRawData['type'], $this->encryptionSettingsRawData['default_environment']];
         [$hash, $uuid, $date, $map] = [
             join($this->encryptionSettingsRawData[$release][$environment]['initialization_vector']['data']),
