@@ -147,6 +147,7 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
      */
     public function setEncryptionKey(string $encoded = null): ConfigurationVaultInterface
     {
+        $dataSize = $keySalt = $hash = $hours = $minutes = $seconds = $uuid = null;
         if ($encoded !== null && empty($this->hashidsDecode($encoded))) {
             throw new VaultException(sprintf('Invalid Hashids string was found "%s". This cannot be decoded into an array.', $encoded));
         }
@@ -194,6 +195,7 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
      */
     public function setInitializationVector(string $encoded = null): ConfigurationVaultInterface
     {
+        $dataSize = $ivSalt = $keySalt = $hash = $hours = $minutes = $seconds = $uuid = null;
         if ($encoded !== null && empty($this->hashidsDecode($encoded))) {
             throw new VaultException(sprintf('Invalid Hashids string was found "%s". This cannot be decoded into an array.', $encoded));
         }
