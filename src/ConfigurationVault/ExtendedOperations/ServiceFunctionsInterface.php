@@ -18,7 +18,7 @@ namespace UCSDMath\Configuration\ConfigurationVault\ExtendedOperations;
  *
  * Method list: (+) @api.
  *
- * (+) iterable all();
+ * (+) array all();
  * (+) object init();
  * (+) string version();
  * (+) bool isString($str);
@@ -26,15 +26,15 @@ namespace UCSDMath\Configuration\ConfigurationVault\ExtendedOperations;
  * (+) string getClassName();
  * (+) int getInstanceCount();
  * (+) mixed getConst(string $key);
- * (+) iterable getClassInterfaces();
+ * (+) array getClassInterfaces();
  * (+) bool isValidUuid(string $uuid);
  * (+) bool isValidEmail(string $email);
  * (+) bool isValidSHA512(string $hash);
  * (+) bool doesFunctionExist(string $functionName);
- * (+) bool isStringKey(string $str, iterable $keys);
+ * (+) bool isStringKey(string $str, array $keys);
  * (+) mixed get(string $key, string $subkey = null);
  * (+) mixed getProperty(string $name, string $key = null);
- * (+) mixed __call(string $callback, iterable $parameters);
+ * (+) mixed __call(string $callback, array $parameters);
  * (+) object set(string $key, $value, string $subkey = null);
  * (+) object setProperty(string $name, $value, string $key = null);
  *

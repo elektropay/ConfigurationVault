@@ -42,7 +42,7 @@ use UCSDMath\Configuration\ConfigurationVault\Exception\VaultException;
  * (-) Traversable toIterator($files);
  * (-) int stringSize(string $payload);
  * (-) bool isReadable(string $filename);
- * (-) string resizeKeyToMap(string $hash, iterable $specificMapSize);
+ * (-) string resizeKeyToMap(string $hash, array $specificMapSize);
  * (-) string randomToken(int $length = 32, string $chars = self::PASSWORD_TOKENS);
  *
  * VaultStandardOperations provides a common set of implementations where needed. The VaultStandardOperations
@@ -365,14 +365,14 @@ trait VaultStandardOperations
     /**
      * Resize the IV Key.
      *
-     * @param iterable $specificMapSize The map size parameters
-     * @param string   $hash            The hash to size
+     * @param array  $specificMapSize The map size parameters
+     * @param string $hash            The hash to size
      *
      * @return string The hash sized correctly
      *
      * @api
      */
-    protected function resizeKeyToMap(string $hash, iterable $specificMapSize): string
+    protected function resizeKeyToMap(string $hash, array $specificMapSize): string
     {
         return sprintf('%s%s', mb_substr($hash, 0, $specificMapSize[0], self::CHARSET), $this->repeatString('=', $specificMapSize[1]));
     }

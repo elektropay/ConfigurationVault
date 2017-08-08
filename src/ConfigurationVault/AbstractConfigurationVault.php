@@ -73,7 +73,7 @@ use UCSDMath\Configuration\ConfigurationVault\ExtendedOperations\ServiceSupportO
  * (+) ConfigurationVaultInterface setHashidsProjectKey(string $optional = null);
  * (+) ConfigurationVaultInterface setEncryptionSettingsFileName(string $vaultFile = null);
  * (+) ConfigurationVaultInterface setVaultSettingsDirectory(string $directoryPath = null);
- * (+) null|iterable hashidsDecode(string $id = null, int $starting = 0, int $minLength = self::DEFAULT_MIN_HASHIDS_LENGTH);
+ * (+) null|array hashidsDecode(string $id = null, int $starting = 0, int $minLength = self::DEFAULT_MIN_HASHIDS_LENGTH);
  * (+) ConfigurationVaultInterface loadHashids(string $projectKey = null, int $minLength = self::DEFAULT_MIN_HASHIDS_LENGTH);
  * (+) ConfigurationVaultInterface setRecordProperties(string $vaultReleaseType, string $vaultEnvironment, string $vaultSection = null);
  * (-) ConfigurationVaultInterface loadEncryptionSettingsRawData();
@@ -108,25 +108,25 @@ abstract class AbstractConfigurationVault implements
      * @var    string                      $accountHomeDirectory          The absolute path to the Account Home Directory (i.e., not document root)
      * @var    string                      $vaultSettingsDirectory        The absolute path to the Vault Settings Directory (i.e., a hidden location)
      * @var    string                      $encryptionSettingsFileName    The absolute path to the Encryption Settings Yaml File
-     * @var    iterable                    $encryptionSettingsRawData     The raw Encryption Settings data
+     * @var    array                       $encryptionSettingsRawData     The raw Encryption Settings data
      * @var    string                      $hashidsProjectKey             The project key used to encode/decode Hashids integers and arrays
      * @var    string                      $openSslVersion                The OpenSSL version number installed on the system
-     * @var    iterable                    $primaryHashArray              The primary list of hash strings used to encrypt/decrypt data
-     * @var    iterable                    $coreSeedHashArray             The core seed list of hash strings used to encrypt/decrypt data
-     * @var    iterable                    $initializationVectorArray     The initialization vector list of hash strings used to encrypt/decrypt data
+     * @var    array                       $primaryHashArray              The primary list of hash strings used to encrypt/decrypt data
+     * @var    array                       $coreSeedHashArray             The core seed list of hash strings used to encrypt/decrypt data
+     * @var    array                       $initializationVectorArray     The initialization vector list of hash strings used to encrypt/decrypt data
      * @var    string                      $rsaPublicKey4096              The RSA public key used by the application
      * @var    string                      $rsaPrivateKey4096             The RSA private key used by the application
-     * @var    iterable                    $availableOpenSslDigests       The list of available digests provided in the current version of PHP's OpenSSL (e.g.,'SHA1','SHA256','SHA512', etc.)
-     * @var    iterable                    $availableOpenSslCipherMethods The list of available cipher methods provided in the current version of PHP's OpenSSL
+     * @var    array                       $availableOpenSslDigests       The list of available digests provided in the current version of PHP's OpenSSL (e.g.,'SHA1','SHA256','SHA512', etc.)
+     * @var    array                       $availableOpenSslCipherMethods The list of available cipher methods provided in the current version of PHP's OpenSSL
      * @var    string                      $cipherMethod                  The cipher method used by OpenSSL to encrypt/decrypt a payload (e.g.,'AES-256-CTR','AES-256-GCM','AES-256-CCM', etc.)
      * @var    int                         $ivByteSize                    The size in bytes for the initialization vector (determined by the cipher method used)
-     * @var    iterable                    $ivByteSizeMap                 The map that defines a base64 encoded format for $ivByteSize with padding
+     * @var    array                       $ivByteSizeMap                 The map that defines a base64 encoded format for $ivByteSize with padding
      * @var    int                         $keyByteSize                   The size in bytes for the encryption key (please size the cipher method used)
-     * @var    iterable                    $keyByteSizeMap                The map that defines a base64 encoded format for $keyByteSize with padding
-     * @var    iterable                    $defaultByteSizeMapTypes       The defined array of values used to whitelist options
+     * @var    array                       $keyByteSizeMap                The map that defines a base64 encoded format for $keyByteSize with padding
+     * @var    array                       $defaultByteSizeMapTypes       The defined array of values used to whitelist options
      * @var    string                      $vaultFile                     The absolute path to the configuration settings file to access and open
      * @var    string                      $vaultRequestedSection         The requested section of the vault/settings file (e.g., 'webadmin', 'webuser', 'wwwdyn', etc.)
-     * @var    iterable                    $resultDataSet                 The raw data from the specific vault file requested
+     * @var    array                       $resultDataSet                 The raw data from the specific vault file requested
      * @var    string                      $vaultReleaseType              The release collection type (e.g., 'database', 'account', 'smtp') as specified within the vault file
      * @var    string                      $vaultDefaultEnvironment       The default category environment (this class specific)
      * @var    string                      $vaultEnvironment              The current environment defined and used for a vault file (e.g., 'development', 'staging', 'production')
@@ -135,11 +135,11 @@ abstract class AbstractConfigurationVault implements
      * @var    string                      $vaultUuid                     The configuration settings uuid for the record in process
      * @var    string                      $vaultDate                     The configuration settings date for the record in process
      * @var    string                      $vaultIsEncrypted              The configuration settings is_encrypted for the record in process
-     * @var    iterable                    $vaultEnvironments             The list of provided categories found in the configuration setting file
+     * @var    array                       $vaultEnvironments             The list of provided categories found in the configuration setting file
      * @var    string                      $vaultDefaultSection           The default section found in the configuration setting file
      * @static ConfigurationVaultInterface $instance                      The static instance ConfigurationVaultInterface
      * @static int                         $objectCount                   The static count of ConfigurationVaultInterface
-     * @var    iterable                    $storageRegister               The stored set of data structures used by this class
+     * @var    array                       $storageRegister               The stored set of data structures used by this class
      * @var    string                        VAULTED[payload]             The data being processed
      * @var    string                        VAULTED[method]              The cipher method used by OpenSSL to encrypt/decrypt a payload (e.g.,'AES-256-CTR','AES-256-GCM','AES-256-CCM', etc.)
      * @var    string                        VAULTED[key]                 The properly sized encryption key used to encrypt/decrypt the payload (the key size is based on the cipher method/mode used)
@@ -378,11 +378,11 @@ abstract class AbstractConfigurationVault implements
      * @param int    $starting  The option to define a starting point in the hash
      * @param int    $minLength The option to define a minimum padding length of the ids
      *
-     * @return null|iterable The decoded id
+     * @return null|array The decoded id
      *
      * @api
      */
-    public function hashidsDecode(string $id = null, int $starting = 0, int $minLength = self::DEFAULT_MIN_HASHIDS_LENGTH): ?iterable
+    public function hashidsDecode(string $id = null, int $starting = 0, int $minLength = self::DEFAULT_MIN_HASHIDS_LENGTH): ?array
     {
         return $id === null
             ? null
@@ -604,7 +604,7 @@ abstract class AbstractConfigurationVault implements
      * (+) ConfigurationVaultInterface unsetRegister(string $key, string $subkey = null);
      * (+) ConfigurationVaultInterface setAccountHomeDirectory(string $directoryPath = null;
      * (+) ConfigurationVaultInterface setVaultRequestedSection(string $vaultRequestedSection = null);
-     * (-) iterable renderAmbit(string $payload);
+     * (-) array renderAmbit(string $payload);
      * (-) ConfigurationVaultInterface setIvByteSize();
      * (-) ConfigurationVaultInterface setOpenSslVersion();
      * (-) ConfigurationVaultInterface setPrimaryHashArray();
@@ -615,7 +615,7 @@ abstract class AbstractConfigurationVault implements
      * (-) ConfigurationVaultInterface setVaultRecordEncrypted($value = true);
      * (-) ConfigurationVaultInterface setAvailableOpenSslDigests(bool $aliases = false);
      * (-) ConfigurationVaultInterface setAvailableOpenSslCipherMethods(bool $aliases = false);
-     * (-) ConfigurationVaultInterface setVaultDataArguments(iterable $arguments, iterable $vaultData);
+     * (-) ConfigurationVaultInterface setVaultDataArguments(array $arguments, array $vaultData);
      * (-) ConfigurationVaultInterface setKeyByteSize(int $size = self::DEFAULT_ENCRYPTION_KEY_BYTE_SIZE);
      */
     use VaultServiceMethods;
@@ -642,7 +642,7 @@ abstract class AbstractConfigurationVault implements
      * (-) bool isVaultRecordEncrypted();
      * (-) int stringSize(string $payload);
      * (-) bool isReadable(string $filename);
-     * (-) string resizeKeyToMap(string $hash, iterable $specificMapSize);
+     * (-) string resizeKeyToMap(string $hash, array $specificMapSize);
      */
     use VaultStandardOperations;
 
@@ -664,7 +664,7 @@ abstract class AbstractConfigurationVault implements
      *
      * Method list: (+) @api, (-) protected or private visibility.
      *
-     * (+) iterable all();
+     * (+) array all();
      * (+) object init();
      * (+) string version();
      * (+) bool isString($str);
@@ -672,19 +672,19 @@ abstract class AbstractConfigurationVault implements
      * (+) string getClassName();
      * (+) int getInstanceCount();
      * (+) mixed getConst(string $key);
-     * (+) iterable getClassInterfaces();
+     * (+) array getClassInterfaces();
      * (+) bool isValidUuid(string $uuid);
      * (+) bool isValidEmail(string $email);
      * (+) bool isValidSHA512(string $hash);
      * (+) bool doesFunctionExist(string $functionName);
-     * (+) bool isStringKey(string $str, iterable $keys);
+     * (+) bool isStringKey(string $str, array $keys);
      * (+) mixed get(string $key, string $subkey = null);
      * (+) mixed getProperty(string $name, string $key = null);
-     * (+) mixed __call(string $callback, iterable $parameters);
+     * (+) mixed __call(string $callback, array $parameters);
      * (+) object set(string $key, $value, string $subkey = null);
      * (+) object setProperty(string $name, $value, string $key = null);
-     * (-) Exception throwExceptionError(iterable $error);
-     * (-) InvalidArgumentException throwInvalidArgumentExceptionError(iterable $error);
+     * (-) Exception throwExceptionError(array $error);
+     * (-) InvalidArgumentException throwInvalidArgumentExceptionError(array $error);
      */
     use ServiceFunctions;
 

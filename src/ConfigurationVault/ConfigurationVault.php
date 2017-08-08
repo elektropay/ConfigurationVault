@@ -29,7 +29,7 @@ use UCSDMath\Configuration\ConfigurationVault\Exception\FileNotFoundException;
  *
  * (+) ConfigurationVaultInterface __construct(FilesystemInterface $filesystem, YamlInterface $yaml);
  * (+) void __destruct();
- * (+) iterable getRecords();
+ * (+) array getRecords();
  * (+) bool isVaultFileReadable();
  * (+) ConfigurationVaultInterface clear();
  * (+) string getRandomHex(int $length = 32);
@@ -93,9 +93,9 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
     /**
      * Pull the entire dataset.
      *
-     * @return iterable
+     * @return array
      */
-    public function getRecords(): iterable
+    public function getRecords(): array
     {
         return $this->all();
     }
