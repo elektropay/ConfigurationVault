@@ -95,7 +95,7 @@ abstract class AbstractConfigurationVault implements
      *
      * @api
      */
-    public const VERSION = '1.24.0';
+    public const VERSION = '1.25.0';
 
     //--------------------------------------------------------------------------
 
