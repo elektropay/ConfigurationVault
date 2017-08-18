@@ -12,9 +12,6 @@ cache:
   directories:
     - $HOME/.composer/cache
 
-ignore:
-    - src/ConfigurationVault/openConfigVault.php
-
 matrix:
   include:
     - php: 7.1
@@ -25,4 +22,4 @@ before_script:
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist
 
 script:
-  - ./vendor/bin/phpcs --standard=tests/resource/psr2-standard.xml ./src/
+  - ./vendor/bin/phpcs --ignore=src/ConfigurationVault/openConfigVault.php --standard=tests/resource/psr2-standard.xml ./src/
