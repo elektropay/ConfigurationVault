@@ -62,6 +62,12 @@
 ConfigurationVault is a testing and development library only. This is not to be used in a production.
 Many features of this component have not been developed but are planned for future implementation.  UCSDMath components are written to be adapters of great developments such as Symfony, Twig, Doctrine, etc. This is a learning and experimental library only.
 
+## Best Practice
+
+It is best to not hard-code database credentials into PHP files, especially PHP files served to the public. If PHP exposes raw PHP code to HTTP clients due to a bug or server misconfiguration, your database credentials are naked for the world to see. Instead, move your database credentials into a configuration file above the document root.
+
+ConfigurationVault can allow credential and other sensitive information to be stored and retrieved in a way that scales well. Requesting a key name will return the associated array of information.  The storage of information can be anywhere on the server or system and is preferred to be outside of the web document root.
+
 Copy this software from:
 - [Packagist.org](https://packagist.org/packages/ucsdmath/ConfigurationVault)
 - [Github.com](https://github.com/ucsdmath/ConfigurationVault)
