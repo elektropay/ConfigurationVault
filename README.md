@@ -68,6 +68,12 @@ It is best to not hard-code database credentials into PHP files, especially PHP 
 
 ConfigurationVault can allow database credentials and other sensitive information to be stored and retrieved in a way that scales well. Requesting a key name will return the associated array of information.  The storage of the information can be placed anywhere on the server or system and is preferred to be placed outside of the web (i.e., document root) space. We wanted to add the option of decrypting information held in storage if required.
 
+## What to use this for?
+- database credentials
+- system account credentials
+- SMTP mail credentials
+- other sensitive information not held in PHP files
+
 Copy this software from:
 - [Packagist.org](https://packagist.org/packages/ucsdmath/ConfigurationVault)
 - [Github.com](https://github.com/ucsdmath/ConfigurationVault)
