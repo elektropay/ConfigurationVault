@@ -66,7 +66,7 @@ Many features of this component have not been developed but are planned for futu
 
 It is best to not hard-code database credentials into PHP files, especially PHP files served to the public. If PHP exposes raw PHP code to HTTP clients due to a bug or server misconfiguration, your database credentials are naked for the world to see. Instead, move your database credentials into a configuration file above the document root.
 
-ConfigurationVault can allow credential and other sensitive information to be stored and retrieved in a way that scales well. Requesting a key name will return the associated array of information.  The storage of information can be anywhere on the server or system and is preferred to be outside of the web document root.
+ConfigurationVault can allow database credentials and other sensitive information to be stored and retrieved in a way that scales well. Requesting a key name will return the associated array of information.  The storage of the information can be placed anywhere on the server or system and is preferred to be outside of the web document root. We wanted to add the option of decrypting of information held in storage if required.
 
 Copy this software from:
 - [Packagist.org](https://packagist.org/packages/ucsdmath/ConfigurationVault)
