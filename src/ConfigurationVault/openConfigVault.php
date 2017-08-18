@@ -21,19 +21,22 @@ require('/home/link/public_html/sso/1/assets/php/vendor/autoload.php');
  * A function for opening ConfigurationVault information in GLOBAL namespace.
  *
  *    Example:
- *        $configVault = openConfigVault();
- *        $host     = $configVault->get('database_host');
- *        $username = $configVault->get('database_username');
- *        $password = $configVault->get('database_password');
- *        $database = $configVault->get('database_name');
- *        $arrayAll = $configVault->all();
+ *    $configVault = openConfigVault();
+ *    $host     = $configVault->get('database_host');
+ *    $username = $configVault->get('database_username');
+ *    $password = $configVault->get('database_password');
+ *    $database = $configVault->get('database_name');
+ *    $arrayAll = $configVault->all();
  *
  * @param string $designator  The configVault designator (e.g.,'webadmin','webuser')
  * @param string $account     The configVault account type (e.g.,'Database','SMTP')
  *
+ * @return The current ConfigurationVault instance
+ *
  * @api
  */
-function openConfigVault($designator = 'webadmin', $account = 'Database') {
+function openConfigVault(string $designator = 'webadmin', string $account = 'Database')
+{
     $configVault = new ConfigurationVault(new Filesystem(), new Yaml());
     $configVault->reset()->openVaultFile($account, $designator);
 
