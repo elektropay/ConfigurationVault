@@ -319,6 +319,11 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
      */
     public function setVaultFile(string $vaultFileDesignator): ConfigurationVaultInterface
     {
+        /* All vault files end in the plural form: databases, administrators, accounts, etc. */
+        $vaultFileDesignator = substr($vaultFileDesignator, -1) === 's'
+            ? $vaultFileDesignator
+            : sprintf('%s%s', $vaultFileDesignator, 's');
+
         $filename = false !== strpos($vaultFileDesignator, 'configuration-settings')
             ? sprintf('%s/%s.yml', $this->getProperty('vaultSettingsDirectory'), strtolower(trim($vaultFileDesignator, '/ ')))
             : sprintf('%s/%s%s.yml', $this->getProperty('vaultSettingsDirectory'), 'configuration-vault-', strtolower(trim($vaultFileDesignator, '/ ')));
