@@ -10,18 +10,18 @@
 #
 #  ConfigurationVault Settings for: SMTP Mail Transmission Services
 #
-#  @file    .external-configuration-settings/configuration-settings-smtp.yml
+#  @file    /.configuration-vault-settings/configuration-vault-smtps.yml
 #  @author  Daryl Eisner <deisner@ucsd.edu>
-#  @version 1.16.0
-#  @date    2017-02-12
+#  @version 1.28.0
+#  @date    2017-10-15
 #  @note    This file provides configuration settings, usernames, passwords for
-#           various SMTP Mail Transmission Services used by the UCSDMath Framework v.1.16.0
+#           various SMTP Mail Transmission Services used by the UCSDMath Framework v.1.28.0
 #           components.
 #
 #           This file should be placed in a secure location by:
 #               1) Placing the file outside of the web server's document root directory.
 #               2) Ensure the use of safe and propure permission settings:
-#                      > chmod 644 configuration-settings-smtp.yml
+#                      > chmod 644 configuration-vault-smtps.yml
 #               3) Reference by using the ConfigurationVault or VaultLocker Classes.
 #
 #--------------------------------------------------------
@@ -39,7 +39,7 @@ environments:
     - staging
 type: smtp
 configuration_date: '2017-02-12'
-file_name: configuration-settings-smtp.yml
+file_name: configuration-vault-smtps.yml
 smtp:
     production:
         smtp-google-maverick:

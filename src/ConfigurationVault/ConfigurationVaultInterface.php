@@ -51,8 +51,8 @@ interface ConfigurationVaultInterface
      * @var int    MAX_RANDOM_INT                The input length
      */
     public const CHARSET                          = 'utf-8';
-    public const ENCRYPTION_SETTINGS_FILE_NAME    = 'configuration-settings-encryption.yml';
-    public const VAULT_DIRECTORY_NAME             = '.external-configuration-settings';
+    public const ENCRYPTION_SETTINGS_FILE_NAME    = 'configuration-vault-encryptions.yml';
+    public const VAULT_DIRECTORY_NAME             = '.configuration-vault-settings';
     public const KEY_BYTE_SIZE                    = 32;
     public const MAC_BYTE_SIZE                    = 32;
     public const HASH_FUNCTION                    = 'sh1';
@@ -158,7 +158,7 @@ interface ConfigurationVaultInterface
     //--------------------------------------------------------------------------
 
     /**
-     * Set the Vault Settings File Name (e.g., '/home/jdeere/.external-configuration-settings/encryption-settings.yml').
+     * Set the Vault Settings File Name (e.g., '/home/jdeere/.configuration-vault-settings/settings-encryption.yml').
      *
      * @param string $vaultFile The name of the Vault Settings File to use
      *
@@ -175,7 +175,7 @@ interface ConfigurationVaultInterface
      *
      * The Vault Settings Directory is defined as the directory location outside of the
      * document root directory (or active webspace) where the configuration files
-     * will exist (e.g., '/home/jdeere/.external-configuration-settings/').
+     * will exist (e.g., '/home/jdeere/.configuration-vault-settings/').
      *
      * In many cases, the vault settings directory may exist within the unix user's account home directory.
      *

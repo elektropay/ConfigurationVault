@@ -466,7 +466,7 @@ abstract class AbstractConfigurationVault implements
     //--------------------------------------------------------------------------
 
     /**
-     * Set the Vault Settings File Name (e.g., '/home/jdeere/.external-configuration-settings/encryption-settings.yml').
+     * Set the Vault Settings File Name (e.g., '/home/jdeere/.configuration-vault-settings/settings-encryption.yml').
      *
      * @param string $vaultFile The name of the Vault Settings File to use
      *
@@ -494,7 +494,7 @@ abstract class AbstractConfigurationVault implements
      *
      * The Vault Settings Directory is defined as the directory location outside of the
      * document root directory (or active webspace) where the configuration files
-     * will exist (e.g., '/home/jdeere/.external-configuration-settings/').
+     * will exist (e.g., '/home/jdeere/.configuration-vault-settings/').
      *
      * In many cases, the vault settings directory may exist within the unix user's account home directory.
      *

@@ -10,18 +10,18 @@
 #
 #  ConfigurationVault Settings for: Remote Host Accounts
 #
-#  @file    .external-configuration-settings/configuration-settings-account.yml
+#  @file    /.configuration-vault-settings/configuration-vault-accounts.yml
 #  @author  Daryl Eisner <deisner@ucsd.edu>
-#  @version 1.16.0
-#  @date    2017-02-12
+#  @version 1.28.0
+#  @date    2017-10-15
 #  @note    This file provides configuration settings, usernames, passwords for
-#           various Remote Host Accounts used by the UCSDMath Framework v.1.16.0
+#           various Remote Host Accounts used by the UCSDMath Framework v.1.28.0
 #           components.
 #
 #           This file should be placed in a secure location by:
 #               1) Placing the file outside of the web server's document root directory.
 #               2) Ensure the use of safe and propure permission settings:
-#                      > chmod 644 configuration-settings-account.yml
+#                      > chmod 644 configuration-vault-accounts.yml
 #               3) Reference by using the ConfigurationVault or VaultLocker Classes.
 #
 #--------------------------------------------------------
@@ -39,7 +39,7 @@ environments:
     - https
 type: account
 configuration_date: '2017-02-12'
-file_name: configuration-settings-account.yml
+file_name: configuration-vault-accounts.yml
 account:
     sftp:
         Server-Maverick:
