@@ -321,7 +321,7 @@ class ConfigurationVault extends AbstractConfigurationVault implements Configura
     {
         $filename = false !== strpos($vaultFileDesignator, 'configuration-settings')
             ? sprintf('%s/%s.yml', $this->getProperty('vaultSettingsDirectory'), strtolower(trim($vaultFileDesignator, '/ ')))
-            : sprintf('%s/%s%s.yml', $this->getProperty('vaultSettingsDirectory'), 'configuration-settings-', strtolower(trim($vaultFileDesignator, '/ ')));
+            : sprintf('%s/%s%s.yml', $this->getProperty('vaultSettingsDirectory'), 'configuration-vault-', strtolower(trim($vaultFileDesignator, '/ ')));
 
         if (!realpath($filename)) {
             throw new VaultException(sprintf(
