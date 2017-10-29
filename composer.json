@@ -15,7 +15,7 @@
     "require": {
         "php": ">=7.1",
         "twig/twig": "2.4.4",
-        "hashids/hashids": "2.0.3",
+        "hashids/hashids": "2.0.4",
         "jenssegers/optimus": "0.2.3",
         "ucsdmath/filesystem": "1.28.x-dev",
         "ucsdmath/serialization": "1.28.x-dev"
