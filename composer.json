@@ -17,15 +17,15 @@
         "twig/twig": "2.4.4",
         "hashids/hashids": "2.0.4",
         "jenssegers/optimus": "0.2.3",
-        "ucsdmath/filesystem": "1.28.x-dev",
-        "ucsdmath/serialization": "1.28.x-dev"
+        "ucsdmath/filesystem": "1.28.0",
+        "ucsdmath/serialization": "1.28.0"
     },
     "require-dev": {
         "symfony/debug": "3.3.10",
         "mockery/mockery": "1.0.0",
         "phpunit/phpunit": "6.4.3",
         "fzaninotto/faker": "1.7.1",
-        "ucsdmath/date": "1.28.x-dev",
+        "ucsdmath/date": "1.28.0",
         "symfony/var-dumper": "3.3.10",
         "symfony/browser-kit": "3.3.10",
         "symfony/dom-crawler": "3.3.10",
