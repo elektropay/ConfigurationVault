@@ -25,7 +25,7 @@ namespace UCSDMath\Configuration\ConfigurationVault\Exception;
  *
  * @api
  */
-interface IOExceptionInterface extends ExceptionInterface
+interface IOExceptionInterface
 {
     /**
      * Returns the associated path for the exception
