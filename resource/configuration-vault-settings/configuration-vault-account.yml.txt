@@ -12,10 +12,10 @@
 #
 #  @file    /.configuration-vault-settings/configuration-vault-accounts.yml
 #  @author  Daryl Eisner <deisner@ucsd.edu>
-#  @version 1.28.0
-#  @date    2017-10-29
+#  @version 2.0.0
+#  @date    2017-12-03
 #  @note    This file provides configuration settings, usernames, passwords for
-#           various Remote Host Accounts used by the UCSDMath Framework v.1.28.0
+#           various Remote Host Accounts used by the UCSDMath Framework v.2.0.0
 #           components.
 #
 #           This file should be placed in a secure location by:
