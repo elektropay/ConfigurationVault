@@ -13,7 +13,7 @@
 #  @file    /.configuration-vault-settings/configuration-vault-databases.yml
 #  @author  Daryl Eisner <deisner@ucsd.edu>
 #  @version 2.2.0
-#  @date    2017-12-14
+#  @date    2017-12-29
 #  @note    This file provides configuration settings, usernames, passwords for
 #           various Database Connections used by the UCSDMath Framework v.2.2.0
 #           components.
