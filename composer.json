@@ -21,15 +21,15 @@
         "ucsdmath/serialization": "2.6.x-dev"
     },
     "require-dev": {
-        "symfony/debug": "4.0.10",
+        "symfony/debug": "4.0.11",
         "mockery/mockery": "1.1.0",
         "phpunit/phpunit": "7.1.5",
         "fzaninotto/faker": "1.7.1",
         "ucsdmath/date": "2.6.x-dev",
-        "symfony/var-dumper": "4.0.10",
-        "symfony/browser-kit": "4.0.10",
-        "symfony/dom-crawler": "4.0.10",
-        "symfony/options-resolver": "4.0.10",
+        "symfony/var-dumper": "4.0.11",
+        "symfony/browser-kit": "4.0.11",
+        "symfony/dom-crawler": "4.0.11",
+        "symfony/options-resolver": "4.0.11",
         "squizlabs/php_codesniffer": "3.2.3"
     },
     "autoload": {
