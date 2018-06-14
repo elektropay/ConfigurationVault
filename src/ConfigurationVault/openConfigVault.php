@@ -22,14 +22,14 @@ require('/home/link/public_html/sso/1/assets/php/vendor/autoload.php');
  *
  *    Example:
  *    $configVault = openConfigVault();
- *    $host     = $configVault->get('database_host');
+ *    $hostname = $configVault->get('database_hostname');
  *    $username = $configVault->get('database_username');
  *    $password = $configVault->get('database_password');
  *    $database = $configVault->get('database_name');
  *    $arrayAll = $configVault->all();
  *
- * @param string $designator  The configVault designator (e.g.,'webadmin','webuser')
- * @param string $account     The configVault account type (e.g.,'Database','SMTP')
+ * @param string $designator The configVault designator (e.g.,'webadmin','webuser')
+ * @param string $account    The configVault account type (e.g.,'Database','SMTP')
  *
  * @return The current ConfigurationVault instance
  *
